@@ -1,4 +1,5 @@
-<?xml version="1.0"?>
+<?xml version = "1.0" encoding = "UTF-8" standalone = "no" ?>
+<!DOCTYPE carte SYSTEM "exercicedeuxdtd.dtd"> 
 <carte>
     <menu prix="30€">
         <entree>
@@ -24,23 +25,23 @@
         <plat>
             <nom>Boudin blanc aux pommes</nom>
             <description>La simplicite a vraiment du bon, s'associe bien avec la salade piemontaise</description>
-        </plat>
+        </plat>        
+        <dessert>
+            <nom>Pana cota et son coulis de framboise</nom>
+            <description>Un dessert italien, aere aux subtiles notes de vanille marie avec un coulis de fruits rouges legerement acidules</description>
+        </dessert>
+        <dessert>
+            <nom>Mousse au chocolat maison</nom>
+            <description>Un dessert traditionnel a la texture aerienne pour les grands et les petitss</description>
+        </dessert>
+        <dessert>
+            <nom>Salade de fruits</nom>
+            <description>La simplicite, comme toujours</description>
+        </dessert>
         <fromage>
             <nom>Tome de savoie</nom>
             <description>Fromage leger et fruitee, adapte aux personnes au palais delicat</description>
         </fromage>
-        <dessert>
-            <nom>Pana cota et son coulis de framboise</nom>
-            <desctiption>Un dessert italien, aere aux subtiles notes de vanille marie avec un coulis de fruits rouges legerement acidules</desctiption>
-        </dessert>
-        <dessert>
-            <nom>Mousse au chocolat maison</nom>
-            <desctiption>Un dessert traditionnel a la texture aerienne pour les grands et les petitss</desctiption>
-        </dessert>
-        <dessert>
-            <nom>Salade de fruits</nom>
-            <desctiption>La simplicite, comme toujours</desctiption>
-        </dessert>
     </menu>
     <menu prix="20€">
         <entree>
@@ -61,11 +62,11 @@
         </plat>
         <dessert>
             <nom>Tiramisu</nom>
-            <desctiption>Un boudoir, une creme et du cacao</desctiption>
+            <description>Un boudoir, une creme et du cacao</description>
         </dessert>
         <dessert>
             <nom>Tarte aux pommes</nom>
-            <desctiption>decidement la simplicite</desctiption>
+            <description>decidement la simplicite</description>
         </dessert>
     </menu>
     <menu prix="15€">
@@ -79,11 +80,11 @@
         </plat>
         <dessert>
             <nom>Glace 2 boules</nom>
-            <desctiption>parfums au choix fraise, vanille, chocolat, mangue, pomme, poire, caramel</desctiption>
+            <description>parfums au choix fraise, vanille, chocolat, mangue, pomme, poire, caramel</description>
         </dessert>
         <dessert>
             <nom>Cafe gourmand</nom>
-            <desctiption>Un cafe accompagnee d une petite mousse et de petites viennoiserie</desctiption>
+            <description>Un cafe accompagnee d une petite mousse et de petites viennoiserie</description>
         </dessert>
     </menu>
 </carte>

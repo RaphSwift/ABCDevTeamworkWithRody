@@ -1,0 +1,9 @@
+<!ELEMENT carte (menu)>
+<!ELEMENT menu (entree, plat, dessert, fromage?)>
+<!ELEMENT entree (nom, description)>
+<!ELEMENT plat (nom, description)>
+<!ELEMENT dessert (nom, description)>
+<!ELEMENT fromage (nom, description)>
+<!ELEMENT nom (#PCDATA)>
+<!ELEMENT description (#PCDATA)>
+<!ATTLIST menu prix CDATA #REQUIRED>

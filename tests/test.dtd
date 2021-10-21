@@ -1,0 +1,7 @@
+
+<!ELEMENT address (name,company,phone, desc?)> 
+<!ELEMENT name (#PCDATA)>
+<!ELEMENT company (#PCDATA)>
+<!ELEMENT phone (#PCDATA)>
+<!ELEMENT desc (#PCDATA)>
+<!ENTITY pomme "je suis une pomme">
