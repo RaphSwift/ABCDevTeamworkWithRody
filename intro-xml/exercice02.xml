@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<carte>
+    <menu prix="30€">
+        <entree>
+            <nom>Compotee de legumes saisoniers, sur un ecrin de </nom>
+            <description></description>
+        </entree>
+        <entree>
+            <nom>Cuisses de grenouilles au beurre d'ail</nom>
+            <description></description>
+        </entree>
+        <entree>
+            <nom>Salade piemontaise</nom>
+            <description></description>
+        </entree>
+        <plat>
+            <nom>Cote de boeuf accompagné de haricots verts et de frites</nom>
+            <description></description>
+        </plat>
+        <plat>
+            <nom>Hamburger vegetarien et frites</nom>
+            <description></description>
+        </plat>
+        <plat>
+            <nom>Boudin blanc aux pommes</nom>
+            <description></description>
+        </plat>
+    </menu>
+    <menu prix="20€">
+
+    </menu>
+    <menu prix="15€">
+
+    </menu>
+</carte>
