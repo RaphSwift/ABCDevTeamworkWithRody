@@ -1,0 +1,31 @@
+<?xml version="1.0">
+<livre>
+    <auteur>
+        <nom>Nom1</nom>
+        <prenom>Prenom1</prenom>
+    </auteur>
+    <auteur>
+        <nom>Nom2</nom>
+        <nom>Prenom2</prenom>
+    </auteur>
+    <section>
+        <chapitre>
+            <paragraphe>Paragraphe 1</paragraphe>
+            <paragraphe>Paragraphe 2</paragraphe>
+        </chapitre>
+        <chapitre>
+            <paragraphe>Paragraphe 3</paragraphe>
+            <paragraphe>Paragraphe 4</paragraphe>
+        </chapitre>
+    </section>
+    <section>
+        <chapitre>
+            <paragraphe>Paragraphe 1</paragraphe>
+            <paragraphe>Paragraphe 2</paragraphe>
+        </chapitre>
+        <chapitre>
+            <paragraphe>Paragraphe 3</paragraphe>
+            <paragraphe>Paragraphe 4</paragraphe>
+        </chapitre>
+    </section>
+</livre>
