@@ -2,34 +2,88 @@
 <carte>
     <menu prix="30€">
         <entree>
-            <nom>Compotee de legumes saisoniers, sur un ecrin de </nom>
-            <description></description>
+            <nom>Compotee de legumes saisoniers, sur un ecrin de panure</nom>
+            <description>une puree de legumes sur un toast, what did you expect?</description>
         </entree>
         <entree>
-            <nom>Cuisses de grenouilles au beurre d'ail</nom>
-            <description></description>
+            <nom>Cuisses de grenouilles au beurre d ail</nom>
+            <description>Un plat typiquement francais que le monde nous envie</description>
         </entree>
         <entree>
             <nom>Salade piemontaise</nom>
-            <description></description>
+            <description>Parce que la simplicite ca a du bon</description>
         </entree>
         <plat>
             <nom>Cote de boeuf accompagné de haricots verts et de frites</nom>
-            <description></description>
+            <description>une savoureuse cote de boeuf avec des haricots frais et des frites</description>
         </plat>
         <plat>
             <nom>Hamburger vegetarien et frites</nom>
-            <description></description>
+            <description>Une specialite d'hambourg revisite par les soins de notre chef et de savoureuses frites</description>
         </plat>
         <plat>
             <nom>Boudin blanc aux pommes</nom>
-            <description></description>
+            <description>La simplicite a vraiment du bon, s'associe bien avec la salade piemontaise</description>
         </plat>
+        <fromage>
+            <nom>Tome de savoie</nom>
+            <description>Fromage leger et fruitee, adapte aux personnes au palais delicat</description>
+        </fromage>
+        <dessert>
+            <nom>Pana cota et son coulis de framboise</nom>
+            <desctiption>Un dessert italien, aere aux subtiles notes de vanille marie avec un coulis de fruits rouges legerement acidules</desctiption>
+        </dessert>
+        <dessert>
+            <nom>Mousse au chocolat maison</nom>
+            <desctiption>Un dessert traditionnel a la texture aerienne pour les grands et les petitss</desctiption>
+        </dessert>
+        <dessert>
+            <nom>Salade de fruits</nom>
+            <desctiption>La simplicite, comme toujours</desctiption>
+        </dessert>
     </menu>
     <menu prix="20€">
-
+        <entree>
+            <nom>Salade de crudites</nom>
+            <description>Une salade de differentes crudites assaisonee avec un filet de citron</description>
+        </entree>
+        <entree>
+            <nom>Mousse de canard au porto</nom>
+            <description>Avec quelques toasts</description>
+        </entree>
+        <plat>
+            <nom>Pizza savoyarde</nom>
+            <description>Une pizza avec une base creme fraiche, des lardons, oignon et du reblochon qui seduira tout les palais</description>
+        </plat>
+        <plat>
+            <nom>Bouchee a la reine aux escargots accompagne de beurre d ail</nom>
+            <description>Un autre plat que le monde nous envie, </description>
+        </plat>
+        <dessert>
+            <nom>Tiramisu</nom>
+            <desctiption>Un boudoir, une creme et du cacao</desctiption>
+        </dessert>
+        <dessert>
+            <nom>Tarte aux pommes</nom>
+            <desctiption>decidement la simplicite</desctiption>
+        </dessert>
     </menu>
     <menu prix="15€">
-
+        <entree>
+            <nom>Macedoine de legumes</nom>
+            <description>Un classique</description>
+        </entree>
+        <plat>
+            <nom>Poulet aux hormones et carotte transgenique</nom>
+            <description>Un plat qui vous fera comprendre les joies de l alteration genetique des aliments</description>
+        </plat>
+        <dessert>
+            <nom>Glace 2 boules</nom>
+            <desctiption>parfums au choix fraise, vanille, chocolat, mangue, pomme, poire, caramel</desctiption>
+        </dessert>
+        <dessert>
+            <nom>Cafe gourmand</nom>
+            <desctiption>Un cafe accompagnee d une petite mousse et de petites viennoiserie</desctiption>
+        </dessert>
     </menu>
 </carte>
