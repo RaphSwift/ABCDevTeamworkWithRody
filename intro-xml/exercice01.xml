@@ -1,5 +1,6 @@
 <?xml version="1.0">
 <livre>
+    <titre>Nom du livre</titre>
     <auteur>
         <nom>Nom1</nom>
         <prenom>Prenom1</prenom>
@@ -9,23 +10,45 @@
         <prenom>Prenom2</prenom>
     </auteur>
     <section>
+        <titre>Section 1</titre>
         <chapitre>
-            <paragraphe>Paragraphe 1</paragraphe>
-            <paragraphe>Paragraphe 2</paragraphe>
+            <titre>chapitre 1</titre>
+            <paragraphe>
+                <texte>Paragraphe 1</texte>
+            </paragraphe>
+            <paragraphe>
+                <texte>Paragraphe 2</texte>
+            </paragraphe>
         </chapitre>
         <chapitre>
-            <paragraphe>Paragraphe 3</paragraphe>
-            <paragraphe>Paragraphe 4</paragraphe>
+            <titre>chapitre 2</titre>
+            <paragraphe>
+                <texte>Paragraphe 1</texte>
+            </paragraphe>
+            <paragraphe>
+                <texte>Paragraphe 2</texte>
+            </paragraphe>
         </chapitre>
     </section>
     <section>
+        <titre>Section 2</titre>
         <chapitre>
-            <paragraphe>Paragraphe 1</paragraphe>
-            <paragraphe>Paragraphe 2</paragraphe>
+            <titre>chapitre 1</titre>
+            <paragraphe>
+                <texte>Paragraphe 1</texte>
+            </paragraphe>
+            <paragraphe>
+                <texte>Paragraphe 2</texte>
+            </paragraphe>
         </chapitre>
         <chapitre>
-            <paragraphe>Paragraphe 3</paragraphe>
-            <paragraphe>Paragraphe 4</paragraphe>
+            <titre>chapitre 2</titre>
+            <paragraphe>
+                <texte>Paragraphe 1</texte>
+            </paragraphe>
+            <paragraphe>
+                <texte>Paragraphe 2</texte>
+            </paragraphe>
         </chapitre>
     </section>
 </livre>
