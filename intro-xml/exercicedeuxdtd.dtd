@@ -1,5 +1,5 @@
-<!ELEMENT carte (menu)>
-<!ELEMENT menu (entree, plat, dessert, fromage?)>
+<!ELEMENT carte (menu+)>
+<!ELEMENT menu (entree+, plat+, dessert+, fromage*)>
 <!ELEMENT entree (nom, description)>
 <!ELEMENT plat (nom, description)>
 <!ELEMENT dessert (nom, description)>

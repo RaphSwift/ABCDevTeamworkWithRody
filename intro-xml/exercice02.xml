@@ -42,6 +42,10 @@
             <nom>Tome de savoie</nom>
             <description>Fromage leger et fruitee, adapte aux personnes au palais delicat</description>
         </fromage>
+        <fromage>
+            <nom>Tome de savoie</nom>
+            <description>Fromage leger et fruitee, adapte aux personnes au palais delicat</description>
+        </fromage>
     </menu>
     <menu prix="20€">
         <entree>
