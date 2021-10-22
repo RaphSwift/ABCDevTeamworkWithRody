@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<recette>
+    <nom></nom>
+    <dureeprepa>30</dureeprepa>
+    <dureecuisson>10</dureecuisson>
+    <nombreportion>12</nombreportion>
+    <ingredient>
+        <quantite>250 g</quantite>
+        <nom>Farine de froment</nom>
+    </ingredient>
+    <ingredient>
+        <quantite>Beurre salee</quantite>
+        <nom>50 g</nom>
+    </ingredient>
+    <ingredient>
+        <quantite>Lait</quantite>
+        <nom>50 cl</nom>
+    </ingredient>
+    <ingredient>
+        <quantite>Eau</quantite>
+        <nom>10 cl</nom>
+    </ingredient>
+    <ingredient>
+        <quantite>Oeufs</quantite>
+        <nom>4 gros</nom>
+    </ingredient>
+    <ingredient>
+        <quantite>Sucre en poudre</quantite>
+        <nom>2 càs</nom>
+    </ingredient>
+    <ingredient>
+        <quantite>Sel</quantite>
+        <nom>1 pincée</nom>
+    </ingredient>
+    <ustensile>saladier</ustensile>
+    <ustensile>fouet</ustensile>
+    <ustensile>louche</ustensile>
+    <ustensile>spatule</ustensile>
+    <etape>Dans un saladier, ajoutez la farine de froment, 2 cuillères à soupe de sucre et une pincée de sel.</etape>
+    <etape>Versez le lait puis l'eau progressivement tout en battant avec un fouet.</etape>
+    <etape>Ensuite, rajoutez le beurre au préalablement fondu et les œufs pour finir</etape>
+    <etape>Laissez la pâte à crêpes reposer pendant 30 à 45 mn au frais.</etape>
+    <etape>Utilisez une poêle à crêpes pour réaliser vos crepes bretonnes : graissez-la avec une noisette de beurre puis versez une louche de pâte.</etape>
+    <etape>Faites cuire votre crêpe environ 2 mn par face, et retournez-la avec une spatule.</etape>
+</recette>

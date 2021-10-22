@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<maraicher>
+    <nom>Cerise Verger</nom>
+    <adresse>14 rue des champ</adresse>
+    <codepostal>44444</codepostal>
+    <ville>Floraville</ville>
+    <tel>0836656565</tel>
+    <mail>cerise.verger@gmail.com</mail>
+    <legume>
+        <designation>Carotte</designation>
+        <periode>
+            <debut>Aout</debut>
+            <fin>Mi-octobre</fin>
+        </periode>
+        <prixkilo unite="euro">3.50</prixkilo>
+    </legume>
+    <legume>
+        <designation>Avocat</designation>
+        <periode>
+            <debut>Octobre</debut>
+            <fin>Avril</fin>
+        </periode>
+        <prixpiece unite="euro">1</prixpiece>
+    </legume>
+    <legume>
+        <designation>Chou</designation>
+        <periode>
+            <debut>Octobre</debut>
+            <fin>Avril</fin>
+        </periode>
+        <prixpiece unite="euro">1.75</prixpiece>
+    </legume>
+</maraicher>

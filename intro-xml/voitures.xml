@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<concessionaire>
+    <voiture>
+        <prix>2000</prix>
+        <modele>Citroen AX</modele>
+        <nbKillometres>123456</nbKillometres>
+        <etat>C</etat>
+        <puissanceMoteur>45</puissanceMoteur>
+        <img url="citroenax.png" />
+    </voiture>
+    <voiture>
+        <prix>4000</prix>
+        <modele>Peugeot 108</modele>
+        <nbKillometres>105000</nbKillometres>
+        <etat>B</etat>
+        <puissanceMoteur>72</puissanceMoteur>
+        <img url="peugeot108.png" />
+    </voiture>
+    <voiture>
+        <prix>50000</prix>
+        <modele>Tesla Model S 60 DUAL MOTOR</modele>
+        <nbKillometres>32450</nbKillometres>
+        <etat>A</etat>
+        <puissanceMoteur>225</puissanceMoteur>
+    </voiture>
+    <voiture>
+        <prix>17500</prix>
+        <modele>PEUGEOT EXPERT 3 FOUGON</modele>
+        <nbKillometres>138000</nbKillometres>
+        <etat>B</etat>
+        <puissanceMoteur>90</puissanceMoteur>
+    </voiture>
+</concessionaire>

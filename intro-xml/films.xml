@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<cinema>
+    <film>
+        <titre>La belle et la bete</titre>
+        <genre>Film d'annimation</genre>
+        <duree>1h27</duree>
+        <realisateur>Gary trousdale</realisateur>
+        <description>L'histoire d'un homme qui sequestre le pere d'une jeune femme qui decide de prendre sa place puis developpe un severe syndrome de Stockholm</description>
+        <date>22-10-2021 16:35</date>
+        <date>23-10-2021 16:35</date>
+        <date>25-10-2021 16:35</date>
+        <date>26-10-2021 16:35</date>
+        <date>27-10-2021 16:35</date>
+    </film>
+    <film>
+        <titre>La vie est belle</titre>
+        <genre>Drame</genre>
+        <duree>1h56</duree>
+        <realisateur>Roberto Benigni</realisateur>
+        <description>Drame ou vous suivrez l'histoire de Guido, juif deporte avec son fils tentant de proteger ce dernier</description>
+        <date>23-10-2021 9:35</date>
+        <date>25-10-2021 12:35</date>
+        <date>27-10-2021 15:35</date>
+        <date>28-10-2021 14:35</date>
+        <date>29-10-2021 16:35</date>
+    </film>
+    <film>
+        <titre>Belle et sebastien</titre>
+        <genre></genre>
+        <duree></duree>
+        <realisateur></realisateur>
+        <description></description>
+        <date>23-10-2021 9:35</date>
+        <date>25-10-2021 12:35</date>
+        <date>27-10-2021 15:35</date>
+        <date>28-10-2021 14:35</date>
+        <date>29-10-2021 16:35</date>
+    </film>
+    <film>
+        <titre>La belle IA</titre>
+        <genre>Drame</genre>
+        <genre>Fantastique</genre>
+        <duree>2h00</duree>
+        <realisateur>Hwang Dong-hyuk</realisateur>
+        <description>Un film d'anticipation ou l'on suit les histoire d'un chercheur charger de developper un algo deeplearning pour alimenter un robot militaire</description>
+        <date>22-10-2021 18:35</date>
+        <date>23-10-2021 18:35</date>
+        <date>25-10-2021 18:35</date>
+        <date>26-10-2021 16:25</date>
+    </film>
+    <film>
+        <titre>Plus belle la vie - le film</titre>
+        <genre>Comedie</genre>
+        <duree>1h12</duree>
+        <realisateur>Philippe carrese</realisateur>
+        <description>Suivez la vie de vos habitants preferes du quartier du Mistal</description>
+        <date>22-10-2021 9:35</date>
+        <date>23-10-2021 12:35</date>
+        <date>25-10-2021 15:35</date>
+        <date>26-10-2021 14:35</date>
+        <date>27-10-2021 16:35</date>
+    </film>
+    
+</cinema>

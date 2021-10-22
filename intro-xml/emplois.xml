@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<emplois>
+    <offreEmploi>
+        <intitule>Developpeur PHP</intitule>
+        <ville>Paris</ville>
+        <description>Recherche un developpeur PHP sur Paris</description>
+        <competence>Esprit d'analyse</competence>
+        <competence>Adaptabilite</competence>
+        <competence>Motivation</competence>
+        <competence>Dynamisme</competence>
+        <competence>Rigeur</competence>
+        <dateDebut>01-11-2021</dateDebut>
+        <salaireAnuel>40000</salaireAnuel>
+        <mail>mailbidon@gmail.com</mail>
+    </offreEmploi>
+    <offreEmploi>
+        <intitule>Developpeur JAVA</intitule>
+        <ville>Mulhouse</ville>
+        <description>recherche un developpeur JAVA sur Mulhouse</description>
+        <competence>Rigueur</competence>
+        <competence>Organisation</competence>
+        <competence>Disponibilite</competence>
+        <competence>Flexibilite</competence>
+        <competence>Adaptabilite</competence>
+        <dateDebut>01-11-2021</dateDebut>
+        <salaireAnuel>32000</salaireAnuel>
+        <mail>mulhousejava@hotmail.fr</mail>
+    </offreEmploi>
+    <offreEmploi>
+        <intitule>Developpeur NodeJS</intitule>
+        <ville>Toulouse</ville>
+        <description>Travailler a Toulouse en tant que developpeur nodeJs</description>
+        <competence>Rigueur</competence>
+        <competence>Organisation</competence>
+        <competence>Communication</competence>
+        <competence>Adaptabilite</competence>
+        <competence>Disponibilite</competence>
+        <dateDebut>22-11-2021</dateDebut>
+        <salaireAnuel>40000</salaireAnuel>
+        <mail>nodejs@toulouse.fr</mail>
+    </offreEmploi>
+</emplois>
