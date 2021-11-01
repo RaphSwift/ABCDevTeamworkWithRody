@@ -1,0 +1,150 @@
+body{
+    background: linear-gradient(to right, rgba(69,177,201,0.6), white);
+    display: flex;
+    flex-direction: column;
+    font-size: 1.5vw;
+}
+
+@font-face {
+    font-family: aishiterulover;
+    src: url("aishiterulover.ttf");
+}
+
+#photoprofil{
+    width: 20vh;
+    border-radius: 50%;
+    margin-right:25px;    
+}
+
+#entete{
+    align-items:flex-start;
+    padding:1.5vh;
+    margin:1.5vh;
+    display: flex;
+    flex-direction: row;
+    background-color: rgba(0,0,255,0.2);
+    border-radius: 1.5vh;
+}
+
+a{
+    text-decoration: none;
+    font-weight: bold;
+}
+
+a:hover{
+    background-color: rgba(0,0,255,0.4);
+}
+
+#name{
+    font-size: 2em;
+}
+
+ul{
+    border-left: 1vh solid rgb(0,0,255);
+    margin-left:6vw;
+    list-style-type: none;
+}
+
+li{
+    text-decoration: none;
+    padding-left:2.5vh;
+    margin-bottom: 2.2vh;
+    background-image: url("photoicon.png");
+    background-position: left top;
+    background-repeat: no-repeat;
+    background-size: 2vh;
+}
+
+ul li ul{
+    border-left: none;
+    margin-left: 0px;
+    padding-left: 1.5vh;
+    margin-top:1.5vh;
+}
+
+.categorie
+{
+    text-decoration: underline;
+    font-size: 1.5em;
+}
+
+#titreprincipal
+{
+    font-weight: bold;
+    font-family: aishiterulover;
+    text-align: center;
+    font-size: 2.5em;
+    margin-bottom: 20px;
+}
+
+#corps{
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px;
+}
+
+#mainpart{
+    display: flex;
+    flex-direction: row;
+}
+
+#left-part{
+    padding-right: 3vh;
+}
+
+#right-part{
+    border-left: 1.5vh solid rgb(0,162,232);
+    padding-left: 3vh;
+}
+
+
+
+@media (min-width: 1920px){
+    #photoprofil{
+        width:25vh;
+    }
+
+    body{
+        font-size: 1.6vw;
+    }
+}
+@media (max-width: 1919px){
+    #photoprofil{
+        width:25vh;
+    }
+    
+    body{
+        font-size: 1.5vw;
+    }
+}
+
+@media (max-width: 1280px){
+    body{
+        font-size: 1.4vw;
+    }
+}
+
+@media (max-width: 1000px){
+    body{
+        font-size: 1.2vw;
+    }
+}
+
+@media (max-width: 800px){
+    #mainpart{
+        display: flex;
+        flex-direction: column;
+    }
+
+    #right-part{
+        padding-left: 0px;
+        border-left: none;
+    }
+
+    #photoprofil{
+        width:0vh;
+        margin-right: 0vh;
+    }
+
+
+}
