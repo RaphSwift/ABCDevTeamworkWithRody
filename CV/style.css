@@ -6,8 +6,8 @@ body{
 }
 
 @font-face {
-    font-family: as;
-    src: url("as.ttf");
+    font-family: asl;
+    src: url("asl.ttf");
 }
 
 #photoprofil{
@@ -71,7 +71,7 @@ ul li ul{
 #titreprincipal
 {
     font-weight: bold;
-    font-family: as;
+    font-family: asl;
     text-align: center;
     font-size: 2.5em;
     margin-bottom: 20px;
@@ -99,7 +99,7 @@ ul li ul{
 
 
 
-@media (min-width: 1920px){
+@media (min-width: 1920px){ /* 120em */
     #photoprofil{
         width:25vh;
     }
@@ -145,6 +145,4 @@ ul li ul{
         width:0vh;
         margin-right: 0vh;
     }
-
-
 }
