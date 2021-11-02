@@ -6,8 +6,8 @@ body{
 }
 
 @font-face {
-    font-family: aishiterulover;
-    src: url("aishiterulover.ttf");
+    font-family: as;
+    src: url("as.ttf");
 }
 
 #photoprofil{
@@ -71,7 +71,7 @@ ul li ul{
 #titreprincipal
 {
     font-weight: bold;
-    font-family: aishiterulover;
+    font-family: as;
     text-align: center;
     font-size: 2.5em;
     margin-bottom: 20px;
