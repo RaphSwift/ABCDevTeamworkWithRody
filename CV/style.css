@@ -29,9 +29,35 @@ body{
     flex-wrap: wrap;
 }
 
+
+
 a{
     text-decoration: none;
     font-weight: bold;
+}
+
+
+#corps{
+    padding-left: 2vw;
+    display: flex;
+    flex-direction: column;
+}
+
+#accroche{
+    padding: 5px;
+    background: linear-gradient(to right, rgba(128,128,128,0.5), rgba(128,128,128,0));    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 1.5em;
+    display: flex;
+    flex-direction: row;
+}
+
+#citation{
+    max-width: 2vh;
+}
+
+#accrochebody{
+    align-items:flex-start;
 }
 
 #name{
@@ -68,9 +94,6 @@ li{
     text-decoration: underline;
 }
 
-#corps{
-    padding-left: 2vw;
-}
 
 ul li ul{
     border-left: none;
@@ -88,6 +111,9 @@ ul li ul{
         width: 20vh;
     }
 
+    #accroche{
+        min-width: 60%;
+    }
 }
 
 @media (min-width: 1024px){
@@ -114,5 +140,9 @@ ul li ul{
         justify-content: center;
         margin-left: auto;
         margin-right: auto;
+    }
+    
+    #accroche{
+        min-width: 80%;
     }
 }
