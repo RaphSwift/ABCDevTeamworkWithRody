@@ -18,6 +18,10 @@ body{
 }
 
 header{
+    background-image: url("wave.png");
+    background-size: contain;
+    background-position: left top;
+    background-repeat: no-repeat;
     align-items:flex-start;
     padding:1.5vh;
     margin:1.5vh;   
@@ -200,7 +204,10 @@ footer{
 }
 
 @media print{
-   footer{
+    body{
+        background-image: none;
+    }
+    footer{
         display: none;
-   }
+    }
 }
