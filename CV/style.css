@@ -29,7 +29,13 @@ body{
     flex-wrap: wrap;
 }
 
+.underline{
+    text-decoration: underline;
+}
 
+.italic{
+    font-style: italic;
+}
 
 a{
     text-decoration: none;
