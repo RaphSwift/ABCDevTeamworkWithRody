@@ -33,6 +33,13 @@ header{
     flex-wrap: wrap;
 }
 
+header h1{
+    text-decoration: underline dotted rgba(255,255,255,0.4);
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
+
 footer div{
     margin-top: auto;
     margin-bottom: auto;
@@ -99,14 +106,6 @@ main ul li{
     background-size: 2vh;
 }
 
-
-
-main ul li ul{
-    border-left: 0.1em solid rgb(0,0,255);;
-    margin-left:0.5em;
-    list-style-type: none;
-}
-
 footer{
     align-items:flex-start;
     padding: 0.5em;
@@ -138,6 +137,7 @@ footer{
 
 
 @media (min-width: 768px){
+
     body{
         background: linear-gradient(to right, rgba(64,177,201,0.6), white);  
     }
@@ -204,10 +204,32 @@ footer{
 }
 
 @media print{
+    header{
+        flex-wrap: nowrap;
+    }
+    #presentation{
+        display: flex;
+        flex-direction: column-reverse; 
+    }
+
+    #titreprincipal
+    {
+        font-weight: bold;
+        font-family: asl;
+        text-align: center;
+        font-size: 2em;
+        margin-bottom: 20px;
+    }
+
+    header h1{
+        font-size: 1.5em;
+        text-decoration: underline solid rgb(0,0,0);
+    }
     body{
         background-image: none;
     }
     footer{
+        padding:0px;
         display: none;
     }
 }
