@@ -17,7 +17,7 @@ body{
     margin-right: 25px;
 }
 
-#entete{
+header{
     align-items:flex-start;
     padding:1.5vh;
     margin:1.5vh;   
@@ -29,6 +29,10 @@ body{
     flex-wrap: wrap;
 }
 
+footer div{
+    margin-top: auto;
+    margin-bottom: auto;
+}
 .underline{
     text-decoration: underline;
 }
@@ -42,12 +46,11 @@ a{
     font-weight: bold;
 }
 
-
-#corps{
-    padding-left: 2vw;
-    display: flex;
-    flex-direction: column;
+.icon{
+    max-width:2em;
 }
+
+
 
 #accroche{
     padding: 5px;
@@ -70,13 +73,19 @@ a{
     font-size: 4vw;
 }
 
-ul{
-    border-left: 1vh solid rgb(0,0,255);
-    margin-left:6vw;
+main{
+    margin-left: 2vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main ul{
+    border-left: 0.5em solid rgb(0,0,255);
+    margin-left:0.5em;
     list-style-type: none;
 }
 
-li{
+main ul li{
     text-decoration: none;
     padding-left:2.5vh;
     margin-bottom: 2.2vh;
@@ -84,6 +93,27 @@ li{
     background-position: left top;
     background-repeat: no-repeat;
     background-size: 2vh;
+}
+
+
+
+main ul li ul{
+    border-left: 0.1em solid rgb(0,0,255);;
+    margin-left:0.5em;
+    list-style-type: none;
+}
+
+footer{
+    align-items:flex-start;
+    padding: 0.5em;
+    margin:0.5em; 
+    display: flex;
+    flex-direction: row;
+    background-color: rgba(0,0,255,0.2);
+    border-radius: 1.5vh;
+    font-size: 2vw;
+    flex-wrap: wrap;
+    justify-content: space-around;
 }
 
 #titreprincipal
@@ -101,12 +131,7 @@ li{
 }
 
 
-ul li ul{
-    border-left: none;
-    margin-left: 0px;
-    padding-left: 1.5vh;
-    margin-top:1.5vh;
-}
+
 
 @media (min-width: 768px){
     body{
@@ -129,16 +154,13 @@ ul li ul{
     
     #left-part{        
         justify-content: center;
-        margin-left: auto;
-        margin-right: auto;
+        padding-right: 1em;
     }
 
     #right-part{
         border-left: 0.3em solid rgb(0,162,232);
-        padding-left: 15px;
+        padding-left: 1em;
         justify-content: center;
-        margin-left: auto;
-        margin-right: auto;
     }
 }
 
@@ -147,7 +169,7 @@ ul li ul{
     #name{
         font-size: 2.2vw;
     }
-    #entete{
+    header{
         font-size: 1.5vw;
     }
 
@@ -163,19 +185,22 @@ ul li ul{
     
     #left-part{        
         justify-content: center;
-        margin-left: auto;
-        margin-right: auto;
+        padding-right: 1em;
     }
 
     #right-part{
         border-left: 0.3em solid rgb(0,162,232);
-        padding-left: 15px;
+        padding-left: 1em;
         justify-content: center;
-        margin-left: auto;
-        margin-right: auto;
     }
     
     #accroche{
         min-width: 80%;
     }
+}
+
+@media print{
+   footer{
+        display: none;
+   }
 }
