@@ -3,7 +3,7 @@ import java.util.Scanner;
 public class ConvertisseurFahrenheitCelcius {
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
-		int numCaractereDansSaisieUtilisateur;
+
 		String saisieUtilisateur;
 		boolean saisieCorrecte;
 		float temperatureAConvertir = 0;
