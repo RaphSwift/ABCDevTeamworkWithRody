@@ -22,7 +22,7 @@ public class MainClass {
 				if (saisieUtilisateur == 1) {
 					System.out.println("je pourrais donc faire ma balade à bicyclette après le garagiste");
 				} else {
-					System.out.println("je laisserais tomber ma balade à bicyclette pour aller cueillir des jonc à l'étang");
+					System.out.println("je laisserais tomber ma balade à bicyclette pour aller cueillir des joncs à l'étang");
 				}
 			}
 		} else {
