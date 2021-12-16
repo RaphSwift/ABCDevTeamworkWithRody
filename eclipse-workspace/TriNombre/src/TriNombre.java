@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 public class TriNombre {
-
+	// JEU D'ESSAI {2,2;0,15}{0,15;2,2}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		float nb1;
@@ -21,5 +21,8 @@ public class TriNombre {
 		}
 		sc.close();
 	}
+	
+	
+	
 
 }

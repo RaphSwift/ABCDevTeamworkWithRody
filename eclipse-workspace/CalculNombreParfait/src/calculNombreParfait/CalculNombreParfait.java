@@ -7,18 +7,26 @@ public class CalculNombreParfait {
 	public static void main(String[] args) {
 		// DECLARATION
 		int nbDeNbParfaits;
-		int sommeDiviseur;		
-		int nbATester;
-		int nbTesterCourant;
-		int nbDeNbParfaitCourant;
+
 		//SAISIE
 		Scanner sc = new Scanner(System.in);
 		System.out.println("Combien de nombre parfait voulez vous?");
 		// TRAITEMENT
 		nbDeNbParfaits = sc.nextInt();	
-		nbATester = 0;
-		nbDeNbParfaitCourant = 0;
-		while(nbDeNbParfaits != nbDeNbParfaitCourant) {
+		genererParfait(nbDeNbParfaits);
+
+		
+		System.out.println("Fin du programme");
+		
+		sc.close();
+	}
+	
+	public static void genererParfait(int nb) {
+		int nbDeParfaitCourant = 0;
+		int nbATester = 0;
+		int nbTesterCourant;
+		int sommeDiviseur;
+		while(nb != nbDeParfaitCourant) {
 			sommeDiviseur = 0;
 			nbTesterCourant = 0;
 			nbATester++;
@@ -28,13 +36,10 @@ public class CalculNombreParfait {
 			}
 			if (sommeDiviseur == nbATester) {
 				System.out.println(nbATester + " est un nombre Parfait");
-				nbDeNbParfaitCourant++;
+				nbDeParfaitCourant++;
 			}
 			//System.out.println("test pour " + nbATester + " n'est pas parfait");
 		}		
-		System.out.println("Fin du programme");
-		
-		sc.close();
 	}
 
 }

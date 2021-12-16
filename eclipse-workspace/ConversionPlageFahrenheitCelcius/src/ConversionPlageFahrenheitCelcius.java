@@ -2,10 +2,12 @@ import java.util.Scanner;
 
 public class ConversionPlageFahrenheitCelcius {
 
+	/* Jeu d'essai
+	 * {'C','180'190'}, {'C',"10,5","15.5"}, {'C',"-273.15","2777760"}, {'F',"10,5","15.5"}
+	 */
 	public static void main(String[] args) {
 		
 		float[] valeursAConvertir = new float[2];
-		float valeurAConvertir;
 		
 		int nombreValeurAConvertir = 0;
 		float valeurTmpConvertie;
@@ -26,8 +28,8 @@ public class ConversionPlageFahrenheitCelcius {
 			do {
 				saisieCorrecte = true;
 				System.out.println("Quel est l'unite de conversion (C pour Celcius, F pour Fahrenheit)");
-				chaineTmpAConvertir = sc.nextLine();
-				if (chaineTmpAConvertir.equals("quit")) {
+				chaineTmpAConvertir = sc.nextLine().toUpperCase();
+				if (chaineTmpAConvertir.equals("QUIT")) {
 					veutQuitter = true;
 				} else {
 					uniteConversion = chaineTmpAConvertir.toUpperCase().charAt(0);
@@ -37,7 +39,7 @@ public class ConversionPlageFahrenheitCelcius {
 						saisieCorrecte = false;
 					}
 				}
-			} while (!saisieCorrecte && veutQuitter);
+			} while (!saisieCorrecte && !veutQuitter);
 			// AFFICHAGE
 			if (!veutQuitter) {
 				System.out.print("Rentrez une valeur a convertir en ");
@@ -52,9 +54,9 @@ public class ConversionPlageFahrenheitCelcius {
 						System.out.println("Saisir la valeur minimale");
 					else
 						System.out.println("Saisir la valeur maximale");
-					chaineTmpAConvertir = sc.nextLine();
+					chaineTmpAConvertir = sc.nextLine().replace(',','.').toUpperCase();
 
-					if (chaineTmpAConvertir.equals("quit")) {
+					if (chaineTmpAConvertir.equals("QUIT")) {
 						veutQuitter = true;
 					} else {
 						valeurTmpConvertie= Float.parseFloat(chaineTmpAConvertir);
@@ -70,20 +72,34 @@ public class ConversionPlageFahrenheitCelcius {
 					}
 				} while (nombreValeurAConvertir<2 && !veutQuitter);
 				if (!veutQuitter) {
-					for (valeurAConvertir = valeursAConvertir[0]; valeurAConvertir <= valeursAConvertir[1]; valeurAConvertir++) {
-						if (uniteConversion == 'C') {
-							valeurTmpConvertie = (valeurAConvertir*9.f/5.0f)+32;						
-							System.out.println(valeurAConvertir + "°C = " + valeurTmpConvertie + "°F");
-						} else {
-							valeurTmpConvertie = (valeurAConvertir-32)*5.0f/9.0f;
-							System.out.println(valeurAConvertir + "°F = " + valeurTmpConvertie + "°C");						
-						}
-					}
+					convertirPlage(valeursAConvertir[0], valeursAConvertir[1],uniteConversion);
 				}
 				nombreValeurAConvertir = 0;
 			}
 		} while (!veutQuitter);
 		sc.close();
 	}
+	
+	public static void convertirPlage(float min, float max, char uniteConversion) {
+		float valeurTmpConvertie;
+		for (float valeurAConvertir = min; valeurAConvertir <= max; valeurAConvertir++) {
+			if (uniteConversion == 'C') {
+				valeurTmpConvertie = convertToFarenheit(valeurAConvertir);					
+				System.out.println(valeurAConvertir + "°C = " + valeurTmpConvertie + "°F");
+			} else {
+				valeurTmpConvertie = convertToCelcius(valeurAConvertir);
+				System.out.println(valeurAConvertir + "°F = " + valeurTmpConvertie + "°C");						
+			}
+		}
+	}
+	
+	public static float convertToFarenheit(float celcius) {
+		return (celcius*9.f/5.0f)+32;
+	}
+	
+	public static float convertToCelcius(float farenheit) {
+		return (farenheit-32)*5.0f/9.0f;
+	}
+	
 
 }

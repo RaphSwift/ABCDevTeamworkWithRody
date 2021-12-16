@@ -11,7 +11,7 @@ public class MainClass {
 			System.out.println("definissez la somme de Barnabe > 1");
 			sommeBarnabe = sc.nextFloat();
 		} while (sommeBarnabe <=1);
-		while (sommeBarnabe > 2) {
+		while (sommeBarnabe >= 2) {
 			nbMagasins++;
 			sommeBarnabe = (sommeBarnabe/2)-1;
 		}

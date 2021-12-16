@@ -9,13 +9,8 @@ public class MainClass {
 		int iteratorValeurCourrante;
 		
 		for (iteratorValeurCourrante = 0; iteratorValeurCourrante < (tableauATrier.length)-1; iteratorValeurCourrante++) {
-			iteratorMinTemporaire = iteratorValeurCourrante;
-			for (iteratorValeurCompare = iteratorValeurCourrante+1; iteratorValeurCompare< tableauATrier.length; iteratorValeurCompare++) {
-				if (tableauATrier[iteratorValeurCompare] < tableauATrier[iteratorMinTemporaire]) {
-					iteratorMinTemporaire = iteratorValeurCompare;
-				}
-			}
-			if (iteratorValeurCompare != iteratorMinTemporaire) {
+			iteratorMinTemporaire = rechercheIterateurMin(tableauATrier,iteratorValeurCourrante);
+			if (iteratorValeurCourrante != iteratorMinTemporaire) {
 				valeurTemporaire = tableauATrier[iteratorValeurCourrante];
 				tableauATrier[iteratorValeurCourrante] = tableauATrier[iteratorMinTemporaire];
 				tableauATrier[iteratorMinTemporaire] = valeurTemporaire;
@@ -25,5 +20,15 @@ public class MainClass {
 		for (iteratorValeurCompare = 0; iteratorValeurCompare < tableauATrier.length; iteratorValeurCompare++) {
 			System.out.print(tableauATrier[iteratorValeurCompare] + "/");
 		}
+	}
+	
+	public static int rechercheIterateurMin(int[] tableau, int start) {
+		int iterateurMin;
+		iterateurMin = start;
+		for (int itValCompare = start+1; itValCompare < tableau.length;itValCompare++) {
+			if (tableau[itValCompare] < tableau[iterateurMin])
+				iterateurMin = itValCompare;
+		}
+		return iterateurMin;
 	}
 }

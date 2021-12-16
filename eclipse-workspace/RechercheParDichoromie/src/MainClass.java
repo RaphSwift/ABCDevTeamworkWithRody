@@ -6,7 +6,7 @@ public class MainClass {
 		int iterateurPlageMax;
 		int iterateurMedian;
 		int iterateurTrouve;
-		String[] tableauNom = {"agathe","berthe","chloé","cunégonde","olga","raymonde","sidonie"};
+		String[] tableauNom = {"abel","sidonie","sophie"};
 		boolean rechercheFinie;
 		rechercheFinie = false;
 		iterateurPlageMin = 0;

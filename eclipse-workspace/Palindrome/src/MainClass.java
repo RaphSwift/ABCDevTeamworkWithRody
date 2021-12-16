@@ -1,10 +1,14 @@
 
 public class MainClass {
+	/* Jeu d'essai
+	 * "",".","LAVALE.","LAVAL.","LAVAL"
+	 */
 	public static void main(String[] args) {
 		String palindromeATester;
 		palindromeATester = "LAVAL.";
-		if (palindromeATester.length()== 1 &&
-			palindromeATester.charAt(0)=='.') {
+		if (palindromeATester.length()==0 ||
+			(palindromeATester.length()== 1 &&
+			palindromeATester.charAt(0)=='.')) {
 			System.out.println("LA CHAINE EST VIDE");
 		} else {
 			if (palindromeATester.charAt(palindromeATester.length()-1)=='.') {

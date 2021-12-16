@@ -1,6 +1,7 @@
 import java.util.Scanner;
 
 public class MainClass {
+	// JEU D'ESSAI {5,13},{176,812}
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 		int nb1,nb2;
@@ -8,6 +9,7 @@ public class MainClass {
 		nb1 = sc.nextInt();
 		nb2 = sc.nextInt();
 		System.out.println("LE PGCD de " + nb1 + " et " + nb2 + " est " + Calcul_PGCD_Euclide(nb1,nb2));
+		sc.close();
 	}
 	
 	public static int Calcul_PGCD(int a, int b) {

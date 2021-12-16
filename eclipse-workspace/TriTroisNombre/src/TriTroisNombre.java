@@ -1,6 +1,9 @@
 import java.util.Scanner;
 
 public class TriTroisNombre {
+	/* Jeu d'essai
+	 	[1,2,3][2,3,1][3,1,2]
+	 */
 	public static void main(String[] args) {
 		
 		float nb1, nb2, nb3;

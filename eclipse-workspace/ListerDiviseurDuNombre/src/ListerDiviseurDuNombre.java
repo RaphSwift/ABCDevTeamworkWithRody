@@ -1,6 +1,7 @@
 import java.util.Scanner;
 
 public class ListerDiviseurDuNombre {
+	// JEU D'ESSAI : 0,1,2,5,42
 	public static void main(String[] args) {
 		int nombreRecherche;
 		int nombreTeste;
@@ -15,11 +16,21 @@ public class ListerDiviseurDuNombre {
 			System.out.println("Le nombre doit etre plus grand que 2");
 		}else {
 			System.out.println("La liste des diviseurs:");
-			for (nombreTeste=2; nombreTeste<nombreRecherche;nombreTeste++) {
-				if (nombreRecherche % nombreTeste == 0)
-					System.out.println(nombreTeste + " est diviseur de " + nombreRecherche);
-			}
+			listerDiviseur(nombreRecherche);
 		}
 		sc.close();
+	}
+	
+	public static void listerDiviseur(int nb) {
+		int compteurDiviseur=0;
+		for (int nombreTeste=2; nombreTeste<nb;nombreTeste++) {
+			if (nb % nombreTeste == 0) {
+				System.out.println(nombreTeste + " est diviseur de " + nb);
+				compteurDiviseur++;
+			}
+		}
+		if (compteurDiviseur == 0) {
+			System.out.println("Pas de diviseurs trouvés le nombre est premier");
+		}
 	}
 }
