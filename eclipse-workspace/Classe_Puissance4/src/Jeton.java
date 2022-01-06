@@ -6,7 +6,14 @@ public class Jeton {
 		couleur = _couleur;
 	}
 	
-	public char getCouleur() {
+	public final char getCouleur() {
 		return couleur;
 	}
+
+	@Override
+	public String toString() {
+		return "Jeton [couleur=" + couleur + "]";
+	}
+	
+	
 }

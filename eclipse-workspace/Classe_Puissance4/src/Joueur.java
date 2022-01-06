@@ -15,5 +15,11 @@ public class Joueur {
 	public final char getCouleur() {
 		return couleur;
 	}
+
+	@Override
+	public String toString() {
+		return "Joueur [nom=" + nom + ", couleur=" + couleur + "]";
+	}
+	
 	
 }
