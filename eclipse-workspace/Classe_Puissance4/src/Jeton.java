@@ -1,5 +1,5 @@
 
-public class Jeton {
+public class Jeton implements java.io.Serializable{
 	public final char couleur;
 	
 	public Jeton(char _couleur) {

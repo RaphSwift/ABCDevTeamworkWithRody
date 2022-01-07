@@ -1,6 +1,6 @@
 import java.util.Arrays;
 
-public class Plateau {
+public class Plateau implements java.io.Serializable{
 	
 	private final byte width;
 	private final byte height;
@@ -8,6 +8,18 @@ public class Plateau {
 	int nbCoups;
 	byte lastX, lastY;
 	
+	public Plateau(Plateau p) {
+		this(p.width,p.height,p.jetons,p.nbCoups,p.lastX,p.lastY);
+	}
+	
+	public Plateau(final byte _width, final byte _height, Jeton[][] _jetons, int _nbCoups, byte _lastX, byte _lastY) {
+		width = _width;
+		height = _height;
+		jetons = _jetons;
+		nbCoups = _nbCoups;
+		lastX = _lastX;
+		lastY = _lastY;
+	}
 	
 	public Plateau(final byte _width, final byte _height) {
 		nbCoups=0;
@@ -19,6 +31,7 @@ public class Plateau {
 	}
 	
 	public void reset() {
+		nbCoups = 0;
 		for (int i = 0; i < width; i++) {
 			for (int j = 0; j < height; j++) {
 				jetons[i][j] = null;
@@ -31,7 +44,8 @@ public class Plateau {
 	
 	@Override
 	public String toString() {
-		String str = "Plateau [width=" + width + ", height=" + height + ", jetons=[";
+		String str = "Plateau [width=" + width + ", height=" + height + ", ";
+		/*str+= "jetons=[";
 		byte jetonsCompte = 0;
 		byte i = 0;
 		byte j = 0;
@@ -49,8 +63,10 @@ public class Plateau {
 			}
 			i++;
 		}
-		str+= "], nbCoups="
-				+ nbCoups + ", lastX=" + lastX + ", lastY=" + lastY + "]";
+		str+= "], ";
+		*/
+		str+= "nbCoups="
+				+ nbCoups + "]";//, lastX=" + lastX + ", lastY=" + lastY + "]";
 		return str;
 	}
 	
