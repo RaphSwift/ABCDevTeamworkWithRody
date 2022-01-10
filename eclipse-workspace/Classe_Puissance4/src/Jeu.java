@@ -17,16 +17,25 @@ public class Jeu implements java.io.Serializable{
 	private ArrayList<Joueur> winners;
 	private int nbParties;
 	
-	public Jeu(String _nom, String _nomJoueurRouge, String _nomJoueurJaune) {
+	public Jeu(String _nom, Joueur _joueurRouge, Joueur _joueurJaune) {
 		nom = _nom;
 		parties = new ArrayList<Plateau>();
 		winners = new ArrayList<Joueur>();
 		nbParties = 0;
 		participants = new Joueur[2];
-		participants[0] = new Joueur(_nomJoueurRouge, Winner.RED_WINNER.getLetter());
-		participants[1] = new Joueur(_nomJoueurJaune, Winner.YELLOW_WINNER.getLetter());
+		participants[0] = _joueurRouge;
+		participants[1] = _joueurJaune;
 		currentPlayer = participants[0];
 		plateauActuel = new Plateau((byte)7,(byte)6);
+		/*try {
+			Plateau p2;
+			p2 = (Plateau)plateauActuel.clone();
+		} catch (CloneNotSupportedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}*/
+		
+
 	}
 	
 	
@@ -46,6 +55,8 @@ public class Jeu implements java.io.Serializable{
 		}
 		return rt;
 	}
+	
+
 	@Override
 	public String toString() {
 		String str = "Jeu [participants=" + Arrays.toString(participants) + ", nom="
@@ -109,15 +120,23 @@ public class Jeu implements java.io.Serializable{
 			winner = null;
 			while (winner == null) {
 				plateauActuel.afficherGrille();
-				do {
+				if (!(currentPlayer instanceof Joueur_Ordi)){
 					do {
-						System.out.println("C'est à " + currentPlayer.getNom() + " de jouer. Quel colonne(0-6)");
-						column = sc.nextInt();
-					} while (column <  0 || column >= 7);
-					if (plateauActuel.ajouterCoup((byte)column,currentPlayer)) {
-						havePlayed = true;
-					}
-				} while (!havePlayed);
+						do {
+							System.out.println("C'est à " + currentPlayer.getNom() + " de jouer. Quel colonne(0-6)");
+							column = sc.nextInt();
+						} while (column <  0 || column >= 7);
+						if (plateauActuel.ajouterCoup((byte)column,currentPlayer)) {
+							havePlayed = true;
+						}
+					} while (!havePlayed);
+				} else {
+					byte c;
+					c = ((Joueur_Ordi)currentPlayer).jouer(plateauActuel);
+					plateauActuel.ajouterCoup(c, currentPlayer);
+					System.out.println(currentPlayer.getNom() + " joue en colonne " + c);
+					
+				}
 				win = plateauActuel.getWin();
 				if (win != ' ') {
 					if (win == participants[0].getCouleur()) {
@@ -139,9 +158,9 @@ public class Jeu implements java.io.Serializable{
 					nbParties++;
 					
 				} else {
-					changerJoueur();
-					havePlayed = false;
-				}			
+					changerJoueur();					
+				}
+				havePlayed = false;
 			}
 			do {
 				System.out.println("Voulez vous rejouer? (oui/non)");

@@ -1,6 +1,6 @@
 import java.util.Arrays;
 
-public class Plateau implements java.io.Serializable{
+public class Plateau implements java.io.Serializable, Cloneable{
 	
 	private final byte width;
 	private final byte height;
@@ -12,20 +12,40 @@ public class Plateau implements java.io.Serializable{
 		this(p.width,p.height,p.jetons,p.nbCoups,p.lastX,p.lastY);
 	}
 	
+	public Object clone() throws CloneNotSupportedException {
+		return new Plateau(this);
+	}
+	
 	public Plateau(final byte _width, final byte _height, Jeton[][] _jetons, int _nbCoups, byte _lastX, byte _lastY) {
 		width = _width;
 		height = _height;
-		jetons = _jetons;
+		jetons = new Jeton[width][height];
+
+		for (int i = 0; i < width; i++) {
+			for (int j = 0; j < height; j++) {
+				if (_jetons[i][j] != null) {
+					jetons[i][j] = new Jeton((Jeton)_jetons[i][j].clone());
+				} else {
+					jetons[i][j] = null;
+				}
+			}
+		}
+
 		nbCoups = _nbCoups;
 		lastX = _lastX;
 		lastY = _lastY;
 	}
 	
+	public final byte getWidth() { return width; }
+	public final byte getHeight() { return height; }
+	public final byte getLastX() { return lastX; }
+	public final byte getLastY() { return lastY; }
+	
 	public Plateau(final byte _width, final byte _height) {
-		nbCoups=0;
-		width = _width;
-		height = _height;
-		jetons = new Jeton[width][height];
+		this.nbCoups=0;
+		this.width = _width;
+		this.height = _height;
+		this.jetons = new Jeton[width][height];
 		
 		
 	}
@@ -42,34 +62,6 @@ public class Plateau implements java.io.Serializable{
 	
 	
 	
-	@Override
-	public String toString() {
-		String str = "Plateau [width=" + width + ", height=" + height + ", ";
-		/*str+= "jetons=[";
-		byte jetonsCompte = 0;
-		byte i = 0;
-		byte j = 0;
-		while (i < width && jetonsCompte < nbCoups) {
-			j=0;
-			while (j < height && jetonsCompte < nbCoups) {
-				if (jetons[i][j] != null) {
-					jetonsCompte++;
-					str+="jetons["+i+"]["+j+"]=[couleur="+jetons[i][j].getCouleur()+"]";
-					if (jetonsCompte+1 < nbCoups)
-						str+=", ";
-				}
-				
-				j++;
-			}
-			i++;
-		}
-		str+= "], ";
-		*/
-		str+= "nbCoups="
-				+ nbCoups + "]";//, lastX=" + lastX + ", lastY=" + lastY + "]";
-		return str;
-	}
-	
 
 	/* Cette fonction renvoie le jeton aux coordonnes x;y
 	 * elle renvoie null si le jeton n'est pas trouve
@@ -81,19 +73,14 @@ public class Plateau implements java.io.Serializable{
 		return rt;
 	}
 	
-	/*@Override
-	public String toString() {
-		return "Plateau [width=" + width + ", height=" + height + ", jetons=" + Arrays.toString(jetons) + ", nbCoups="
-				+ nbCoups + ", lastX=" + lastX + ", lastY=" + lastY + "]";
-	}*/
 
 	public boolean ajouterCoup(byte column, Joueur j) {
 		try {
 			byte y_axis = calculerHauteurJeton(column);
 			jetons[column][y_axis] = new Jeton(j.getCouleur());
 			nbCoups++;
-			lastX = column;
-			lastY = y_axis;
+			this.lastX = column;
+			this.lastY = y_axis;
 			return true;
 		}
 		catch (Exception e) {
@@ -132,152 +119,15 @@ public class Plateau implements java.io.Serializable{
 	
 	/* VERIFIE SI LE JEU EST GAGNE */
 	public final char getWin() {
-		if (nbCoups < 7) { // IL FAUT AU MOINS 7 PIECES
+		if (nbCoups < 7) { // IL FAUT AU MOINS 7 JETONS
 			return ' ';
-		}
-		// DIRECTION
+		}		boolean finded = false;
 		
-
-
-
-		boolean finded = false;
-
-
-
-		byte xTest = lastX , yTest = lastY;
-		Jeton actualTest = null;
-		Jeton comparateTest = null;
-		int jtTotal;
-
-		actualTest = getJeton(xTest,yTest);
+		Jeton actualTest = getJeton(lastX,lastY);
 		if (actualTest != null) {
-			/*jtTotal = 1;
-
-			// ON TESTE EN HORIZONAL
-	
-				xTest= (byte)(lastX-1);
-				comparateTest = actualTest;
-				while (xTest >= 0 && comparateTest != null && comparateTest.getCouleur() == actualTest.getCouleur() && jtTotal < 4) {							
-					comparateTest = getJeton(xTest,yTest);
-					if (comparateTest != null && comparateTest.getCouleur() == actualTest.getCouleur()) {
-						jtTotal++;
-					}
-					xTest--;
-				}
-				xTest = (byte)(lastX+1);
-				comparateTest = actualTest;
-				// A DROITE
-				while (xTest < width && comparateTest != null && comparateTest.getCouleur() == actualTest.getCouleur() && jtTotal < 4) {
-					comparateTest = getJeton(xTest,yTest);
-					if (comparateTest != null && comparateTest.getCouleur() == actualTest.getCouleur()) {
-						jtTotal++;
-						
-					}
-					xTest++;
-				}
-				xTest = lastX;
-
-			if (jtTotal < 4) {
-				xTest = lastX;
-				jtTotal = 1;
-				comparateTest = actualTest;
-				// ON TESTE EN VERTICAL
-				// EN BAS
-
-				yTest= (byte)(lastY-1);					
-				while (yTest >= 0 && comparateTest != null && comparateTest.getCouleur() == actualTest.getCouleur() && jtTotal < 4) {							
-					comparateTest = getJeton(xTest,yTest);
-					if (comparateTest != null && comparateTest.getCouleur() == actualTest.getCouleur()) {
-						jtTotal++;
-
-					}
-					yTest--;
-				}
-				yTest = (byte)(lastY+1);
-				comparateTest = actualTest;
-				// EN HAUT
-				while (yTest < height && comparateTest != null && comparateTest.getCouleur() == actualTest.getCouleur() && jtTotal < 4) {
-					comparateTest = getJeton(xTest,yTest);
-					if (comparateTest != null && comparateTest.getCouleur() == actualTest.getCouleur()) {
-						jtTotal++;
-
-					}
-					yTest++;
-				}
-				yTest = lastY;
-
-			}
-
-			if (jtTotal < 4) {
-				// ON TEST EN FORWARD_DIAG
-				jtTotal = 1;
-				comparateTest = actualTest;
-				// PARTIE SUPPERIEUR GAUCHE
-				xTest = (byte)(lastX-1);
-				yTest = (byte)(lastY+1);
-				while (yTest < height && xTest >= 0 && comparateTest != null && comparateTest.getCouleur() == actualTest.getCouleur() && jtTotal < 4) {							
-					comparateTest = getJeton(xTest,yTest);
-					if (comparateTest != null && comparateTest.getCouleur() == actualTest.getCouleur()) {
-						jtTotal++;
-					}
-					xTest--;
-					yTest++;
-				}
-				// PARTIE INFERIEURE DROITE
-				comparateTest = actualTest;
-				xTest = (byte)(lastX+1);
-				yTest = (byte)(lastY-1);
-				while (yTest >=0 && xTest < width && comparateTest != null && comparateTest.getCouleur() == actualTest.getCouleur() && jtTotal < 4) {							
-					comparateTest = getJeton(xTest,yTest);
-					if (comparateTest != null && comparateTest.getCouleur() == actualTest.getCouleur()) {
-						jtTotal++;
-					}
-					xTest++;
-					yTest--;
-				}
-				xTest = lastX;
-				yTest = lastY;
-			}
-
-			if (jtTotal < 4) {
-				jtTotal = 1;
-				// PARTIE SUPPERIEUR DROITE
-				comparateTest = actualTest;
-				xTest = (byte)(lastX+1);
-				yTest = (byte)(lastY+1);
-				while (yTest < height && xTest < width && comparateTest != null && comparateTest.getCouleur() == actualTest.getCouleur() && jtTotal < 4) {							
-					comparateTest = getJeton(xTest,yTest);
-					if (comparateTest != null && comparateTest.getCouleur() == actualTest.getCouleur()) {
-						jtTotal++;
-
-					}
-					xTest++;
-					yTest++;
-				}
-				// PARTIE INFERIEURE GAUCHE
-				comparateTest = actualTest;
-				xTest = (byte)(lastX-1);
-				yTest = (byte)(lastY-1);
-				while (yTest >=0 && xTest >= 0 && comparateTest != null && comparateTest.getCouleur() == actualTest.getCouleur() && jtTotal < 4) {							
-					comparateTest = getJeton(xTest,yTest);
-					if (comparateTest != null && comparateTest.getCouleur() == actualTest.getCouleur()) {
-						jtTotal++;
-
-					}
-					xTest--;
-					yTest--;
-				}
-				xTest = lastX;
-				yTest = lastY;
-			}
-			if (jtTotal >= 4) {
-				finded = true;
-			}*/
-			finded = verifierHorizontal(actualTest) || verifierVertical(actualTest) ||
-					verifierBackDiag(actualTest) || verifierForwardDiag(actualTest);
+			finded = verifierHorizontal(actualTest)>=4 || verifierVertical(actualTest)>=4 ||
+					verifierBackDiag(actualTest)>=4 || verifierForwardDiag(actualTest)>=4;
 		}
-		/*if (finded)
-			return actualTest.getCouleur();*/
 		if (finded) {
 			if (actualTest.getCouleur() == Winner.RED_WINNER.getLetter()) {
 					return Winner.RED_WINNER.getLetter();
@@ -289,7 +139,7 @@ public class Plateau implements java.io.Serializable{
 		return Winner.NO_WINNER.getLetter();
 	}
 	// OOOO
-	private boolean verifierHorizontal(Jeton from) {
+	private byte verifierHorizontal(Jeton from) {
 		boolean rt = true;
 		int jtTotal = 1;
 		byte xTest, yTest;
@@ -315,7 +165,7 @@ public class Plateau implements java.io.Serializable{
 			}
 			xTest++;
 		}
-		return (jtTotal >= 4);
+		return (byte)jtTotal;
 	}
 	
 	/* O---
@@ -323,13 +173,13 @@ public class Plateau implements java.io.Serializable{
 	 * O---
 	 * O---
 	 */
-	private boolean verifierVertical(Jeton from) {
+	private byte verifierVertical(Jeton from) {
 		boolean rt = true;
 		int jtTotal = 1;
 		byte xTest, yTest;
 		xTest= (byte)(lastX);
 		Jeton comparateTest = from;
-		// ON VERIFIE EN HAUT
+		// ON VERIFIE EN BAS
 		yTest= (byte)(lastY-1);					
 		while (yTest >= 0 && comparateTest != null && comparateTest.getCouleur() == from.getCouleur() && jtTotal < 4) {							
 			comparateTest = getJeton(xTest,yTest);
@@ -350,14 +200,14 @@ public class Plateau implements java.io.Serializable{
 			}
 			yTest++;
 		}
-		return (jtTotal >= 4);
+		return (byte)jtTotal;
 	}
 	/* O---
 	 * -O--
 	 * --O-
 	 * ---O
 	 */
-	private boolean verifierBackDiag(Jeton from) {
+	private byte verifierBackDiag(Jeton from) {
 		boolean rt = true;
 		int jtTotal = 1;
 		byte xTest, yTest;
@@ -385,14 +235,14 @@ public class Plateau implements java.io.Serializable{
 			xTest++;
 			yTest--;
 		}
-		return (jtTotal >= 4);
+		return (byte)jtTotal;
 	}
 	/* ---O
 	 * --O-
 	 * -O--
 	 * O---
 	 */
-	private boolean verifierForwardDiag(Jeton from) {
+	private byte verifierForwardDiag(Jeton from) {
 		boolean rt = true;
 		int jtTotal = 1;
 		byte xTest, yTest;
@@ -425,8 +275,148 @@ public class Plateau implements java.io.Serializable{
 		}
 		xTest = lastX;
 		yTest = lastY;
-		return (jtTotal >= 4);
+		return (byte)jtTotal;
 	}
+	
+	public byte verifierHorizontalWithSpace(Jeton from) {
+		boolean rt = true;
+		int jtTotal = 1;
+		byte xTest, yTest;
+		xTest= (byte)(lastX-1);
+		yTest = (byte)(lastY);
+		Jeton comparateTest = from;
+		// ON VERIFIE A GAUCHE
+		while (xTest >= 0 && (comparateTest == null || comparateTest.getCouleur() == from.getCouleur()) && jtTotal < 4) {							
+			comparateTest = getJeton(xTest,yTest);
+			if (comparateTest == null || comparateTest.getCouleur() == from.getCouleur()) {
+				jtTotal++;
+			}
+			xTest--;
+		}
+		
+		xTest = (byte)(lastX+1);
+		comparateTest = from;
+		// A DROITE
+		while (xTest < width && (comparateTest == null || comparateTest.getCouleur() == from.getCouleur()) && jtTotal < 4) {
+			comparateTest = getJeton(xTest,yTest);
+			if (comparateTest == null || comparateTest.getCouleur() == from.getCouleur()) {
+				jtTotal++;
+			}
+			xTest++;
+		}
+		return (byte)jtTotal;
+	}
+	
+	/* O---
+	 * O---
+	 * O---
+	 * O---
+	 */
+	public byte verifierVerticalWithSpace(Jeton from) {
+		boolean rt = true;
+		int jtTotal = 1;
+		byte xTest, yTest;
+		xTest= (byte)(lastX);
+		Jeton comparateTest = from;
+		// ON VERIFIE EN BAS
+		yTest= (byte)(lastY-1);					
+		while (yTest >= 0 && (comparateTest == null || comparateTest.getCouleur() == from.getCouleur()) && jtTotal < 4) {							
+			comparateTest = getJeton(xTest,yTest);
+			if (comparateTest == null || comparateTest.getCouleur() == from.getCouleur()) {
+				jtTotal++;
+
+			}
+			yTest--;
+		}
+		yTest = (byte)(lastY+1);
+		comparateTest = from;
+		// EN HAUT
+		while (yTest < height && (comparateTest == null || comparateTest.getCouleur() == from.getCouleur()) && jtTotal < 4) {
+			comparateTest = getJeton(xTest,yTest);
+			if (comparateTest == null || comparateTest.getCouleur() == from.getCouleur()) {
+				jtTotal++;
+
+			}
+			yTest++;
+		}
+		return (byte)jtTotal;
+	}
+	/* O---
+	 * -O--
+	 * --O-
+	 * ---O
+	 */
+	public byte verifierBackDiagWithSpace(Jeton from) {
+		boolean rt = true;
+		int jtTotal = 1;
+		byte xTest, yTest;
+		Jeton comparateTest = from;
+		// ON VERIFIE SUPPERIEUR GAUCHE
+		xTest = (byte)(lastX-1);
+		yTest = (byte)(lastY+1);
+		while (yTest < height && xTest >= 0 && (comparateTest == null || comparateTest.getCouleur() == from.getCouleur()) && jtTotal < 4) {							
+			comparateTest = getJeton(xTest,yTest);
+			if (comparateTest != null && comparateTest.getCouleur() == from.getCouleur()) {
+				jtTotal++;
+			}
+			xTest--;
+			yTest++;
+		}
+		// PARTIE INFERIEURE DROITE
+		comparateTest = from;
+		xTest = (byte)(lastX+1);
+		yTest = (byte)(lastY-1);
+		while (yTest >=0 && xTest < width && (comparateTest == null || comparateTest.getCouleur() == from.getCouleur()) && jtTotal < 4) {							
+			comparateTest = getJeton(xTest,yTest);
+			if (comparateTest != null && comparateTest.getCouleur() == from.getCouleur()) {
+				jtTotal++;
+			}
+			xTest++;
+			yTest--;
+		}
+		return (byte)jtTotal;
+	}
+	/* ---O
+	 * --O-
+	 * -O--
+	 * O---
+	 */
+	public byte verifierForwardDiagWithSpace(Jeton from) {
+		boolean rt = true;
+		int jtTotal = 1;
+		byte xTest, yTest;
+		Jeton comparateTest = from;
+		// PARTIE SUPPERIEUR DROITE
+		comparateTest = from;
+		xTest = (byte)(lastX+1);
+		yTest = (byte)(lastY+1);
+		while (yTest < height && xTest < width && (comparateTest == null || comparateTest.getCouleur() == from.getCouleur()) && jtTotal < 4) {							
+			comparateTest = getJeton(xTest,yTest);
+			if (comparateTest != null && comparateTest.getCouleur() == from.getCouleur()) {
+				jtTotal++;
+
+			}
+			xTest++;
+			yTest++;
+		}
+		// PARTIE INFERIEURE GAUCHE
+		comparateTest = from;
+		xTest = (byte)(lastX-1);
+		yTest = (byte)(lastY-1);
+		while (yTest >=0 && xTest >= 0 && (comparateTest == null || comparateTest.getCouleur() == from.getCouleur()) && jtTotal < 4) {							
+			comparateTest = getJeton(xTest,yTest);
+			if (comparateTest != null && comparateTest.getCouleur() == from.getCouleur()) {
+				jtTotal++;
+
+			}
+			xTest--;
+			yTest--;
+		}
+		xTest = lastX;
+		yTest = lastY;
+		return (byte)jtTotal;
+	}
+	
 	
 	public void afficherGrille() {
 		System.out.println("Grille");

@@ -50,7 +50,19 @@ public class MainClass {
 			joueur1 = sc.next();
 			System.out.println("Entrez le nom du joueur 2");
 			joueur2 = sc.next();
-			monJeu = new Jeu("puissance 4",joueur1,joueur2);
+			String saisie;
+			do {
+				System.out.println("Le joueur " + joueur2 + " est il un ordinateur?(oui ou non)");
+				saisie = sc.next().toUpperCase();
+				if (!saisie.equals("OUI") && !saisie.equals("NON"))
+					System.out.println("Veuillez rentrer oui ou non");
+			} while (!saisie.equals("OUI") && !saisie.equals("NON"));
+			if (saisie.equals("OUI")) {
+				monJeu = new Jeu("puissance 4",new Joueur(joueur1, Winner.RED_WINNER.getLetter()),new Joueur_Ordi(joueur2,Winner.YELLOW_WINNER.getLetter()));
+			} else {
+				monJeu = new Jeu("puissance 4",new Joueur(joueur1, Winner.RED_WINNER.getLetter()),new Joueur(joueur2,Winner.YELLOW_WINNER.getLetter()));
+			}
+				
 		}
 		monJeu.gererPlateau();
 		monJeu.serialize();

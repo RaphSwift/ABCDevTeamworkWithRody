@@ -1,8 +1,8 @@
 
 public class Joueur implements java.io.Serializable{
-	private final String nom;
-	private char couleur;
-	private byte score;
+	protected final String nom;
+	protected char couleur;
+	protected byte score;
 	
 	public Joueur(Joueur from) {
 		this(from.nom,from.couleur,from.score);
@@ -48,10 +48,7 @@ public class Joueur implements java.io.Serializable{
 	public void donnerUnPoint() {
 		score = (byte)(score +1);
 	}
-	@Override
-	public String toString() {
-		return "Joueur [nom=" + nom + ", couleur=" + couleur + ", score=" + score +"]";
-	}
+
 	
 	
 }
