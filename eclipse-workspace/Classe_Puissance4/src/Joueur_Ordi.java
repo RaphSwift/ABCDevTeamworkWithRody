@@ -17,7 +17,7 @@ public class Joueur_Ordi extends Joueur{
 	/* return true if they are all different else
 	 * return false
 	 */
-	public boolean compareHashCode(ArrayList<Plateau> px) {
+	/*public boolean compareHashCode(ArrayList<Plateau> px) {
 		boolean rt = true;
 		int i, j;
 		i=0;
@@ -32,12 +32,12 @@ public class Joueur_Ordi extends Joueur{
 			i++;
 		}
 		return rt;
-	}
+	}*/
 	
 	public byte jouer(Plateau p) {
 		ArrayList<Plateau> plateaux = new ArrayList<Plateau>();
 		ArrayList<Plateau> plateaux_adversaire = new ArrayList<Plateau>();
-		//ArrayList<Plateau> rts = new ArrayList<Plateau>();
+
 		byte id = -1;
 		byte finded = -1;
 		byte i=0;
@@ -45,17 +45,14 @@ public class Joueur_Ordi extends Joueur{
 			id++;
 			try {
 				plateaux.add((Plateau)p.clone());
-				if (!plateaux.get(id).ajouterCoup(i, this)) {
-					id--;
-					plateaux.remove(id);
-				}
+				plateaux.get(i).ajouterCoup(i, this);
 			} catch (Exception e){
-				e.printStackTrace();
+				//e.printStackTrace();
 			}
 		}
-		
+		i=0;
 		while (i < plateaux.size() && finded<0) {
-			if (plateaux.get(i).getWin() != ' ') {
+			if (plateaux.get(i).getWin() == couleur) {
 				finded = plateaux.get(i).getLastX();
 			}
 			i++;
@@ -79,13 +76,10 @@ public class Joueur_Ordi extends Joueur{
 			id++;
 			try {
 				plateaux_adversaire.add((Plateau)p.clone());
-				if (!plateaux_adversaire.get(id).ajouterCoup(i, tmp)) {
-					id--;
-					plateaux_adversaire.remove(id);
-				}
-			} catch (Exception e){
-				e.printStackTrace();
-			}
+				plateaux_adversaire.get(id).ajouterCoup(i, tmp);
+			} catch (Exception e) {
+				
+			}			
 		}
 		i=0;
 		while (i < plateaux_adversaire.size() && finded<0) {
@@ -99,19 +93,33 @@ public class Joueur_Ordi extends Joueur{
 			plateaux_adversaire.clear();
 			return finded;
 		}
-		/*rts.add(p);
-		rts.addAll(plateaux);
-		rts.addAll(plateaux_adversaire);
-		if (compareHashCode(rts)) {
-			System.out.println("les copies sont différentes");
-		} else {
-			System.out.println("les copies sont similaires");
-		}*/
+
+
+		Plateau ptmp = null;
+		try {
+			ptmp = (Plateau)p.clone();
+		} catch (CloneNotSupportedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		finded = -1;
+		ArrayList<Integer> idOk = new ArrayList<Integer>();
+		// ON VERIFIE LES COLONNES DISPOS
+		for (i = 0; i < ptmp.getWidth(); i++) {
+			try {
+				ptmp.calculerHauteurJeton(i);
+				idOk.add((int)i);
+			} catch (Exception e) {
+				finded = -1;
+			}
+		} 
+		// ON CHOISI UNE COLONNE AU HASARD PARMIS LES DISPOS
+		finded = random((byte)0,(byte)(idOk.size()-1));
+		byte val = idOk.get(finded).byteValue();
 		plateaux.clear();
 		plateaux_adversaire.clear();
-		Random rnd = new Random();
-		
-		return random((byte)0,p.getWidth());
+		idOk.clear();
+		return val;
 	}
 	
 	private byte random(byte min, byte max) {

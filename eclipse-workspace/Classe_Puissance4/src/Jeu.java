@@ -1,12 +1,9 @@
-import java.beans.XMLEncoder;
-import java.io.BufferedOutputStream;
+
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
-
-import javax.swing.text.AttributeSet.ColorAttribute;
 
 public class Jeu implements java.io.Serializable{
 	private Joueur participants[];
@@ -15,27 +12,31 @@ public class Jeu implements java.io.Serializable{
 	private Plateau plateauActuel;
 	private ArrayList<Plateau> parties;
 	private ArrayList<Joueur> winners;
-	private int nbParties;
+
 	
 	public Jeu(String _nom, Joueur _joueurRouge, Joueur _joueurJaune) {
 		nom = _nom;
 		parties = new ArrayList<Plateau>();
 		winners = new ArrayList<Joueur>();
-		nbParties = 0;
 		participants = new Joueur[2];
 		participants[0] = _joueurRouge;
 		participants[1] = _joueurJaune;
+		
 		currentPlayer = participants[0];
 		plateauActuel = new Plateau((byte)7,(byte)6);
-		/*try {
-			Plateau p2;
-			p2 = (Plateau)plateauActuel.clone();
-		} catch (CloneNotSupportedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
 		
-
+		// ON AJOUTE DES COUPS
+		/*plateauActuel.ajouterCoup((byte)0, participants[0]);
+		plateauActuel.ajouterCoup((byte)0, participants[1]);
+		plateauActuel.ajouterCoup((byte)1, participants[0]);
+		plateauActuel.ajouterCoup((byte)0, participants[1]);
+		plateauActuel.ajouterCoup((byte)0, participants[0]);
+		plateauActuel.ajouterCoup((byte)1, participants[1]);
+		plateauActuel.ajouterCoup((byte)0, participants[0]);
+		plateauActuel.ajouterCoup((byte)1, participants[1]);
+		plateauActuel.ajouterCoup((byte)0, participants[0]);
+		plateauActuel.ajouterCoup((byte)1, participants[1]);*/
+		
 	}
 	
 	
@@ -100,7 +101,8 @@ public class Jeu implements java.io.Serializable{
 	public Joueur gererPlateau() {
 		Joueur winner = null;
 		char win = ' ';
-		
+		String chaineTmp;
+
 		Scanner sc = new Scanner(System.in);
 		int column;
 		boolean havePlayed = false;
@@ -110,7 +112,7 @@ public class Jeu implements java.io.Serializable{
 			System.out.println(participants[0].getNom() +"  aura pour couleur " + participants[0].getCouleur());
 			System.out.println(participants[1].getNom() +"  aura pour couleur " + participants[1].getCouleur());
 
-			if (participants[0].getCouleur() == Winner.RED_WINNER.getLetter())
+			if (participants[0].getCouleur() == Winner.RED_WINNER.getLetter() && plateauActuel.getNbCoups()%2==0)
 				currentPlayer = participants[0];
 			else
 				currentPlayer = participants[1];
@@ -124,8 +126,23 @@ public class Jeu implements java.io.Serializable{
 					do {
 						do {
 							System.out.println("C'est à " + currentPlayer.getNom() + " de jouer. Quel colonne(0-6)");
-							column = sc.nextInt();
-						} while (column <  0 || column >= 7);
+							column = -1;
+							//***
+							chaineTmp = sc.next();
+							if (!chaineTmp.equals("result")) {
+								try{
+									column = Integer.parseInt(chaineTmp);
+								} catch (NumberFormatException e) {
+									// ON IGNORE L'EXCEPTION
+								}
+							} else {
+								for (int i = 0; i < parties.size(); i++) {
+									System.out.println("partie n°" + i);
+									parties.get(i).afficherCoup();
+
+								}								
+							}
+						} while (column <  0 || column >= plateauActuel.getWidth());
 						if (plateauActuel.ajouterCoup((byte)column,currentPlayer)) {
 							havePlayed = true;
 						}
@@ -155,7 +172,6 @@ public class Jeu implements java.io.Serializable{
 
 					parties.add(new Plateau(plateauActuel));
 					winners.add(new Joueur(winner));
-					nbParties++;
 					
 				} else {
 					changerJoueur();					

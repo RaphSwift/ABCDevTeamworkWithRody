@@ -1,5 +1,3 @@
-import java.util.Arrays;
-
 public class Plateau implements java.io.Serializable, Cloneable{
 	
 	private final byte width;
@@ -40,6 +38,7 @@ public class Plateau implements java.io.Serializable, Cloneable{
 	public final byte getHeight() { return height; }
 	public final byte getLastX() { return lastX; }
 	public final byte getLastY() { return lastY; }
+	public int getNbCoups() { return nbCoups; }
 	
 	public Plateau(final byte _width, final byte _height) {
 		this.nbCoups=0;
@@ -77,7 +76,7 @@ public class Plateau implements java.io.Serializable, Cloneable{
 	public boolean ajouterCoup(byte column, Joueur j) {
 		try {
 			byte y_axis = calculerHauteurJeton(column);
-			jetons[column][y_axis] = new Jeton(j.getCouleur());
+			jetons[column][y_axis] = new Jeton(j.getCouleur(),(byte)nbCoups);
 			nbCoups++;
 			this.lastX = column;
 			this.lastY = y_axis;
@@ -94,7 +93,7 @@ public class Plateau implements java.io.Serializable, Cloneable{
 	 * en fonction de l'axe x, elle peut rencontrer une UnknowColumnException si la colonne n'existe pas
 	 * ou une FilledColumnException si la colonne est déjà pleine
 	 */
-	private byte calculerHauteurJeton(byte column) throws FilledColumnException, UnknowColumnException{
+	public byte calculerHauteurJeton(byte column) throws FilledColumnException, UnknowColumnException{
 		byte rt = 0;
 		if (column > width || column < 0)
 			throw new UnknowColumnException("Impossible d'ajouter dans la colonne " + column + " inconnue dans le plateau");
@@ -119,7 +118,7 @@ public class Plateau implements java.io.Serializable, Cloneable{
 	
 	/* VERIFIE SI LE JEU EST GAGNE */
 	public final char getWin() {
-		if (nbCoups < 7) { // IL FAUT AU MOINS 7 JETONS
+		if (nbCoups < 6) { // IL FAUT AU MOINS 7 JETONS
 			return ' ';
 		}		boolean finded = false;
 		
@@ -427,6 +426,32 @@ public class Plateau implements java.io.Serializable, Cloneable{
 				} else {
 					System.out.print(jetons[i][j].getCouleur());
 				}
+				if (i+1 < width)
+					System.out.print(' ');
+				
+			}
+			System.out.print("\n");
+		}
+		System.out.println("0 1 2 3 4 5 6");
+	}
+	
+	public void afficherCoup() {
+		System.out.println("Grille");
+		Jeton tmp;
+		for (int j = height-1; j >= 0; j--) {
+			for (int i= 0; i < width; i++) {
+				tmp= jetons[i][j];
+				if (tmp == null) {
+					System.out.print("--");
+				} else {
+					if (tmp.getNumeroCoup() >= 10) {
+						System.out.print(tmp.getNumeroCoup());
+					} else {
+						System.out.print("0"+tmp.getNumeroCoup());
+					}
+				}
+				if (i+1 < width)
+					System.out.print(' ');
 				
 			}
 			System.out.print("\n");
