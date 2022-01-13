@@ -4,7 +4,7 @@ public class Piece_Pion extends Piece{
 	private boolean aBouger;
 	
 	public Piece_Pion(Piece_Pion from){
-		this(from.position,from.estNoir,from.estMorte);
+		this(from.position,from.isBlack,from.isDead);
 		aBouger = false;
 	}
 	
@@ -17,6 +17,12 @@ public class Piece_Pion extends Piece{
 		this(_position,_estNoir,_estMorte, false);
 		aBouger = false;
 		
+	}
+	
+	@Override
+	public void tuer() {
+		super.tuer();
+		System.out.println("Le pion en [" + position.getX() +  ";" + position.getY() + "] a été tué");
 	}
 	
 	public Piece_Pion(Coordonees _position, boolean _estNoir) {

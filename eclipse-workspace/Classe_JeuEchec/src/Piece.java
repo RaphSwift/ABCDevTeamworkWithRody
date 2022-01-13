@@ -1,12 +1,12 @@
 import java.util.ArrayList;
 
 public abstract class Piece {
-	protected boolean estNoir;
-	protected boolean estMorte;
+	protected boolean isBlack;
+	protected boolean isDead;
 	protected Coordonees position;
 	
 	public Piece(Piece from) {
-		this(from.position,from.estNoir,from.estMorte);
+		this(from.position,from.isBlack,from.isDead);
 	}
 	
 	public Piece(Coordonees _position, boolean _estNoir) {
@@ -15,22 +15,26 @@ public abstract class Piece {
 	
 	public Piece(Coordonees _position, boolean _estNoir,  boolean _estMorte) {
 		position = _position;
-		estNoir = _estNoir;
-		estMorte = _estMorte;
+		isBlack = _estNoir;
+		isDead = _estMorte;
 	}
 	
 	public void tuer() {
-		estMorte = true;
+		isDead = true;
+	}
+	
+	public void setCoord(Coordonees _coord) {
+		position = _coord;
 	}
 	
 	public abstract ArrayList<Coordonees>calculerMouvement(Plateau p);
 	
 	public boolean estNoir() {
-		return estNoir;
+		return isBlack;
 	}
 	
-	public boolean estMort() {
-		return estMorte;
+	public boolean estMorte() {
+		return isDead;
 	}
 	
 	public Coordonees getPosition() {

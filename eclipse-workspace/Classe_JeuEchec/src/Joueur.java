@@ -11,7 +11,7 @@ public class Joueur {
 	public Joueur(String _nom, boolean _estNoir){
 		score = 0;
 		nom = _nom;
-		estNoir = estNoir;
+		estNoir =_estNoir;
 	}
 	
 	public Joueur(byte _score, String _nom, boolean _estNoir) {
