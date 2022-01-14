@@ -1,13 +1,15 @@
 import java.util.ArrayList;
 
-public abstract class Piece {
-	protected boolean isBlack;
+public abstract class Piece implements Cloneable {
+	protected final boolean isBlack;
 	protected boolean isDead;
 	protected Coordonees position;
 	
 	public Piece(Piece from) {
 		this(from.position,from.isBlack,from.isDead);
 	}
+	
+	public abstract Object clone() throws CloneNotSupportedException;
 	
 	public Piece(Coordonees _position, boolean _estNoir) {
 		this(_position,_estNoir,false);

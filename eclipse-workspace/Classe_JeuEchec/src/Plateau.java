@@ -3,11 +3,12 @@ import java.util.ArrayList;
 public class Plateau {
 	private final byte width;
 	private final byte height;
-	public ArrayList<Piece> pieces;
-	public ArrayList<Mouvement> mouvements;
+	private ArrayList<Piece> pieces;
+	private ArrayList<Mouvement> mouvements;
+	private short nbCoups;
 	
 	public Plateau(Plateau from) {
-		this(from.width, from.height);
+		this(from.width, from.height,from.pieces,from.mouvements,from.nbCoups);
 	}
 	
 	public Plateau(byte _width, byte _height) {
@@ -15,6 +16,70 @@ public class Plateau {
 		height = _height;
 		pieces = new ArrayList<Piece>();
 		mouvements = new ArrayList<Mouvement>();
+		nbCoups = 0;
+		reset();
+	}
+	
+	public Plateau(byte _width, byte _height, ArrayList<Piece> _pieces,ArrayList<Mouvement> _mouvements, short _nbCoups) {
+		width = _width;
+		height = _height;
+		pieces = _pieces;
+		mouvements = _mouvements;
+		nbCoups = _nbCoups;
+	}
+	
+	
+	public void reset() {
+		if (pieces.size() > 0) {
+			pieces.clear();
+		}
+		pieces.add(new Piece_Tour(new Coordonees((byte)0,(byte)0), true));
+		pieces.add(new Piece_Cavalier(new Coordonees((byte)1,(byte)0), true));
+		pieces.add(new Piece_Fou(new Coordonees((byte)2,(byte)0), true));
+		pieces.add(new Piece_Reine(new Coordonees((byte)3,(byte)0), true));
+		pieces.add(new Piece_Roi(new Coordonees((byte)4,(byte)0), true));
+		pieces.add(new Piece_Fou(new Coordonees((byte)5,(byte)0), true));
+		pieces.add(new Piece_Cavalier(new Coordonees((byte)6,(byte)0), true));
+		pieces.add(new Piece_Tour(new Coordonees((byte)7,(byte)0), true));
+		pieces.add(new Piece_Pion(new Coordonees((byte)0,(byte)1), true));
+		pieces.add(new Piece_Pion(new Coordonees((byte)1,(byte)1), true));
+		pieces.add(new Piece_Pion(new Coordonees((byte)2,(byte)1), true));
+		pieces.add(new Piece_Pion(new Coordonees((byte)3,(byte)1), true));
+		pieces.add(new Piece_Pion(new Coordonees((byte)4,(byte)1), true));
+		pieces.add(new Piece_Pion(new Coordonees((byte)5,(byte)1), true));
+		pieces.add(new Piece_Pion(new Coordonees((byte)6,(byte)1), true));
+		pieces.add(new Piece_Pion(new Coordonees((byte)7,(byte)1), true));
+		pieces.add(new Piece_Pion(new Coordonees((byte)0,(byte)6), false));
+		pieces.add(new Piece_Pion(new Coordonees((byte)1,(byte)6), false));
+		pieces.add(new Piece_Pion(new Coordonees((byte)2,(byte)6), false));
+		pieces.add(new Piece_Pion(new Coordonees((byte)3,(byte)6), false));
+		pieces.add(new Piece_Pion(new Coordonees((byte)4,(byte)6), false));
+		pieces.add(new Piece_Pion(new Coordonees((byte)5,(byte)6), false));
+		pieces.add(new Piece_Pion(new Coordonees((byte)6,(byte)6), false));
+		pieces.add(new Piece_Pion(new Coordonees((byte)7,(byte)6), false));
+		pieces.add(new Piece_Tour(new Coordonees((byte)0,(byte)0), false));
+		pieces.add(new Piece_Cavalier(new Coordonees((byte)1,(byte)7), false));
+		pieces.add(new Piece_Fou(new Coordonees((byte)2,(byte)7), false));
+		pieces.add(new Piece_Reine(new Coordonees((byte)3,(byte)7), false));
+		pieces.add(new Piece_Roi(new Coordonees((byte)4,(byte)7), false));
+		pieces.add(new Piece_Fou(new Coordonees((byte)5,(byte)7), false));
+		pieces.add(new Piece_Cavalier(new Coordonees((byte)6,(byte)7), false));
+		pieces.add(new Piece_Tour(new Coordonees((byte)7,(byte)7), false));
+		
+		
+	}
+	
+	
+	public GAMESTATUS verifierPlateau() {
+		return GAMESTATUS.NOTHING;
+	}
+	
+	public byte getWidth() { 
+		return width; 
+	}
+	
+	public byte getHeight() {
+		return height; 
 	}
 	
 	public void finalize() {
@@ -77,7 +142,9 @@ public class Plateau {
 								pieceDestination.tuer();
 							}
 							piece.setCoord(coord);
+							nbCoups++;
 							mouvements.add(new Mouvement(new Coordonees(piece.getPosition()),coord));
+							return true;
 						}
 					} else {
 						// CE N'EST PAS UN PION
@@ -100,6 +167,7 @@ public class Plateau {
 									}
 									piece.setCoord(coord);
 									mouvements.add(new Mouvement(new Coordonees(piece.getPosition()),coord));
+									nbCoups++;
 									return true;
 								}
 							} else {

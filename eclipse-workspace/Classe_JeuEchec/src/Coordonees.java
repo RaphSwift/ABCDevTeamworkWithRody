@@ -7,6 +7,11 @@ public class Coordonees {
 		this(from.posX, from.posY);
 	}
 	
+	@Override
+	public String toString() {
+		return "[x:"+ posX + ";y:"+posY +"]";
+	}
+	
 	public Coordonees(byte _posX, byte _posY) {
 		posX = _posX;
 		posY = _posY;
