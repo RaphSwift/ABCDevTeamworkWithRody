@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class Plateau {
+public class Plateau implements Cloneable{
 	private final byte width;
 	private final byte height;
 	private ArrayList<Piece> pieces;
@@ -9,6 +9,10 @@ public class Plateau {
 	
 	public Plateau(Plateau from) {
 		this(from.width, from.height,from.pieces,from.mouvements,from.nbCoups);
+	}
+	
+	public Object clone() {
+		return new Plateau(this);
 	}
 	
 	public Plateau(byte _width, byte _height) {
@@ -180,6 +184,22 @@ public class Plateau {
 			}
 		}
 		return false;
+	}
+	
+	public Piece getRoi(boolean color) {
+		Piece finded = null;		
+		int i = 0;
+		while (finded == null && i < pieces.size()) {
+			if (pieces.get(i) instanceof Piece_Roi && pieces.get(i).estNoir() == color) {
+				finded = pieces.get(i);
+			}
+			i++;
+		}
+		return finded;
+	}
+	
+	public ArrayList<Piece> getPieces(){
+		return pieces;
 	}
 	
 	public Piece getPiece(Coordonees coord) {
