@@ -38,84 +38,113 @@ public class Piece_Tour extends Piece{
 		return new Piece_Tour(this);
 	}
 	
+	@Override
+	public boolean deplacer(Plateau p,Coordonees to) {
+		int i = 0;
+		boolean finded = false;
+		ArrayList<Coordonees> coordsPossible = calculerMouvement(p);
+		while(i < coordsPossible.size() && !finded) {
+			if (to.equals(coordsPossible.get(i))) {
+				finded = true;
+			}
+		}
+		if (finded) {
+			this.position = to;
+			aBouge = true;
+		}
+		return finded;
+	}
+	
 
 
 	@Override
 	public ArrayList<Coordonees> calculerMouvement(Plateau p) {
 		ArrayList<Coordonees> coords = new ArrayList<Coordonees>();
 		Piece tmp=null;
-		Coordonees test = new Coordonees(position);
+		Coordonees coordoneesTestes = new Coordonees(position);
 		// A GAUCHE
-		while (tmp==null && test.getX()>0) {
-			test = (new Coordonees((byte)(test.getX()-1),test.getY()));
+		while (tmp==null && coordoneesTestes.getX()>0) {
+			coordoneesTestes = (new Coordonees((byte)(coordoneesTestes.getX()-1),coordoneesTestes.getY()));
 			try {
-				tmp = ((Piece)p.getPiece(test).clone());
-			} catch (CloneNotSupportedException i) {
+				tmp = ((Piece)p.getPiece(coordoneesTestes).clone());
+			} catch (Exception e) {
+				tmp = null;
 			}
 			if (tmp != null) {
 				if (tmp.estNoir() != isBlack) {
-					coords.add(test);
+					coords.add(coordoneesTestes);
 				}
 			} else {
-				coords.add(test);
+				coords.add(coordoneesTestes);
 			}
 			
 		}
 		tmp = null;
-		test = new Coordonees(position);
+		coordoneesTestes = new Coordonees(position);
 		// A DROITE
-		while (tmp==null && test.getX()+1 < p.getWidth()) {
-			test = (new Coordonees((byte)(test.getX()+1),test.getY()));
+		while (tmp==null && coordoneesTestes.getX()+1 < p.getWidth()) {
+			coordoneesTestes = (new Coordonees((byte)(coordoneesTestes.getX()+1),coordoneesTestes.getY()));
 			try {
-				tmp = ((Piece)p.getPiece(test).clone());
-			} catch (CloneNotSupportedException i) {
+				tmp = ((Piece)p.getPiece(coordoneesTestes).clone());
+			} catch (Exception e) {
+				tmp = null;
 			}
 			if (tmp != null) {
 				if (tmp.estNoir() != isBlack) {
-					coords.add(test);
+					coords.add(coordoneesTestes);
 				}
 			} else {
-				coords.add(test);
+				coords.add(coordoneesTestes);
 			}
 			
 		}
 		tmp = null;
-		test = new Coordonees(position);
+		coordoneesTestes = new Coordonees(position);
 		// EN HAUT
-		while (tmp==null && test.getY()+1 < p.getHeight()) {
-			test = (new Coordonees((byte)(test.getX()),(byte)(test.getY()+1)));
+		while (tmp==null && coordoneesTestes.getY()+1 < p.getHeight()) {
+			coordoneesTestes = (new Coordonees((byte)(coordoneesTestes.getX()),(byte)(coordoneesTestes.getY()+1)));
 			try {
-				tmp = ((Piece)p.getPiece(test).clone());
+				tmp = ((Piece)p.getPiece(coordoneesTestes).clone());
 			} catch (CloneNotSupportedException i) {
 			}
 			if (tmp != null) {
 				if (tmp.estNoir() != isBlack) {
-					coords.add(test);
+					coords.add(coordoneesTestes);
 				}
 			} else {
-				coords.add(test);
+				coords.add(coordoneesTestes);
 			}
 			
 		}
 		tmp = null;
-		test = new Coordonees(position);
+		coordoneesTestes = new Coordonees(position);
 		// EN BAS
-		while (tmp==null && test.getY() > 0) {
-			test = (new Coordonees((byte)(test.getX()),(byte)(test.getY()-1)));
+		while (tmp==null && coordoneesTestes.getY() > 0) {
+			coordoneesTestes = (new Coordonees((byte)(coordoneesTestes.getX()),(byte)(coordoneesTestes.getY()-1)));
 			try {
-				tmp = ((Piece)p.getPiece(test).clone());
+				tmp = ((Piece)p.getPiece(coordoneesTestes).clone());
 			} catch (CloneNotSupportedException i) {
 			}
 			if (tmp != null) {
 				if (tmp.estNoir() != isBlack) {
-					coords.add(test);
+					coords.add(coordoneesTestes);
 				}
 			} else {
-				coords.add(test);
+				coords.add(coordoneesTestes);
 			}
 			
 		}
-		
+		Plateau tmpPlateau = null;
+		Piece tmpRoi = null;
+		for (int i = 0; i < coords.size(); i++) {
+			tmpPlateau = (Plateau)p.clone();
+			tmpPlateau.deplacerPiece(new Mouvement(this.position, coords.get(i)),isBlack);
+			tmpRoi = (Piece_Roi)tmpPlateau.getRoi(isBlack);
+			if (tmpRoi.estEnEchec(tmpPlateau).size() >0) {
+				coords.remove(i);
+			}
+			
+		}
 		return coords;
 	}
 }

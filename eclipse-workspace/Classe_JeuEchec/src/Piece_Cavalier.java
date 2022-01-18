@@ -33,20 +33,20 @@ public class Piece_Cavalier extends Piece{
 			if (position.getY()+2 < p.getHeight()) {
 				test = new Coordonees((byte)(position.getX()-1),(byte)(position.getY()+2));
 				tmp = p.getPiece(test);
-				if (tmp.estNoir() != isBlack) {
+				if (tmp == null || tmp.estNoir() != isBlack) {
 					coords.add(new Coordonees(test));
 				}					
 				tmp = null;
 				test = new Coordonees((byte)(position.getX()-2),(byte)(position.getY()+1));
 				tmp = p.getPiece(test);
-				if (tmp.estNoir() != isBlack) {
+				if (tmp == null || tmp.estNoir() != isBlack) {
 					coords.add(new Coordonees(test));
 				}
 				tmp = null;
 			} else if (position.getY()+1< p.getHeight()) {
 				test = new Coordonees((byte)(position.getX()-2),(byte)(position.getY()+1));
 				tmp = p.getPiece(test);
-				if (tmp.estNoir() != isBlack) {
+				if (tmp == null || tmp.estNoir() != isBlack) {
 					coords.add(new Coordonees(test));
 				}
 				tmp = null;
@@ -55,20 +55,20 @@ public class Piece_Cavalier extends Piece{
 			if (position.getY()-2>=0) {
 				test = new Coordonees((byte)(position.getX()-1),(byte)(position.getY()-2));
 				tmp = p.getPiece(test);
-				if (tmp.estNoir() != isBlack) {
+				if (tmp == null || tmp.estNoir() != isBlack) {
 					coords.add(new Coordonees(test));
 				}					
 				tmp = null;
 				test = new Coordonees((byte)(position.getX()-2),(byte)(position.getY()+1));
 				tmp = p.getPiece(test);
-				if (tmp.estNoir() != isBlack) {
+				if (tmp == null || tmp.estNoir() != isBlack) {
 					coords.add(new Coordonees(test));
 				}
 				tmp = null;
 			} else if (position.getY()-1 >= 0) {
 				test = new Coordonees((byte)(position.getX()-2),(byte)(position.getY()-1));
 				tmp = p.getPiece(test);
-				if (tmp.estNoir() != isBlack) {
+				if (tmp == null || tmp.estNoir() != isBlack) {
 					coords.add(new Coordonees(test));
 				}
 				tmp = null;
@@ -77,7 +77,7 @@ public class Piece_Cavalier extends Piece{
 			if (position.getY()+2 < p.getHeight()) {
 				test = new Coordonees((byte)(position.getX()-1),(byte)(position.getY()+2));
 				tmp = p.getPiece(test);
-				if (tmp.estNoir() != isBlack) {
+				if (tmp == null || tmp.estNoir() != isBlack) {
 					coords.add(new Coordonees(test));
 				}					
 				tmp = null;
@@ -85,7 +85,7 @@ public class Piece_Cavalier extends Piece{
 			if (position.getY()-2>=0) {
 				test = new Coordonees((byte)(position.getX()-1),(byte)(position.getY()-2));
 				tmp = p.getPiece(test);
-				if (tmp.estNoir() != isBlack) {
+				if (tmp == null || tmp.estNoir() != isBlack) {
 					coords.add(new Coordonees(test));
 				}					
 				tmp = null;
@@ -95,20 +95,20 @@ public class Piece_Cavalier extends Piece{
 			if (position.getY()+2 < p.getHeight()) {
 				test = new Coordonees((byte)(position.getX()+1),(byte)(position.getY()+2));
 				tmp = p.getPiece(test);
-				if (tmp.estNoir() != isBlack) {
+				if (tmp == null || tmp.estNoir() != isBlack) {
 					coords.add(new Coordonees(test));
 				}					
 				tmp = null;
 				test = new Coordonees((byte)(position.getX()+2),(byte)(position.getY()+1));
 				tmp = p.getPiece(test);
-				if (tmp.estNoir() != isBlack) {
+				if (tmp == null || tmp.estNoir() != isBlack) {
 					coords.add(new Coordonees(test));
 				}
 				tmp = null;
 			} else if (position.getY()+1< p.getHeight()) {
 				test = new Coordonees((byte)(position.getX()+2),(byte)(position.getY()+1));
 				tmp = p.getPiece(test);
-				if (tmp.estNoir() != isBlack) {
+				if (tmp == null || tmp.estNoir() != isBlack) {
 					coords.add(new Coordonees(test));
 				}
 				tmp = null;
@@ -117,20 +117,20 @@ public class Piece_Cavalier extends Piece{
 			if (position.getY()-2>=0) {
 				test = new Coordonees((byte)(position.getX()+1),(byte)(position.getY()-2));
 				tmp = p.getPiece(test);
-				if (tmp.estNoir() != isBlack) {
+				if (tmp == null || tmp.estNoir() != isBlack) {
 					coords.add(new Coordonees(test));
 				}					
 				tmp = null;
 				test = new Coordonees((byte)(position.getX()+2),(byte)(position.getY()+1));
 				tmp = p.getPiece(test);
-				if (tmp.estNoir() != isBlack) {
+				if (tmp == null || tmp.estNoir() != isBlack) {
 					coords.add(new Coordonees(test));
 				}
 				tmp = null;
 			} else if (position.getY()-1 >= 0) {
 				test = new Coordonees((byte)(position.getX()+2),(byte)(position.getY()-1));
 				tmp = p.getPiece(test);
-				if (tmp.estNoir() != isBlack) {
+				if (tmp == null || tmp.estNoir() != isBlack) {
 					coords.add(new Coordonees(test));
 				}
 				tmp = null;
@@ -138,7 +138,7 @@ public class Piece_Cavalier extends Piece{
 				if (position.getY()+2 < p.getHeight()) {
 					test = new Coordonees((byte)(position.getX()+1),(byte)(position.getY()+2));
 					tmp = p.getPiece(test);
-					if (tmp.estNoir() != isBlack) {
+					if (tmp == null || tmp.estNoir() != isBlack) {
 						coords.add(new Coordonees(test));
 					}					
 					tmp = null;
@@ -146,12 +146,25 @@ public class Piece_Cavalier extends Piece{
 				if (position.getY()-2>=0) {
 					test = new Coordonees((byte)(position.getX()+1),(byte)(position.getY()-2));
 					tmp = p.getPiece(test);
-					if (tmp.estNoir() != isBlack) {
+					if (tmp == null || tmp.estNoir() != isBlack) {
 						coords.add(new Coordonees(test));
 					}					
 					tmp = null;
 				}
 			}			
+		}
+		Plateau tmpPlateau = null;
+		Piece tmpRoi = null;
+		for (int i = 0; i < coords.size(); i++) {
+			tmpPlateau = (Plateau)p.clone();
+			tmpRoi = (Piece_Roi)tmpPlateau.getRoi(isBlack);
+			tmpPlateau.deplacerPiece(new Mouvement(new Coordonees(this.position),new Coordonees(coords.get(i))), isBlack);
+			
+			
+			if (tmpRoi.estEnEchec(tmpPlateau).size() >0) {
+				coords.remove(i);
+			}
+			
 		}
 		return coords;
 	}

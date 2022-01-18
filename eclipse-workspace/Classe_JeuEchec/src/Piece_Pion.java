@@ -38,6 +38,22 @@ public class Piece_Pion extends Piece{
 		this(_position,_estNoir, false, false);
 	}
 	
+	@Override
+	public boolean deplacer(Plateau p,Coordonees to) {
+		int i = 0;
+		boolean finded = false;
+		ArrayList<Coordonees> coordsPossible = calculerMouvement(p);
+		while(i < coordsPossible.size() && !finded) {
+			if (to.equals(coordsPossible.get(i))) {
+				finded = true;
+			}
+		}
+		if (finded) {
+			this.position = to;
+			aBouge = true;
+		}		
+		return finded;
+	}
 	
 	@Override
 	public ArrayList<Coordonees> calculerMouvement(Plateau p){
@@ -89,6 +105,17 @@ public class Piece_Pion extends Piece{
 						coords.add(test);
 					}
 				}
+			}
+			
+		}
+		Plateau tmpPlateau = null;
+		Piece tmpRoi = null;
+		for (int i = 0; i < coords.size(); i++) {
+			tmpPlateau = (Plateau)p.clone();
+			tmpPlateau.deplacerPiece(new Mouvement(this.position, coords.get(i)),isBlack);
+			tmpRoi = (Piece_Roi)tmpPlateau.getRoi(isBlack);
+			if (tmpRoi.estEnEchec(tmpPlateau).size() >0) {
+				coords.remove(i);
 			}
 			
 		}

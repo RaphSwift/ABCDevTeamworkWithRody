@@ -43,14 +43,31 @@ public abstract class Piece implements Cloneable {
 		return position;
 	}
 	
+	public boolean deplacer(Plateau p,Coordonees to) {
+		int i = 0;
+		boolean finded = false;
+		ArrayList<Coordonees> coordsPossible = calculerMouvement(p);
+		while(i < coordsPossible.size() && !finded) {
+			if (to.equals(coordsPossible.get(i))) {
+				finded = true;
+			}
+		}
+		if (finded) {
+			this.position = to;
+		}
+		return finded;
+	}
+	
 	public ArrayList<Mouvement> estEnEchec(Plateau p) {
 		ArrayList<Mouvement> mvtFinded = new ArrayList<Mouvement>();
 		ArrayList<Piece> pieces = new ArrayList<Piece>();
+		pieces = p.getPieceFromColor(!isBlack);
+		/*
 		for (int i = 0; i < p.getPieces().size();i++) {
 			if (p.getPieces().get(i).estNoir() != isBlack) {
 				pieces.add(p.getPieces().get(i));
 			}
-		}
+		}*/
 		ArrayList<Coordonees> mouvements = new ArrayList<Coordonees>();
 		for (int i = 0; i < pieces.size();i++){
 			if (pieces.get(i) instanceof Piece_Pion) {
@@ -58,7 +75,7 @@ public abstract class Piece implements Cloneable {
 			} else {
 				mouvements = pieces.get(i).calculerMouvement(p);
 			}
-			for (int j = 0; j < pieces.size(); j++){
+			for (int j = 0; j < mouvements.size(); j++){
 				if (mouvements.get(j).equals(this.position)) {
 					mvtFinded.add(new Mouvement(new Coordonees(pieces.get(i).getPosition()), new Coordonees(this.position)));
 				}

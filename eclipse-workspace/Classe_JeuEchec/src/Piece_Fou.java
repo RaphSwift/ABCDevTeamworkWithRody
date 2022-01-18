@@ -111,7 +111,17 @@ public class Piece_Fou extends Piece{
 			}
 			
 		}
-		
+		Plateau tmpPlateau = null;
+		Piece tmpRoi = null;
+		for (int i = 0; i < coords.size(); i++) {
+			tmpPlateau = (Plateau)p.clone();
+			tmpPlateau.deplacerPiece(new Mouvement(this.position, coords.get(i)),isBlack);
+			tmpRoi = (Piece_Roi)tmpPlateau.getRoi(isBlack);
+			if (tmpRoi.estEnEchec(tmpPlateau).size() >0) {
+				coords.remove(i);
+			}
+			
+		}
 		return coords;
 	}
 }

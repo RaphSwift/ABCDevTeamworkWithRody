@@ -30,6 +30,23 @@ public class Piece_Roi extends Piece{
 		return new Piece_Roi(this);
 	}
 	
+	@Override
+	public boolean deplacer(Plateau p,Coordonees to) {
+		int i = 0;
+		boolean finded = false;
+		ArrayList<Coordonees> coordsPossible = calculerMouvement(p);
+		while(i < coordsPossible.size() && !finded) {
+			if (to.equals(coordsPossible.get(i))) {
+				finded = true;
+			}
+		}
+		if (finded) {
+			this.position = to;
+			aBouge = true;
+		}
+		return finded;
+	}
+	
 
 	@Override
 	public ArrayList<Coordonees> calculerMouvement(Plateau p) {
@@ -105,6 +122,7 @@ public class Piece_Roi extends Piece{
 	public boolean estEchecEtMat(Plateau p) {
 		// SOUS QUEL CAS LA PIECE EST EN ECHEC ET MAT
 		ArrayList<Mouvement> misEnEchec = estEnEchec(p);
+		ArrayList<Coordonees> coordoneesPossible = new ArrayList<Coordonees>();
 		if (misEnEchec.size() == 0) {
 			return false;
 		} else {
@@ -114,7 +132,55 @@ public class Piece_Roi extends Piece{
 				if (tmp != null) {
 					if (tmp.estEnEchec(p).size() >0) {
 						return false;
+					} else {
+						if (!(tmp instanceof Piece_Cavalier)) {
+							// SI CE N'EST PAS UN CAVALIER ET QUE LA PIECE MENACANTE N'EST PAS EN ECHEC
+							Coordonees from = new Coordonees((byte)(this.position.getX()-misEnEchec.get(0).getFrom().getX()),
+											(byte)(this.position.getY()-misEnEchec.get(0).getFrom().getY()));
+							Coordonees vector = new Coordonees((byte)(from.getX()/Math.abs(from.getX())),
+									(byte)(from.getY()/Math.abs(from.getY())));
+							int nbRep = Math.max(Math.abs(from.getX()), Math.abs(from.getY()));
+							int i;
+							for (i = 0; i < nbRep; i++) {
+								coordoneesPossible.add(new Coordonees((byte)(position.getX()+i*vector.getX()),
+										(byte)(position.getX()+i*vector.getY())));
+							}
+							i = 0;
+							int j,k;
+							ArrayList<Piece> pieces = p.getPieceFromColor(isBlack);
+							ArrayList<Coordonees> coords= null;
+							boolean finded = false;
+							while (i < coordoneesPossible.size() && !finded) {
+								j=0;
+								
+								while (j < pieces.size() && !finded) {
+									k=0;
+									coords = pieces.get(j).calculerMouvement(p);
+									while (k < coords.size() && !finded) {
+										if (coordoneesPossible.get(i).equals(coords.get(k)))
+											finded = true;
+										k++;
+									}
+									j++;
+								}
+								i++;
+							}
+							if (pieces != null)
+								pieces.clear();
+							if (coords != null)
+								coords.clear();
+							if (finded) {
+								return false;
+							}
+							
+						}
 					}
+				}
+				
+				// UN DEPLACEMENT DU ROI LE SORT IL DE SA POSITION D'ECHEC
+				ArrayList<Coordonees> mvt = calculerMouvement(p);
+				if (mvt.size() > 0) {
+					return false;
 				}
 			} else {
 				// UN DEPLACEMENT DU ROI N'EST PAS EN ECHEC
@@ -126,7 +192,11 @@ public class Piece_Roi extends Piece{
 				return true;
 			}
 		}
-		return false;
+		if (misEnEchec != null)
+			misEnEchec.clear();
+		if (coordoneesPossible != null)
+			coordoneesPossible.clear();
+		return true;
 		
 	}
 	
