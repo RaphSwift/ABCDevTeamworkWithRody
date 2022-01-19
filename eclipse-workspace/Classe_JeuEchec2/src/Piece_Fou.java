@@ -46,7 +46,7 @@ public class Piece_Fou extends Piece{
 			test = (new Coordonees((byte)(test.getX()-1),(byte)(test.getY()+1)));
 			try {
 				tmp = ((Piece)p.getPiece(test).clone());
-			} catch (Exception i) {
+			} catch (CloneNotSupportedException i) {
 			}
 			if (tmp != null) {
 				if (tmp.estNoir() != isBlack) {
@@ -64,7 +64,7 @@ public class Piece_Fou extends Piece{
 			test = (new Coordonees((byte)(test.getX()+1),(byte)(test.getY()+1)));
 			try {
 				tmp = ((Piece)p.getPiece(test).clone());
-			} catch (Exception i) {
+			} catch (CloneNotSupportedException i) {
 			}
 			if (tmp != null) {
 				if (tmp.estNoir() != isBlack) {
@@ -82,7 +82,7 @@ public class Piece_Fou extends Piece{
 			test = (new Coordonees((byte)(test.getX()-1),(byte)(test.getY()-1)));
 			try {
 				tmp = ((Piece)p.getPiece(test).clone());
-			} catch (Exception i) {
+			} catch (CloneNotSupportedException i) {
 			}
 			if (tmp != null) {
 				if (tmp.estNoir() != isBlack) {
@@ -100,7 +100,7 @@ public class Piece_Fou extends Piece{
 			test = (new Coordonees((byte)(test.getX()+1),(byte)(test.getY()-1)));
 			try {
 				tmp = ((Piece)p.getPiece(test).clone());
-			} catch (Exception i) {
+			} catch (CloneNotSupportedException i) {
 			}
 			if (tmp != null) {
 				if (tmp.estNoir() != isBlack) {
@@ -111,7 +111,7 @@ public class Piece_Fou extends Piece{
 			}
 			
 		}
-		/*Plateau tmpPlateau = null;
+		Plateau tmpPlateau = null;
 		Piece tmpRoi = null;
 		for (int i = 0; i < coords.size(); i++) {
 			tmpPlateau = (Plateau)p.clone();
@@ -121,7 +121,7 @@ public class Piece_Fou extends Piece{
 				coords.remove(i);
 			}
 			
-		}*/
+		}
 		return coords;
 	}
 }

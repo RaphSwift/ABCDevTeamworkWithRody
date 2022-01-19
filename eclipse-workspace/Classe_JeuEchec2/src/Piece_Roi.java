@@ -55,26 +55,15 @@ public class Piece_Roi extends Piece{
 		Coordonees tmpCoords = null;
 		if (position.getY()-1>=0) {
 			tmpCoords = new Coordonees((byte)(position.getX()),(byte)(position.getY()-1));
-			try{
-				tmp = (Plateau)p.clone();
-			} catch (Exception e) {
-				tmp = null;
-			}
-			if (tmp != null) {
-				tmp.deplacerPiece(new Mouvement(this.position,tmpCoords), isBlack);
-				if (tmp.getPiece(tmpCoords) != null && tmp.getPiece(tmpCoords).estEnEchec(p).size() == 0) {
-					coords.add(new Coordonees(tmpCoords));
-				}
+			tmp = (Plateau)p.clone();
+			tmp.deplacerPiece(new Mouvement(this.position,tmpCoords), isBlack);
+			if (tmp.getPiece(tmpCoords) != null && tmp.getPiece(tmpCoords).estEnEchec(p).size() == 0) {
+				coords.add(new Coordonees(tmpCoords));
 			}
 		}
 		if (position.getY()+1< p.getHeight()) {
 			tmpCoords =new Coordonees((byte)(position.getX()),(byte)(position.getY()+1));
-			try {
-				tmp = (Plateau)p.clone();
-			} catch (CloneNotSupportedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			tmp = (Plateau)p.clone();
 			tmp.deplacerPiece(new Mouvement(this.position,tmpCoords), isBlack);
 			if (tmp.getPiece(tmpCoords) != null && tmp.getPiece(tmpCoords).estEnEchec(p).size() == 0) {
 				coords.add(new Coordonees(tmpCoords));
@@ -82,24 +71,14 @@ public class Piece_Roi extends Piece{
 		}
 		if (position.getX()-1 >= 0) {
 			tmpCoords =new Coordonees((byte)(position.getX()-1),(byte)(position.getY()));
-			try {
-				tmp = (Plateau)p.clone();
-			} catch (CloneNotSupportedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			tmp = (Plateau)p.clone();
 			tmp.deplacerPiece(new Mouvement(this.position,tmpCoords), isBlack);
 			if (tmp.getPiece(tmpCoords) != null && tmp.getPiece(tmpCoords).estEnEchec(p).size() == 0) {
 				coords.add(new Coordonees(tmpCoords));
 			}
 			if (position.getY()-1>=0) {
 				tmpCoords =new Coordonees((byte)(position.getX()-1),(byte)(position.getY()-1));
-				try {
-					tmp = (Plateau)p.clone();
-				} catch (CloneNotSupportedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				tmp = (Plateau)p.clone();
 				tmp.deplacerPiece(new Mouvement(this.position,tmpCoords), isBlack);
 				if (tmp.getPiece(tmpCoords) != null && tmp.getPiece(tmpCoords).estEnEchec(p).size() == 0) {
 					coords.add(new Coordonees(tmpCoords));
@@ -107,12 +86,7 @@ public class Piece_Roi extends Piece{
 			}
 			if (position.getY()+1< p.getHeight()) {
 				tmpCoords =new Coordonees((byte)(position.getX()-1),(byte)(position.getY()+1));
-				try {
-					tmp = (Plateau)p.clone();
-				} catch (CloneNotSupportedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				tmp = (Plateau)p.clone();
 				tmp.deplacerPiece(new Mouvement(this.position,tmpCoords), isBlack);
 				if (tmp.getPiece(tmpCoords) != null && tmp.getPiece(tmpCoords).estEnEchec(p).size() == 0) {
 					coords.add(new Coordonees(tmpCoords));
@@ -120,24 +94,14 @@ public class Piece_Roi extends Piece{
 			}
 		} else if (position.getX()+1 < p.getWidth()){
 			tmpCoords =new Coordonees((byte)(position.getX()+1),(byte)(position.getY()));
-			try {
-				tmp = (Plateau)p.clone();
-			} catch (CloneNotSupportedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			tmp = (Plateau)p.clone();
 			tmp.deplacerPiece(new Mouvement(this.position,tmpCoords), isBlack);
 			if (tmp.getPiece(tmpCoords) != null && tmp.getPiece(tmpCoords).estEnEchec(p).size() == 0) {
 				coords.add(new Coordonees(tmpCoords));
 			}
 			if (position.getY()-1>=0) {
 				tmpCoords =new Coordonees((byte)(position.getX()+1),(byte)(position.getY()-1));
-				try {
-					tmp = (Plateau)p.clone();
-				} catch (CloneNotSupportedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				tmp = (Plateau)p.clone();
 				tmp.deplacerPiece(new Mouvement(this.position,tmpCoords), isBlack);
 				if (tmp.getPiece(tmpCoords) != null && tmp.getPiece(tmpCoords).estEnEchec(p).size() == 0) {
 					coords.add(new Coordonees(tmpCoords));
@@ -145,12 +109,7 @@ public class Piece_Roi extends Piece{
 			}
 			if (position.getY()+1< p.getHeight()) {
 				tmpCoords = new Coordonees((byte)(position.getX()+1),(byte)(position.getY()+1));
-				try {
-					tmp = (Plateau)p.clone();
-				} catch (CloneNotSupportedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				tmp = (Plateau)p.clone();
 				tmp.deplacerPiece(new Mouvement(this.position,tmpCoords), isBlack);
 				if (tmp.getPiece(tmpCoords) != null && tmp.getPiece(tmpCoords).estEnEchec(p).size() == 0) {
 					coords.add(new Coordonees(tmpCoords));

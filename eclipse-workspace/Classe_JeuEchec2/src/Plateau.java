@@ -11,7 +11,7 @@ public class Plateau implements Cloneable{
 		this(from.width, from.height,from.pieces,from.mouvements,from.nbCoups);
 	}
 	
-	public Object clone() throws CloneNotSupportedException {
+	public Object clone() {
 		return new Plateau(this);
 	}
 	
@@ -27,29 +27,7 @@ public class Plateau implements Cloneable{
 	public Plateau(byte _width, byte _height, ArrayList<Piece> _pieces,ArrayList<Mouvement> _mouvements, short _nbCoups) {
 		width = _width;
 		height = _height;
-		pieces = new ArrayList<Piece>();
-		Piece tmp = null;
-		//pieces = _pieces;
-		for (int i = 0; i < _pieces.size(); i++) {
-			tmp = _pieces.get(i);
-			if (tmp instanceof Piece_Pion) {
-				pieces.add(new Piece_Pion((Piece_Pion)tmp));
-			} else if (tmp instanceof Piece_Tour) {
-				pieces.add(new Piece_Tour((Piece_Tour)tmp));
-			} else if (tmp instanceof Piece_Cavalier) {
-				pieces.add(new Piece_Cavalier((Piece_Cavalier)tmp));
-			} else if (tmp instanceof Piece_Fou) {
-				pieces.add(new Piece_Fou((Piece_Fou)tmp));
-			} else if (tmp instanceof Piece_Reine) {
-				pieces.add(new Piece_Reine((Piece_Reine)tmp));
-			} else {
-				pieces.add(new Piece_Roi((Piece_Roi)tmp));
-			}
-		}
-		mouvements = new ArrayList<Mouvement>();
-		for (int i = 0; i < _mouvements.size();i++) {
-			mouvements.add(new Mouvement(_mouvements.get(i)));
-		}
+		pieces = _pieces;
 		mouvements = _mouvements;
 		nbCoups = _nbCoups;
 	}
@@ -100,7 +78,6 @@ public class Plateau implements Cloneable{
 		Piece_Roi roi_blanc, roi_noir;
 		roi_blanc = (Piece_Roi)getRoi(false);
 		roi_noir = (Piece_Roi)getRoi(true);
-		Piece tmp = getPiece(new Coordonees((byte)7,(byte)1));
 		if (roi_blanc.estEchecEtMat(this)) {
 			return GAMESTATUS.WHITE_CHECKMATE;
 		}
@@ -114,7 +91,6 @@ public class Plateau implements Cloneable{
 			return GAMESTATUS.BLACK_CHECK;
 		}
 		return GAMESTATUS.NOTHING;
-		
 		
 	}
 	
@@ -271,7 +247,7 @@ public class Plateau implements Cloneable{
 		Piece finded = null;		
 		int i = 0;
 		while (finded == null && i < pieces.size()) {
-			if (pieces.get(i) instanceof Piece_Roi && (pieces.get(i).estNoir() == color)) {
+			if (pieces.get(i) instanceof Piece_Roi && pieces.get(i).estNoir() == color) {
 				finded = pieces.get(i);
 			}
 			i++;

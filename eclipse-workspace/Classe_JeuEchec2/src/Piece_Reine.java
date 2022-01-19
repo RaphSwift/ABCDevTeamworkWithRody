@@ -30,7 +30,7 @@ public class Piece_Reine extends Piece{
 		ArrayList<Coordonees> coords = new ArrayList<Coordonees>();
 		coords.addAll(verifierDiagonales(p));
 		coords.addAll(verifierLignes(p));
-		/*Plateau tmpPlateau = null;
+		Plateau tmpPlateau = null;
 		Piece tmpRoi = null;
 		for (int i = 0; i < coords.size(); i++) {
 			tmpPlateau = (Plateau)p.clone();
@@ -40,7 +40,7 @@ public class Piece_Reine extends Piece{
 				coords.remove(i);
 			}
 			
-		}*/
+		}
 		return coords;
 	}
 	
@@ -59,7 +59,7 @@ public class Piece_Reine extends Piece{
 			test = (new Coordonees((byte)(test.getX()-1),(byte)(test.getY()+1)));
 			try {
 				tmp = ((Piece)p.getPiece(test).clone());
-			} catch (Exception i) {
+			} catch (CloneNotSupportedException i) {
 			}
 			if (tmp != null) {
 				if (tmp.estNoir() != isBlack) {
@@ -77,7 +77,7 @@ public class Piece_Reine extends Piece{
 			test = (new Coordonees((byte)(test.getX()+1),(byte)(test.getY()+1)));
 			try {
 				tmp = ((Piece)p.getPiece(test).clone());
-			} catch (Exception i) {
+			} catch (CloneNotSupportedException i) {
 			}
 			if (tmp != null) {
 				if (tmp.estNoir() != isBlack) {
@@ -95,7 +95,7 @@ public class Piece_Reine extends Piece{
 			test = (new Coordonees((byte)(test.getX()-1),(byte)(test.getY()-1)));
 			try {
 				tmp = ((Piece)p.getPiece(test).clone());
-			} catch (Exception i) {
+			} catch (CloneNotSupportedException i) {
 			}
 			if (tmp != null) {
 				if (tmp.estNoir() != isBlack) {
@@ -113,7 +113,7 @@ public class Piece_Reine extends Piece{
 			test = (new Coordonees((byte)(test.getX()+1),(byte)(test.getY()-1)));
 			try {
 				tmp = ((Piece)p.getPiece(test).clone());
-			} catch (Exception i) {
+			} catch (CloneNotSupportedException i) {
 			}
 			if (tmp != null) {
 				if (tmp.estNoir() != isBlack) {
@@ -137,7 +137,7 @@ public class Piece_Reine extends Piece{
 			test = (new Coordonees((byte)(test.getX()-1),test.getY()));
 			try {
 				tmp = ((Piece)p.getPiece(test).clone());
-			} catch (Exception i) {
+			} catch (CloneNotSupportedException i) {
 			}
 			if (tmp != null) {
 				if (tmp.estNoir() != isBlack) {
@@ -155,7 +155,7 @@ public class Piece_Reine extends Piece{
 			test = (new Coordonees((byte)(test.getX()+1),test.getY()));
 			try {
 				tmp = ((Piece)p.getPiece(test).clone());
-			} catch (Exception i) {
+			} catch (CloneNotSupportedException i) {
 			}
 			if (tmp != null) {
 				if (tmp.estNoir() != isBlack) {
@@ -173,7 +173,7 @@ public class Piece_Reine extends Piece{
 			test = (new Coordonees((byte)(test.getX()),(byte)(test.getY()+1)));
 			try {
 				tmp = ((Piece)p.getPiece(test).clone());
-			} catch (Exception i) {
+			} catch (CloneNotSupportedException i) {
 			}
 			if (tmp != null) {
 				if (tmp.estNoir() != isBlack) {
@@ -191,7 +191,7 @@ public class Piece_Reine extends Piece{
 			test = (new Coordonees((byte)(test.getX()),(byte)(test.getY()-1)));
 			try {
 				tmp = ((Piece)p.getPiece(test).clone());
-			} catch (Exception i) {
+			} catch (CloneNotSupportedException i) {
 			}
 			if (tmp != null) {
 				if (tmp.estNoir() != isBlack) {

@@ -153,7 +153,7 @@ public class Piece_Cavalier extends Piece{
 				}
 			}			
 		}
-		/*Plateau tmpPlateau = null;
+		Plateau tmpPlateau = null;
 		Piece tmpRoi = null;
 		for (int i = 0; i < coords.size(); i++) {
 			tmpPlateau = (Plateau)p.clone();
@@ -165,7 +165,7 @@ public class Piece_Cavalier extends Piece{
 				coords.remove(i);
 			}
 			
-		}*/
+		}
 		return coords;
 	}
 	

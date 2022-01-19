@@ -111,12 +111,7 @@ public class Piece_Pion extends Piece{
 		Plateau tmpPlateau = null;
 		Piece tmpRoi = null;
 		for (int i = 0; i < coords.size(); i++) {
-			try {
-				tmpPlateau = (Plateau)p.clone();
-			} catch (CloneNotSupportedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			tmpPlateau = (Plateau)p.clone();
 			tmpPlateau.deplacerPiece(new Mouvement(this.position, coords.get(i)),isBlack);
 			tmpRoi = (Piece_Roi)tmpPlateau.getRoi(isBlack);
 			if (tmpRoi.estEnEchec(tmpPlateau).size() >0) {

@@ -3,9 +3,6 @@ public class Mouvement {
 	protected Coordonees from;
 	protected Coordonees to;
 	
-	public Mouvement(Mouvement from) {
-		this(from.from, from.to);
-	}
 	public Mouvement(Coordonees _from,Coordonees _to) {
 		from = _from;
 		to = _to;
