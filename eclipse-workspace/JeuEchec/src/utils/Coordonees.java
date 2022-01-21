@@ -25,6 +25,17 @@ public class Coordonees {
 		return (xPos == compare.getX())&&(yPos == compare.getY());
 	}
 	
+	public Coordonees getDirection() {
+		byte x=0;
+		byte y=0;
+		if (xPos > 0) {
+			x = (byte)(xPos/Math.abs(xPos));
+		}
+		if (yPos > 0) {
+			y = (byte)(yPos/Math.abs(yPos));
+		}
+		return new Coordonees(x,y);
+	}
 	@Override
 	public String toString() {
 		return "[x:" + xPos + ";y:"+yPos+"]";

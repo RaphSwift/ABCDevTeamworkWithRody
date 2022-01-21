@@ -15,6 +15,11 @@ public class Piece_Pion extends Piece{
 	}
 	
 	@Override
+	public Object clone() throws CloneNotSupportedException{
+		return new Piece_Pion(this);
+	}
+	
+	@Override
 	public String toString() {
 		return "[Pion" + position+"]";
 	}
@@ -37,16 +42,127 @@ public class Piece_Pion extends Piece{
 		this(_position,_isBlack,false,false);
 	}
 	
+	@Override
 	public ArrayList<Mouvement> calculerMouvement(Plateau p){
-		
 		ArrayList<Mouvement> mouvementsPossibles = new ArrayList<Mouvement>();
-		
+		Coordonees test;
+		Coordonees test2;
+
+		Piece tmp = null;
+		Piece tmp2 = null;
+		if (isBlack) {
+			if (!aBouge) {
+				if (position.getY()-2 >= 0) {
+					test = new Coordonees((byte)(position.getX()),(byte)(position.getY()-1));
+					tmp = p.getPieceFromCoord(test);
+					test2 = new Coordonees((byte)(position.getX()),(byte)(position.getY()-2));
+					tmp2 = p.getPieceFromCoord(test);					
+					if (tmp == null) {
+						mouvementsPossibles.add(new Mouvement(new Coordonees(this.position), new Coordonees(test)));
+						if (tmp2 == null) {
+							mouvementsPossibles.add(new Mouvement(new Coordonees(this.position), new Coordonees(test2)));
+						}
+					}
+				} else if (position.getY()-1 >= 0) {
+					test = new Coordonees((byte)(position.getX()),(byte)(position.getY()-1));
+					tmp = p.getPieceFromCoord(test);
+					if (tmp == null) {
+						mouvementsPossibles.add(new Mouvement(new Coordonees(this.position), new Coordonees(test)));
+					}
+				}
+			}
+		} else {
+			//Y +2
+			if (!aBouge) {
+				if (position.getY()+2 < p.getHeight()) {
+					test = new Coordonees((byte)(position.getX()),(byte)(position.getY()+1));
+					tmp = p.getPieceFromCoord(test);
+					test2 = new Coordonees((byte)(position.getX()),(byte)(position.getY()+2));
+					tmp2 = p.getPieceFromCoord(test);					
+					if (tmp == null) {
+						mouvementsPossibles.add(new Mouvement(new Coordonees(this.position), new Coordonees(test)));
+						if (tmp2 == null) {
+							mouvementsPossibles.add(new Mouvement(new Coordonees(this.position), new Coordonees(test2)));
+						}
+					}
+				} else if (position.getY()+1 < p.getHeight()) {
+					test = new Coordonees((byte)(position.getX()),(byte)(position.getY()+1));
+					tmp = p.getPieceFromCoord(test);
+					if (tmp == null) {
+						mouvementsPossibles.add(new Mouvement(new Coordonees(this.position), new Coordonees(test)));
+					}
+				}
+			}
+			
+		}
 		return mouvementsPossibles;
 	}
 	
 	public ArrayList<Mouvement> calculerMouvementManger(Plateau p){
 		ArrayList<Mouvement> mouvementsPossibles = new ArrayList<Mouvement>();
-		
+		Coordonees test;
+		Piece tmp = null;
+		if (position.getX()-1 >= 0) {
+			// A GAUCHE C'EST POSSIBLE
+			if (isBlack) {
+				if (position.getY()-1 >= 0) {
+					// VERS LE BAS SI NOIR AUSSI
+					test = new Coordonees((byte)(position.getX()-1),(byte)(position.getY()-1));
+					tmp = p.getPieceFromCoord(test);
+					if (tmp != null) {
+						mouvementsPossibles.add(new Mouvement(new Coordonees(this.position), new Coordonees(new Coordonees(test))));
+					}
+				}
+			} else {
+				// VERS LE HAUT SI BLANC
+				if (position.getY()+1 < p.getHeight()) {
+					test = new Coordonees((byte)(position.getX()-1),(byte)(position.getY()+1));
+					tmp = p.getPieceFromCoord(test);
+					if (tmp != null) {
+						mouvementsPossibles.add(new Mouvement(new Coordonees(this.position), new Coordonees(new Coordonees(test))));
+					}
+				}
+			}
+		}
+		if (position.getX()+1 < p.getWidth()) {
+			if (isBlack) {
+				if (position.getY()-1 >= 0) {
+					// VERS LE BAS SI NOIR AUSSI
+					test = new Coordonees((byte)(position.getX()+1),(byte)(position.getY()-1));
+					tmp = p.getPieceFromCoord(test);
+					if (tmp != null) {
+						mouvementsPossibles.add(new Mouvement(new Coordonees(this.position), new Coordonees(new Coordonees(test))));
+					}
+				}
+			} else {
+				if (position.getY()+1 < p.getHeight()) {
+					// VERS LE HAUT SI BLANCE
+					test = new Coordonees((byte)(position.getX()+1),(byte)(position.getY()+1));
+					tmp = p.getPieceFromCoord(test);
+					if (tmp != null) {
+						mouvementsPossibles.add(new Mouvement(new Coordonees(this.position), new Coordonees(new Coordonees(test))));
+					}
+				}
+			}
+		}
+		Plateau tmpPlateau = null;
+		Piece tmpRoi = null;
+		Coordonees from, to;
+		/*for (int i = 0; i < mouvementsPossibles.size(); i++) {
+			tmpPlateau = new Plateau(p);
+			from = new Coordonees(mouvementsPossibles.get(i).getFrom());
+			to = new Coordonees(mouvementsPossibles.get(i).getTo());
+			//tmpPlateau.deplacerPiece(this.position,mouvementsPossibles.get(i).getTo(),isBlack);
+			tmpPlateau.getPieceFromCoord(this.position).setCoord(to,tmpPlateau);
+			//tmpPlateau.deplacerPiece(this.position,mouvementsPossibles.get(i).getTo() , this.isBlack);
+			//tmpPlateau.deplacerPiece(new Mouvement(this.position, coords.get(i)),isBlack);
+			tmpRoi = (Piece_Roi)tmpPlateau.getRoi(isBlack);
+			if (tmpRoi.estEnEchec(tmpPlateau).size() >0) {
+				mouvementsPossibles.remove(i);
+			}
+			
+			
+		}*/
 		return mouvementsPossibles;
 	}
 }

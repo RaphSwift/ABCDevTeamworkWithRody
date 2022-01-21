@@ -135,7 +135,7 @@ public class Piece_Pion extends Piece{
 			// A GAUCHE C'EST POSSIBLE
 			if (isBlack) {
 				if (position.getY()-1 >= 0) {
-					// VERS LE BAS AUSSI
+					// VERS LE BAS SI NOIR AUSSI
 					test = new Coordonees((byte)(position.getX()-1),(byte)(position.getY()-1));
 					tmp = p.getPiece(test);
 					if (tmp != null) {
@@ -143,6 +143,7 @@ public class Piece_Pion extends Piece{
 					}
 				}
 			} else {
+				// VERS LE HAUT SI BLANC
 				if (position.getY()+1 < p.getHeight()) {
 					test = new Coordonees((byte)(position.getX()-1),(byte)(position.getY()+1));
 					tmp = p.getPiece(test);
@@ -152,10 +153,10 @@ public class Piece_Pion extends Piece{
 				}
 			}
 		}
-		if (position.getX()+1 < p.getWidth()) {
+		if (position.getX()+1 < p.getWidth()) { // A DROITE
 			if (isBlack) {
 				if (position.getY()-1 >= 0) {
-					// VERS LE BAS AUSSI
+					// VERS LE BAS SI NOIR AUSSI
 					test = new Coordonees((byte)(position.getX()+1),(byte)(position.getY()-1));
 					tmp = p.getPiece(test);
 					if (tmp != null) {

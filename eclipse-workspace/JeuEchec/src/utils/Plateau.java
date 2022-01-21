@@ -71,6 +71,34 @@ public class Plateau {
 		}
 		return str;
 	}
+	
+	public boolean deplacerPiece(Coordonees from, Coordonees to, boolean couleurJoueurNoir) {
+		Piece tmp = getPieceFromCoord(from);
+		Plateau copie = new Plateau(this);
+		Piece tmp2 = copie.getPieceFromCoord(from);
+		if (tmp2 == null || tmp.estNoir() != couleurJoueurNoir) {
+			return false;
+		} else {
+			if (!tmp2.deplacerPiece(to, copie)) {
+				return false;
+			} else {
+				if (tmp2 instanceof Piece_Roi) {
+					if (tmp2.estEnEchec(copie).size() > 0){
+						return false;
+					}
+				} else {
+					Piece roi = copie.getRoi(couleurJoueurNoir);
+					if (roi.estEnEchec(copie).size() > 0){
+						return false;
+					}
+				}
+			}
+		}
+		if (tmp != null && tmp.estNoir() == couleurJoueurNoir) {
+			return tmp.deplacerPiece(to, this);
+		}
+		return false;
+	}
 
 	
 	public void reset() {
@@ -115,10 +143,15 @@ public class Plateau {
 		if (pieces.size() > 0) {
 			pieces.clear();
 		}
-		pieces.add(new Piece_Tour(new Coordonees((byte)0,(byte)0), true));
-		pieces.add(new Piece_Tour(new Coordonees((byte)0,(byte)8), false));
-		pieces.add(new Piece_Fou(new Coordonees((byte)3,(byte)3), false));
-		pieces.add(new Piece_Cavalier(new Coordonees((byte)1,(byte)2), false));
+		pieces.add(new Piece_Roi(new Coordonees((byte)1,(byte)0), false));
+		pieces.add(new Piece_Tour(new Coordonees((byte)3,(byte)7), false));
+		pieces.add(new Piece_Tour(new Coordonees((byte)3,(byte)8), false));
+		pieces.add(new Piece_Roi(new Coordonees((byte)1,(byte)8), true));
+		//pieces.add(new Piece_Fou(new Coordonees((byte)4,(byte)5),false));
+		pieces.add(new Piece_Tour(new Coordonees((byte)2,(byte)7), true));
+		/*pieces.add(new Piece_Cavalier(new Coordonees((byte)2,(byte)2), true));
+		pieces.add(new Piece_Pion(new Coordonees((byte)0,(byte)1), true));
+		pieces.add(new Piece_Pion(new Coordonees((byte)2,(byte)2), true));*/
 	}
 	
 	public Plateau(byte _width, byte _height, ArrayList<Piece> _pieces, ArrayList<Mouvement> _mouvements, short _nbCoups) {
@@ -159,6 +192,18 @@ public class Plateau {
 			}
 		}
 		return rt;
+	}
+	
+	public Piece getRoi(boolean estNoir) {
+		Piece piece = null;
+		int i = 0;
+		while (i < pieces.size() && piece == null) {
+			if (pieces.get(i) instanceof Piece_Roi && pieces.get(i).estNoir() == estNoir) {
+				piece = pieces.get(i);
+			}
+			i++;
+		}		
+		return piece;
 	}
 	
 	public Piece getPieceFromCoord(Coordonees coord) {

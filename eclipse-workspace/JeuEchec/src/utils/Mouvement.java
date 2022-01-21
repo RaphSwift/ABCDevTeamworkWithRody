@@ -21,11 +21,6 @@ public class Mouvement {
 		return coords[1];
 	}
 	
-	public Coordonees getDirection() {
-		return new Coordonees((byte)((int)coords[0].getX()/Math.abs((int)coords[0].getX())), 
-				(byte)((int)coords[1].getY()/Math.abs((int)coords[1].getY())));
-	}
-	
 	public boolean equals(Mouvement compare) {
 		return (coords[0].equals(compare.getFrom())) && (coords[1].equals(compare.getTo()));
 	}
