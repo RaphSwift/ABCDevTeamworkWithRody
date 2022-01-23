@@ -95,7 +95,12 @@ public class Plateau {
 			}
 		}
 		if (tmp != null && tmp.estNoir() == couleurJoueurNoir) {
-			return tmp.deplacerPiece(to, this);
+			tmp2 = getPieceFromCoord(to);
+			if(tmp.deplacerPiece(to, this)) {
+				removeFromCoord(to);
+				tmp.setCoord(to, this);
+				return true;
+			}
 		}
 		return false;
 	}
@@ -148,7 +153,8 @@ public class Plateau {
 		pieces.add(new Piece_Tour(new Coordonees((byte)3,(byte)8), false));
 		pieces.add(new Piece_Roi(new Coordonees((byte)1,(byte)8), true));
 		//pieces.add(new Piece_Fou(new Coordonees((byte)4,(byte)5),false));
-		pieces.add(new Piece_Tour(new Coordonees((byte)2,(byte)7), true));
+		
+		pieces.add(new Piece_Tour(new Coordonees((byte)4,(byte)8), true));
 		/*pieces.add(new Piece_Cavalier(new Coordonees((byte)2,(byte)2), true));
 		pieces.add(new Piece_Pion(new Coordonees((byte)0,(byte)1), true));
 		pieces.add(new Piece_Pion(new Coordonees((byte)2,(byte)2), true));*/
@@ -216,5 +222,41 @@ public class Plateau {
 			i++;
 		}		
 		return piece;
+	}
+	
+	public boolean removeFromCoord(Coordonees coord) {
+		boolean finded = false;
+		int i = 0;
+		while (i < pieces.size() && !finded) {
+			if (pieces.get(i).getPosition().equals(coord)) {
+				pieces.remove(i);
+				finded = true;
+			}
+			i++;
+		}		
+		return finded;
+	}
+	
+	public Plateau simulerMouvement(Mouvement m) {
+		Plateau rt = new Plateau(this);
+		Piece rts[] = new Piece[2];
+		rts[0] = rt.getPieceFromCoord(m.getFrom());
+		rts[1] = rt.getPieceFromCoord(m.getTo());
+		if (rts[0] == null) {
+			return null;
+		} else {
+			if (rts[1] != null) {
+				if (rts[1].estNoir() != rts[0].estNoir()) {
+					if (!rt.removeFromCoord(m.getTo())) {
+						return null;
+					} 
+				} else {
+					return null;
+				}
+			}
+			rt.getPieceFromCoord(m.getFrom()).setCoord(m.getTo(), rt);
+		}
+		
+		return rt;
 	}
 }

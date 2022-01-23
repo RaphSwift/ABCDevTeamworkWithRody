@@ -61,15 +61,13 @@ public abstract class Piece{
 			}
 			i++;
 		}
-		if (finded) {
-			this.position = coord;
-		}
 		return finded;
 	}
 	
 	public abstract ArrayList<Mouvement> calculerMouvement(Plateau p);
 	
-	public ArrayList<Mouvement> estEnEchec(Plateau p) {
+	
+	/*public ArrayList<Mouvement> estEnEchec(Plateau p) {
 		ArrayList<Mouvement> mvtFinded = new ArrayList<Mouvement>();
 		ArrayList<Piece> pieces = new ArrayList<Piece>();
 		pieces = p.getPieceFromColor(!isBlack);
@@ -89,5 +87,249 @@ public abstract class Piece{
 			}			
 		}
 		return mvtFinded;
+	}*/
+	
+	
+	public ArrayList<Mouvement> estEnEchec(Plateau p){
+		ArrayList<Mouvement> misEnEchec = new ArrayList<Mouvement>();
+		misEnEchec.addAll(testLines(p));
+		misEnEchec.addAll(testDiagonales(p));
+		misEnEchec.addAll(testLLines(p));
+		misEnEchec.addAll(testerRoi(p));
+		ArrayList<Coordonees> pionLines = new ArrayList<Coordonees>();
+		
+		if (isBlack) {
+			// LES NOIRS MANGENT VERS LE BAS
+			if (position.getY()+1 < p.getHeight()) {
+				if (position.getX()-1 >= 0) {
+					pionLines.add(new Coordonees((byte)(position.getY()+1),(byte)(position.getX()-1)));
+				}
+				if (position.getX()+1 < p.getWidth()) {
+					pionLines.add(new Coordonees((byte)(position.getY()+1),(byte)(position.getX()+1)));
+				}
+			}
+		} else {
+			// LES BLANCS MANGENT VERS LE HAUT
+			if (position.getY()-1 >= 0) {
+				if (position.getX()-1 >= 0) {
+					pionLines.add(new Coordonees((byte)(position.getY()-1),(byte)(position.getX()-1)));
+				}
+				if (position.getX()+1 < p.getWidth()) {
+					pionLines.add(new Coordonees((byte)(position.getY()-1),(byte)(position.getX()+1)));
+				}
+			}
+		}
+		Piece tmp;
+		for (int i = 0; i < pionLines.size();i++) {
+			tmp = p.getPieceFromCoord(pionLines.get(i));
+			if (tmp != null && tmp instanceof Piece_Pion) {
+				misEnEchec.add(new Mouvement(new Coordonees(pionLines.get(i)), new Coordonees(position)));
+			}
+		}
+		
+		return misEnEchec;
+	}
+	
+	protected ArrayList<Mouvement> testLines(Plateau p){
+		ArrayList<Mouvement> rt = new ArrayList<Mouvement>();
+
+		Piece pieceTmp= null;
+		int i = position.getX()-1;
+		Coordonees coordTmp;
+		while (i >= 0 && pieceTmp == null){
+			// ligne gauche
+			coordTmp = new Coordonees((byte)i,(byte)position.getY());
+			pieceTmp = p.getPieceFromCoord(coordTmp);
+			if (pieceTmp != null && pieceTmp.estNoir() != isBlack) {
+				if (pieceTmp instanceof Piece_Reine || pieceTmp instanceof Piece_Tour) {
+					rt.add(new Mouvement(new Coordonees(coordTmp), new Coordonees(position)));
+				}
+			}
+			i--;
+		
+		}
+		i = position.getX()+1;
+		coordTmp = null;
+		pieceTmp = null;
+		while (i <p.getWidth() && pieceTmp == null){
+			// ligne droite
+			coordTmp = new Coordonees((byte)i,(byte)position.getY());
+			pieceTmp = p.getPieceFromCoord(coordTmp);
+			if (pieceTmp != null && pieceTmp.estNoir() != isBlack) {
+				if (pieceTmp instanceof Piece_Reine || pieceTmp instanceof Piece_Tour) {
+					rt.add(new Mouvement(new Coordonees(coordTmp), new Coordonees(position)));
+				}
+			}
+			i++;
+		
+		}
+		i = position.getY()+1;
+		coordTmp = null;
+		pieceTmp = null;
+		while (i <p.getHeight() && pieceTmp == null){
+			// ligne droite
+			coordTmp = new Coordonees((byte)position.getX(),(byte)i);
+			pieceTmp = p.getPieceFromCoord(coordTmp);
+			if (pieceTmp != null && pieceTmp.estNoir() != isBlack) {
+				if (pieceTmp instanceof Piece_Reine || pieceTmp instanceof Piece_Tour) {
+					rt.add(new Mouvement(new Coordonees(coordTmp), new Coordonees(position)));
+				}
+			}
+			i++;
+		
+		}
+		i = position.getY()-1;
+		coordTmp = null;
+		pieceTmp = null;
+		while (i >= 0 && pieceTmp == null){
+			// ligne droite
+			coordTmp = new Coordonees((byte)position.getX(),(byte)i);
+			pieceTmp = p.getPieceFromCoord(coordTmp);
+			if (pieceTmp != null && pieceTmp.estNoir() != isBlack) {
+				if (pieceTmp instanceof Piece_Reine || pieceTmp instanceof Piece_Tour) {
+					rt.add(new Mouvement(new Coordonees(coordTmp), new Coordonees(position)));
+				}
+			}
+			i--;
+		
+		}
+		return rt;
+	}
+	
+	protected ArrayList<Mouvement> testDiagonales(Plateau p){
+		ArrayList<Mouvement> rt = new ArrayList<Mouvement>();
+		
+		Coordonees coordTest;
+		Coordonees directionTeste = new Coordonees((byte)-1,(byte)1);
+		int i=1;
+		Piece tmp = null;
+		// supperieur gauche
+		coordTest = new Coordonees((byte)(position.getX()+directionTeste.getX()*i),(byte)(position.getY()+directionTeste.getY()*i));	
+		while(coordTest.getX() >= 0 && coordTest.getY() < p.getHeight() && tmp == null) {
+			tmp = p.getPieceFromCoord(coordTest);
+			if (tmp != null && tmp.estNoir() != isBlack) {
+				if (tmp instanceof Piece_Reine || tmp instanceof Piece_Fou) {
+					rt.add(new Mouvement(new Coordonees(coordTest), new Coordonees(position)));
+				}
+			}
+			i++;
+			coordTest = new Coordonees((byte)(position.getX()+directionTeste.getX()*i),(byte)(position.getY()+directionTeste.getY()*i));
+		}
+		tmp = null;
+		// supperieur droit
+		directionTeste = new Coordonees((byte)1,(byte)1);
+		i=1;
+		coordTest = new Coordonees((byte)(position.getX()+directionTeste.getX()*i),(byte)(position.getY()+directionTeste.getY()*i));	
+		while(coordTest.getX() >= 0 && coordTest.getY() < p.getHeight() && tmp==null) {
+			tmp = p.getPieceFromCoord(coordTest);
+			if (tmp != null && tmp.estNoir() != isBlack) {
+				if (tmp instanceof Piece_Reine || tmp instanceof Piece_Fou) {
+					rt.add(new Mouvement(new Coordonees(coordTest), new Coordonees(position)));
+				}
+			}
+			i++;
+			coordTest = new Coordonees((byte)(position.getX()+directionTeste.getX()*i),(byte)(position.getY()+directionTeste.getY()*i));
+		}
+		tmp =null;
+		// inferieur droit
+		directionTeste = new Coordonees((byte)1,(byte)-1);
+		i=1;
+		coordTest = new Coordonees((byte)(position.getX()+directionTeste.getX()*i),(byte)(position.getY()+directionTeste.getY()*i));	
+		while(coordTest.getX() >= 0 && coordTest.getY() < p.getHeight() && tmp == null) {
+			tmp = p.getPieceFromCoord(coordTest);
+			if (tmp != null && tmp.estNoir() != isBlack) {
+				if (tmp instanceof Piece_Reine || tmp instanceof Piece_Fou) {
+					rt.add(new Mouvement(new Coordonees(coordTest), new Coordonees(position)));
+				}
+			}
+			i++;
+			coordTest = new Coordonees((byte)(position.getX()+directionTeste.getX()*i),(byte)(position.getY()+directionTeste.getY()*i));
+		}
+		tmp=null;
+		// inferieur gauche
+		directionTeste = new Coordonees((byte)-1,(byte)-1);
+		i=1;
+		coordTest = new Coordonees((byte)(position.getX()+directionTeste.getX()*i),(byte)(position.getY()+directionTeste.getY()*i));	
+		while(coordTest.getX() >= 0 && coordTest.getY() < p.getHeight() && tmp == null) {
+			tmp = p.getPieceFromCoord(coordTest);
+			if (tmp != null && tmp.estNoir() != isBlack) {
+				if (tmp instanceof Piece_Reine || tmp instanceof Piece_Fou) {
+					rt.add(new Mouvement(new Coordonees(coordTest), new Coordonees(position)));
+				}
+			}
+			i++;
+			coordTest = new Coordonees((byte)(position.getX()+directionTeste.getX()*i),(byte)(position.getY()+directionTeste.getY()*i));
+		}
+		return rt;
+	}
+	
+	protected ArrayList<Mouvement> testLLines(Plateau p){
+		ArrayList<Coordonees> coordATester = new ArrayList<Coordonees>();
+		ArrayList<Mouvement> rt = new ArrayList<Mouvement>();
+		if (position.getX()-2 >= 0) {
+			if (position.getY()+2 < p.getHeight()) {
+				coordATester.add(new Coordonees((byte)(position.getX()-2),(byte)(position.getY()+1)));
+				coordATester.add(new Coordonees((byte)(position.getX()-1),(byte)(position.getY()+2)));
+			} else if (position.getY() + 1 < p.getHeight()) {
+				coordATester.add(new Coordonees((byte)(position.getX()-2),(byte)(position.getY()+1)));
+			}
+			if (position.getY()-2 >= 0) {
+				coordATester.add(new Coordonees((byte)(position.getX()-2),(byte)(position.getY()-1)));
+				coordATester.add(new Coordonees((byte)(position.getX()-1),(byte)(position.getY()-2)));
+			} else if (position.getY()-1 >= 0) {
+				coordATester.add(new Coordonees((byte)(position.getX()-2),(byte)(position.getY()-1)));
+			}
+		} else if (position.getX()-1 >= 0) {
+			if (position.getY()+2 < p.getHeight()) {
+				coordATester.add(new Coordonees((byte)(position.getX()-1),(byte)(position.getY()+2)));
+			}
+			if (position.getY()-2 >= 0) {
+				coordATester.add(new Coordonees((byte)(position.getX()-1),(byte)(position.getY()-2)));
+			}
+		}
+		
+		if (position.getX()-+2 >= 0) {
+			if (position.getY()+2 < p.getHeight()) {
+				coordATester.add(new Coordonees((byte)(position.getX()+2),(byte)(position.getY()+1)));
+				coordATester.add(new Coordonees((byte)(position.getX()+1),(byte)(position.getY()+2)));
+			} else if (position.getY() + 1 < p.getHeight()) {
+				coordATester.add(new Coordonees((byte)(position.getX()+2),(byte)(position.getY()+1)));
+			}
+			if (position.getY()-2 >= 0) {
+				coordATester.add(new Coordonees((byte)(position.getX()+2),(byte)(position.getY()-1)));
+				coordATester.add(new Coordonees((byte)(position.getX()+1),(byte)(position.getY()-2)));
+			} else if (position.getY()-1 >= 0) {
+				coordATester.add(new Coordonees((byte)(position.getX()+2),(byte)(position.getY()-1)));
+			}
+		} else if (position.getX()+1 >= 0) {
+			if (position.getY()+2 < p.getHeight()) {
+				coordATester.add(new Coordonees((byte)(position.getX()+1),(byte)(position.getY()+2)));
+			}
+			if (position.getY()-2 >= 0) {
+				coordATester.add(new Coordonees((byte)(position.getX()+1),(byte)(position.getY()-2)));
+			}
+		}
+		Piece tmp;
+		for (int i = 0; i < coordATester.size(); i++) {
+			tmp = p.getPieceFromCoord(coordATester.get(i));
+			if (tmp != null && tmp instanceof Piece_Cavalier) {
+				rt.add(new Mouvement(new Coordonees(coordATester.get(i)), new Coordonees(position)));
+			}
+		}
+		coordATester.clear();
+		return rt;
+	}
+	
+	protected ArrayList<Mouvement> testerRoi(Plateau p){
+		ArrayList<Mouvement> rt = new ArrayList<Mouvement>();
+		Piece tmp = p.getRoi(!isBlack);
+		if (tmp != null) {
+			Coordonees dst = position.getDistanceFrom(tmp.getPosition());
+			if (Math.abs(dst.getX()) <= 1 && Math.abs(dst.getY()) <=1) {
+				rt.add(new Mouvement(new Coordonees(tmp.getPosition()), new Coordonees(position)));
+			}
+		}
+		return rt;
+		
 	}
 }

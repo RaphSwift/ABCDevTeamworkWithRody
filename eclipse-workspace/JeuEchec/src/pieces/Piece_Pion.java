@@ -43,6 +43,23 @@ public class Piece_Pion extends Piece{
 	}
 	
 	@Override
+	public boolean deplacerPiece(Coordonees coord, Plateau plateau) {
+		ArrayList<Mouvement> mvt = calculerMouvement(plateau);
+		int i = 0;
+		boolean finded = false;
+		while (!finded && i < mvt.size()) {
+			if (coord.equals(mvt.get(i).getTo())) {				
+				finded = true;
+			}
+			i++;
+		}
+		if (finded) {
+			aBouge=true;
+		}
+		return finded;
+	}
+	
+	@Override
 	public ArrayList<Mouvement> calculerMouvement(Plateau p){
 		ArrayList<Mouvement> mouvementsPossibles = new ArrayList<Mouvement>();
 		Coordonees test;
@@ -95,6 +112,15 @@ public class Piece_Pion extends Piece{
 			}
 			
 		}
+		Plateau simulation;
+		Piece tmpRoi;
+		for (int i = mouvementsPossibles.size() -1 ; i >= 0; i--) {
+			simulation = p.simulerMouvement(mouvementsPossibles.get(i));
+			tmpRoi = simulation.getRoi(isBlack);
+			if (tmpRoi.estEnEchec(simulation).size()>0) {
+				mouvementsPossibles.remove(i);
+			}
+		}
 		return mouvementsPossibles;
 	}
 	
@@ -145,9 +171,9 @@ public class Piece_Pion extends Piece{
 				}
 			}
 		}
-		Plateau tmpPlateau = null;
+		/*Plateau tmpPlateau = null;
 		Piece tmpRoi = null;
-		Coordonees from, to;
+		Coordonees from, to;*/
 		/*for (int i = 0; i < mouvementsPossibles.size(); i++) {
 			tmpPlateau = new Plateau(p);
 			from = new Coordonees(mouvementsPossibles.get(i).getFrom());
@@ -163,6 +189,18 @@ public class Piece_Pion extends Piece{
 			
 			
 		}*/
+		Plateau plateauSimule = null;
+		Piece roi = null;
+		for (int i = mouvementsPossibles.size()-1; i >= 0;i--) {
+			plateauSimule = p.simulerMouvement(mouvementsPossibles.get(i));
+			if (plateauSimule != null) {
+				roi = plateauSimule.getRoi(isBlack);
+				if (roi.estEnEchec(plateauSimule).size() > 0) {
+					mouvementsPossibles.remove(i);
+				}
+			}
+		}
+		
 		return mouvementsPossibles;
 	}
 }

@@ -39,24 +39,16 @@ public class Piece_Reine extends Piece{
 		ArrayList<Mouvement> mouvementsPossibles = new ArrayList<Mouvement>();
 		mouvementsPossibles.addAll(calculerLignes(p));
 		mouvementsPossibles.addAll(calculerDiagonales(p));
-		/*Plateau tmpPlateau = null;
-		Piece tmpRoi = null;
-		Coordonees from, to;
-		for (int i = 0; i < mouvementsPossibles.size(); i++) {
-			tmpPlateau = new Plateau(p);
-			from = new Coordonees(mouvementsPossibles.get(i).getFrom());
-			to = new Coordonees(mouvementsPossibles.get(i).getTo());
-			//tmpPlateau.deplacerPiece(this.position,mouvementsPossibles.get(i).getTo(),isBlack);
-			tmpPlateau.getPieceFromCoord(this.position).setCoord(to,tmpPlateau);
-			//tmpPlateau.deplacerPiece(this.position,mouvementsPossibles.get(i).getTo() , this.isBlack);
-			//tmpPlateau.deplacerPiece(new Mouvement(this.position, coords.get(i)),isBlack);
-			tmpRoi = (Piece_Roi)tmpPlateau.getRoi(isBlack);
-			if (tmpRoi.estEnEchec(tmpPlateau).size() >0) {
+
+		Plateau simulation;
+		Piece tmpRoi;
+		for (int i = mouvementsPossibles.size() -1 ; i >= 0; i--) {
+			simulation = p.simulerMouvement(mouvementsPossibles.get(i));
+			tmpRoi = simulation.getRoi(isBlack);
+			if (tmpRoi.estEnEchec(simulation).size()>0) {
 				mouvementsPossibles.remove(i);
 			}
-			
-			
-		}*/
+		}
 		return mouvementsPossibles;
 	}
 	

@@ -182,6 +182,16 @@ public class Piece_Cavalier extends Piece {
 			
 			
 		}*/
+		Plateau simulation;
+		Piece tmpRoi;
+		for (int i = mouvementsPossibles.size() -1 ; i >= 0; i--) {
+			simulation = p.simulerMouvement(mouvementsPossibles.get(i));
+			tmpRoi = simulation.getRoi(isBlack);
+			if (tmpRoi.estEnEchec(simulation).size()>0) {
+				mouvementsPossibles.remove(i);
+			}
+		}
+
 		return mouvementsPossibles;
 	}
 }

@@ -19,6 +19,24 @@ public class Piece_Roi extends Piece{
 		return "[Roi" + position+"]";
 	}
 	
+	
+	@Override
+	public boolean deplacerPiece(Coordonees coord, Plateau plateau) {
+		ArrayList<Mouvement> mvt = calculerMouvement(plateau);
+		int i = 0;
+		boolean finded = false;
+		while (!finded && i < mvt.size()) {
+			if (coord.equals(mvt.get(i).getTo())) {				
+				finded = true;
+			}
+			i++;
+		}
+		if (finded) {
+			aBouge=true;
+		}
+		return finded;
+	}
+	
 	@Override
 	public Object clone() throws CloneNotSupportedException{
 		return new Piece_Roi(this);
@@ -126,12 +144,22 @@ public class Piece_Roi extends Piece{
 			}
 			
 		}*/
+		Plateau simulation;
+		Piece tmpRoi;
+		for (int i = mouvementsPossibles.size() -1 ; i >= 0; i--) {
+			simulation = p.simulerMouvement(mouvementsPossibles.get(i));
+			tmpRoi = simulation.getRoi(isBlack);
+			if (tmpRoi.estEnEchec(simulation).size()>0) {
+				mouvementsPossibles.remove(i);
+			}
+		}
+
 		return mouvementsPossibles;
 	}
 	
 	public boolean estEchecEtMat(Plateau p) {
 		// SOUS QUEL CAS LA PIECE EST EN ECHEC ET MAT
-		ArrayList<Mouvement> misEnEchec = estEnEchec(p);
+		/*ArrayList<Mouvement> misEnEchec = estEnEchec(p);
 		ArrayList<Mouvement> coordoneesPossible = new ArrayList<Mouvement>();
 		if (misEnEchec.size() == 0) {
 			return false;
@@ -195,11 +223,12 @@ public class Piece_Roi extends Piece{
 				for (i = 0; i<pieces.size(); i++) {
 					mvtAdverse.addAll(pieces.get(i).calculerMouvement(p));
 				}
-				i=0;
+				i=mvt.size()-1;
 				j=0;
 				boolean finded;
-				while (i< mvt.size()) {
+				while (i>=0) {
 					finded = false;
+					j=0;
 					while (j < mvtAdverse.size() && !finded) {
 						if (mvt.get(i).getTo().equals(mvtAdverse.get(j).getTo())) {
 							finded = true;
@@ -207,7 +236,7 @@ public class Piece_Roi extends Piece{
 						}
 						j++;
 					}
-					i++;
+					i--;
 				}
 				if (mvt.size() > 0) {
 					if (misEnEchec != null)
@@ -252,15 +281,20 @@ public class Piece_Roi extends Piece{
 					return false;
 				}
 				// LE SACRIFICE D'UNE PIECE PEUT IL MODIFIER CELA
-				
-				return true;
 			}
 		}
 		if (misEnEchec != null)
 			misEnEchec.clear();
 		if (coordoneesPossible != null)
 			coordoneesPossible.clear();
-		return true;
+		return true;*/
+		ArrayList<Piece> piecesAlies = p.getPieceFromColor(isBlack);
+		ArrayList<Mouvement> mouvementsPossibles = new ArrayList<Mouvement>();
+		for (int i = 0; i < piecesAlies.size(); i++) {
+			mouvementsPossibles.addAll(piecesAlies.get(i).calculerMouvement(p));
+		}
+		return (mouvementsPossibles.size() ==0);
+		
 		
 	}
 }

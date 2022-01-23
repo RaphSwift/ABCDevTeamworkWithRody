@@ -40,4 +40,8 @@ public class Coordonees {
 	public String toString() {
 		return "[x:" + xPos + ";y:"+yPos+"]";
 	}
+	
+	public Coordonees getDistanceFrom(Coordonees c) {
+		return new Coordonees((byte)(c.getX()-xPos),(byte)(c.getY()-yPos));
+	}
 }
