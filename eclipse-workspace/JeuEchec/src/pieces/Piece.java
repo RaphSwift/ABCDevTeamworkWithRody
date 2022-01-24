@@ -98,31 +98,32 @@ public abstract class Piece{
 		misEnEchec.addAll(testerRoi(p));
 		ArrayList<Coordonees> pionLines = new ArrayList<Coordonees>();
 		
+		// SI ON EST NOIR
 		if (isBlack) {
-			// LES NOIRS MANGENT VERS LE BAS
-			if (position.getY()+1 < p.getHeight()) {
+			// LES BLANCS MANGENT VERS LE HAUT
+			if (position.getY()-1 < p.getHeight()) {
 				if (position.getX()-1 >= 0) {
-					pionLines.add(new Coordonees((byte)(position.getY()+1),(byte)(position.getX()-1)));
+					pionLines.add(new Coordonees((byte)(position.getX()-1),(byte)(position.getY()-1)));
 				}
 				if (position.getX()+1 < p.getWidth()) {
-					pionLines.add(new Coordonees((byte)(position.getY()+1),(byte)(position.getX()+1)));
+					pionLines.add(new Coordonees((byte)(position.getX()+1),(byte)(position.getY()-1)));
 				}
 			}
 		} else {
-			// LES BLANCS MANGENT VERS LE HAUT
-			if (position.getY()-1 >= 0) {
+			// LES NOIRS MANGENT VERS LE BAS
+			if (position.getY()+1 >= 0) {
 				if (position.getX()-1 >= 0) {
-					pionLines.add(new Coordonees((byte)(position.getY()-1),(byte)(position.getX()-1)));
+					pionLines.add(new Coordonees((byte)(position.getX()-1),(byte)(position.getY()+1)));
 				}
 				if (position.getX()+1 < p.getWidth()) {
-					pionLines.add(new Coordonees((byte)(position.getY()-1),(byte)(position.getX()+1)));
+					pionLines.add(new Coordonees((byte)(position.getX()+1),(byte)(position.getY()+1)));
 				}
 			}
 		}
 		Piece tmp;
 		for (int i = 0; i < pionLines.size();i++) {
 			tmp = p.getPieceFromCoord(pionLines.get(i));
-			if (tmp != null && tmp instanceof Piece_Pion) {
+			if (tmp != null && tmp instanceof Piece_Pion && tmp.estNoir() != isBlack) {
 				misEnEchec.add(new Mouvement(new Coordonees(pionLines.get(i)), new Coordonees(position)));
 			}
 		}
@@ -312,7 +313,7 @@ public abstract class Piece{
 		Piece tmp;
 		for (int i = 0; i < coordATester.size(); i++) {
 			tmp = p.getPieceFromCoord(coordATester.get(i));
-			if (tmp != null && tmp instanceof Piece_Cavalier) {
+			if (tmp != null && tmp instanceof Piece_Cavalier && tmp.estNoir() != isBlack) {
 				rt.add(new Mouvement(new Coordonees(coordATester.get(i)), new Coordonees(position)));
 			}
 		}

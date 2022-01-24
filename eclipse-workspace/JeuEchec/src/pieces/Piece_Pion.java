@@ -44,7 +44,13 @@ public class Piece_Pion extends Piece{
 	
 	@Override
 	public boolean deplacerPiece(Coordonees coord, Plateau plateau) {
-		ArrayList<Mouvement> mvt = calculerMouvement(plateau);
+		Piece tmp = plateau.getPieceFromCoord(coord);
+		ArrayList<Mouvement> mvt = new ArrayList<Mouvement>();
+		if (tmp != null && tmp.estNoir() != isBlack) {
+			mvt = calculerMouvementManger(plateau);
+		} else {
+			mvt = calculerMouvement(plateau);
+		}
 		int i = 0;
 		boolean finded = false;
 		while (!finded && i < mvt.size()) {
@@ -69,29 +75,7 @@ public class Piece_Pion extends Piece{
 		Piece tmp2 = null;
 		if (isBlack) {
 			if (!aBouge) {
-				if (position.getY()-2 >= 0) {
-					test = new Coordonees((byte)(position.getX()),(byte)(position.getY()-1));
-					tmp = p.getPieceFromCoord(test);
-					test2 = new Coordonees((byte)(position.getX()),(byte)(position.getY()-2));
-					tmp2 = p.getPieceFromCoord(test);					
-					if (tmp == null) {
-						mouvementsPossibles.add(new Mouvement(new Coordonees(this.position), new Coordonees(test)));
-						if (tmp2 == null) {
-							mouvementsPossibles.add(new Mouvement(new Coordonees(this.position), new Coordonees(test2)));
-						}
-					}
-				} else if (position.getY()-1 >= 0) {
-					test = new Coordonees((byte)(position.getX()),(byte)(position.getY()-1));
-					tmp = p.getPieceFromCoord(test);
-					if (tmp == null) {
-						mouvementsPossibles.add(new Mouvement(new Coordonees(this.position), new Coordonees(test)));
-					}
-				}
-			}
-		} else {
-			//Y +2
-			if (!aBouge) {
-				if (position.getY()+2 < p.getHeight()) {
+				if (position.getY()+2 >= 0) {
 					test = new Coordonees((byte)(position.getX()),(byte)(position.getY()+1));
 					tmp = p.getPieceFromCoord(test);
 					test2 = new Coordonees((byte)(position.getX()),(byte)(position.getY()+2));
@@ -102,8 +86,46 @@ public class Piece_Pion extends Piece{
 							mouvementsPossibles.add(new Mouvement(new Coordonees(this.position), new Coordonees(test2)));
 						}
 					}
-				} else if (position.getY()+1 < p.getHeight()) {
+				} else if (position.getY()+1 >= 0) {
 					test = new Coordonees((byte)(position.getX()),(byte)(position.getY()+1));
+					tmp = p.getPieceFromCoord(test);
+					if (tmp == null) {
+						mouvementsPossibles.add(new Mouvement(new Coordonees(this.position), new Coordonees(test)));
+					}
+				}
+			} else {
+				if (position.getY()+1 >= 0) {
+					test = new Coordonees((byte)(position.getX()),(byte)(position.getY()+1));
+					tmp = p.getPieceFromCoord(test);
+					if (tmp == null) {
+						mouvementsPossibles.add(new Mouvement(new Coordonees(this.position), new Coordonees(test)));
+					}
+				}
+			}
+		} else {
+			//Y +2
+			if (!aBouge) {
+				if (position.getY()-2 < p.getHeight()) {
+					test = new Coordonees((byte)(position.getX()),(byte)(position.getY()-1));
+					tmp = p.getPieceFromCoord(test);
+					test2 = new Coordonees((byte)(position.getX()),(byte)(position.getY()-2));
+					tmp2 = p.getPieceFromCoord(test);					
+					if (tmp == null) {
+						mouvementsPossibles.add(new Mouvement(new Coordonees(this.position), new Coordonees(test)));
+						if (tmp2 == null) {
+							mouvementsPossibles.add(new Mouvement(new Coordonees(this.position), new Coordonees(test2)));
+						}
+					}
+				} else if (position.getY()-1 < p.getHeight()) {
+					test = new Coordonees((byte)(position.getX()),(byte)(position.getY()-1));
+					tmp = p.getPieceFromCoord(test);
+					if (tmp == null) {
+						mouvementsPossibles.add(new Mouvement(new Coordonees(this.position), new Coordonees(test)));
+					}
+				}
+			} else {
+				if (position.getY()-1 < p.getHeight()) {
+					test = new Coordonees((byte)(position.getX()),(byte)(position.getY()-1));
 					tmp = p.getPieceFromCoord(test);
 					if (tmp == null) {
 						mouvementsPossibles.add(new Mouvement(new Coordonees(this.position), new Coordonees(test)));
@@ -114,11 +136,18 @@ public class Piece_Pion extends Piece{
 		}
 		Plateau simulation;
 		Piece tmpRoi;
+		ArrayList<Mouvement> roiMv = new ArrayList<Mouvement>();
 		for (int i = mouvementsPossibles.size() -1 ; i >= 0; i--) {
 			simulation = p.simulerMouvement(mouvementsPossibles.get(i));
-			tmpRoi = simulation.getRoi(isBlack);
-			if (tmpRoi.estEnEchec(simulation).size()>0) {
-				mouvementsPossibles.remove(i);
+			if (simulation != null) {
+				tmpRoi = simulation.getRoi(isBlack);
+				roiMv = tmpRoi.estEnEchec(simulation);
+				
+				if (roiMv.size()>0) {
+					
+					mouvementsPossibles.remove(i);
+				}
+				roiMv.clear();
 			}
 		}
 		return mouvementsPossibles;
@@ -131,9 +160,9 @@ public class Piece_Pion extends Piece{
 		if (position.getX()-1 >= 0) {
 			// A GAUCHE C'EST POSSIBLE
 			if (isBlack) {
-				if (position.getY()-1 >= 0) {
+				if (position.getY()+1 >= 0) {
 					// VERS LE BAS SI NOIR AUSSI
-					test = new Coordonees((byte)(position.getX()-1),(byte)(position.getY()-1));
+					test = new Coordonees((byte)(position.getX()-1),(byte)(position.getY()+1));
 					tmp = p.getPieceFromCoord(test);
 					if (tmp != null) {
 						mouvementsPossibles.add(new Mouvement(new Coordonees(this.position), new Coordonees(new Coordonees(test))));
@@ -141,8 +170,8 @@ public class Piece_Pion extends Piece{
 				}
 			} else {
 				// VERS LE HAUT SI BLANC
-				if (position.getY()+1 < p.getHeight()) {
-					test = new Coordonees((byte)(position.getX()-1),(byte)(position.getY()+1));
+				if (position.getY()-1 < p.getHeight()) {
+					test = new Coordonees((byte)(position.getX()-1),(byte)(position.getY()-1));
 					tmp = p.getPieceFromCoord(test);
 					if (tmp != null) {
 						mouvementsPossibles.add(new Mouvement(new Coordonees(this.position), new Coordonees(new Coordonees(test))));
@@ -152,18 +181,18 @@ public class Piece_Pion extends Piece{
 		}
 		if (position.getX()+1 < p.getWidth()) {
 			if (isBlack) {
-				if (position.getY()-1 >= 0) {
+				if (position.getY()+1 >= 0) {
 					// VERS LE BAS SI NOIR AUSSI
-					test = new Coordonees((byte)(position.getX()+1),(byte)(position.getY()-1));
+					test = new Coordonees((byte)(position.getX()+1),(byte)(position.getY()+1));
 					tmp = p.getPieceFromCoord(test);
 					if (tmp != null) {
 						mouvementsPossibles.add(new Mouvement(new Coordonees(this.position), new Coordonees(new Coordonees(test))));
 					}
 				}
 			} else {
-				if (position.getY()+1 < p.getHeight()) {
+				if (position.getY()-1 < p.getHeight()) {
 					// VERS LE HAUT SI BLANCE
-					test = new Coordonees((byte)(position.getX()+1),(byte)(position.getY()+1));
+					test = new Coordonees((byte)(position.getX()+1),(byte)(position.getY()-1));
 					tmp = p.getPieceFromCoord(test);
 					if (tmp != null) {
 						mouvementsPossibles.add(new Mouvement(new Coordonees(this.position), new Coordonees(new Coordonees(test))));

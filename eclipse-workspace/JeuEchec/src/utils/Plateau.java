@@ -19,7 +19,7 @@ public class Plateau {
 		height = _height;
 		mouvements = new ArrayList<Mouvement>();
 		pieces = new ArrayList<Piece>();
-		reset_alternatif();
+		reset();
 	}
 	
 	public final byte getWidth() {
@@ -41,6 +41,7 @@ public class Plateau {
 		String str = "";
 		Piece tmp= null;
 		for (int i = 0; i < height; i++) {
+			str+=i + " ";
 			for (int j = 0; j < width; j++) {
 				if (pcs[j][i] != null) {
 					if (pcs[j][i] instanceof Piece_Roi) {
@@ -69,7 +70,12 @@ public class Plateau {
 			}
 			str+="\n";
 		}
+		str += "/  0  1  2  3  4  5  6  7";
 		return str;
+	}
+	
+	public boolean deplacerPiece(Mouvement mouvement, boolean couleurJoueurNoir) {
+		return deplacerPiece(mouvement.getFrom(), mouvement.getTo(), couleurJoueurNoir);
 	}
 	
 	public boolean deplacerPiece(Coordonees from, Coordonees to, boolean couleurJoueurNoir) {
@@ -82,6 +88,8 @@ public class Plateau {
 			if (!tmp2.deplacerPiece(to, copie)) {
 				return false;
 			} else {
+				copie.removeFromCoord(to);
+				tmp2.setCoord(to, copie);
 				if (tmp2 instanceof Piece_Roi) {
 					if (tmp2.estEnEchec(copie).size() > 0){
 						return false;
@@ -126,22 +134,22 @@ public class Plateau {
 		pieces.add(new Piece_Pion(new Coordonees((byte)5,(byte)1), true));
 		pieces.add(new Piece_Pion(new Coordonees((byte)6,(byte)1), true));
 		pieces.add(new Piece_Pion(new Coordonees((byte)7,(byte)1), true));
-		pieces.add(new Piece_Pion(new Coordonees((byte)0,(byte)7), false));
-		pieces.add(new Piece_Pion(new Coordonees((byte)1,(byte)7), false));
-		pieces.add(new Piece_Pion(new Coordonees((byte)2,(byte)7), false));
-		pieces.add(new Piece_Pion(new Coordonees((byte)3,(byte)7), false));
-		pieces.add(new Piece_Pion(new Coordonees((byte)4,(byte)7), false));
-		pieces.add(new Piece_Pion(new Coordonees((byte)5,(byte)7), false));
-		pieces.add(new Piece_Pion(new Coordonees((byte)6,(byte)7), false));
-		pieces.add(new Piece_Pion(new Coordonees((byte)7,(byte)7), false));
-		pieces.add(new Piece_Tour(new Coordonees((byte)0,(byte)8), false));
-		pieces.add(new Piece_Cavalier(new Coordonees((byte)1,(byte)8), false));
-		pieces.add(new Piece_Fou(new Coordonees((byte)2,(byte)8), false));
-		pieces.add(new Piece_Reine(new Coordonees((byte)3,(byte)8), false));
-		pieces.add(new Piece_Roi(new Coordonees((byte)4,(byte)8), false));
-		pieces.add(new Piece_Fou(new Coordonees((byte)5,(byte)8), false));
-		pieces.add(new Piece_Cavalier(new Coordonees((byte)6,(byte)8), false));
-		pieces.add(new Piece_Tour(new Coordonees((byte)7,(byte)8), false));
+		pieces.add(new Piece_Pion(new Coordonees((byte)0,(byte)6), false));
+		pieces.add(new Piece_Pion(new Coordonees((byte)1,(byte)6), false));
+		pieces.add(new Piece_Pion(new Coordonees((byte)2,(byte)6), false));
+		pieces.add(new Piece_Pion(new Coordonees((byte)3,(byte)6), false));
+		pieces.add(new Piece_Pion(new Coordonees((byte)4,(byte)6), false));
+		pieces.add(new Piece_Pion(new Coordonees((byte)5,(byte)6), false));
+		pieces.add(new Piece_Pion(new Coordonees((byte)6,(byte)6), false));
+		pieces.add(new Piece_Pion(new Coordonees((byte)7,(byte)6), false));
+		pieces.add(new Piece_Tour(new Coordonees((byte)0,(byte)7), false));
+		pieces.add(new Piece_Cavalier(new Coordonees((byte)1,(byte)7), false));
+		pieces.add(new Piece_Fou(new Coordonees((byte)2,(byte)7), false));
+		pieces.add(new Piece_Reine(new Coordonees((byte)3,(byte)7), false));
+		pieces.add(new Piece_Roi(new Coordonees((byte)4,(byte)7), false));
+		pieces.add(new Piece_Fou(new Coordonees((byte)5,(byte)7), false));
+		pieces.add(new Piece_Cavalier(new Coordonees((byte)6,(byte)7), false));
+		pieces.add(new Piece_Tour(new Coordonees((byte)7,(byte)7), false));
 	}
 	
 	public void reset_alternatif() {
@@ -158,6 +166,22 @@ public class Plateau {
 		/*pieces.add(new Piece_Cavalier(new Coordonees((byte)2,(byte)2), true));
 		pieces.add(new Piece_Pion(new Coordonees((byte)0,(byte)1), true));
 		pieces.add(new Piece_Pion(new Coordonees((byte)2,(byte)2), true));*/
+	}
+	
+	public GAMESTATUS verifierPlateau() {
+		Piece_Roi roi_blanc = (Piece_Roi)getRoi(false);
+		Piece_Roi roi_noir = (Piece_Roi)getRoi(true);
+		if (roi_blanc.estEchecEtMat(this)) {
+			return GAMESTATUS.WHITE_CHECKMATE;
+		} else if (roi_noir.estEchecEtMat(this)) {
+			return GAMESTATUS.BLACK_CHECKMATE;
+		}
+		if (roi_blanc.estEnEchec(this).size()>0) {
+			return GAMESTATUS.WHITE_CHECK;
+		} else if (roi_noir.estEnEchec(this).size()>0) {
+			return GAMESTATUS.BLACK_CHECK;
+		}
+		return GAMESTATUS.NOTHING;
 	}
 	
 	public Plateau(byte _width, byte _height, ArrayList<Piece> _pieces, ArrayList<Mouvement> _mouvements, short _nbCoups) {

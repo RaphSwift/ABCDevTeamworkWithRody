@@ -25,4 +25,9 @@ public class Mouvement {
 		return (coords[0].equals(compare.getFrom())) && (coords[1].equals(compare.getTo()));
 	}
 	
+	@Override
+	public String toString() {
+		return "from ["+coords[0].getX()+";"+coords[0].getY()+"] to ["+coords[1].getX()+";"+coords[1].getY()+"]";
+	}
+	
 }

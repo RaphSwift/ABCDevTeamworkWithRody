@@ -70,7 +70,7 @@ public class Piece_Cavalier extends Piece {
 					mouvementsPossibles.add(new Mouvement(new Coordonees(this.position), new Coordonees(test)));
 				}					
 				tmp = null;
-				test = new Coordonees((byte)(position.getX()-2),(byte)(position.getY()+1));
+				test = new Coordonees((byte)(position.getX()-2),(byte)(position.getY()-1));
 				tmp = p.getPieceFromCoord(test);
 				if (tmp == null || tmp.estNoir() != isBlack) {
 					mouvementsPossibles.add(new Mouvement(new Coordonees(this.position), new Coordonees(test)));
@@ -132,7 +132,7 @@ public class Piece_Cavalier extends Piece {
 					mouvementsPossibles.add(new Mouvement(new Coordonees(this.position), new Coordonees(test)));
 				}					
 				tmp = null;
-				test = new Coordonees((byte)(position.getX()+2),(byte)(position.getY()+1));
+				test = new Coordonees((byte)(position.getX()+2),(byte)(position.getY()-1));
 				tmp = p.getPieceFromCoord(test);
 				if (tmp == null || tmp.estNoir() != isBlack) {
 					mouvementsPossibles.add(new Mouvement(new Coordonees(this.position), new Coordonees(test)));
@@ -145,24 +145,24 @@ public class Piece_Cavalier extends Piece {
 					mouvementsPossibles.add(new Mouvement(new Coordonees(this.position), new Coordonees(test)));
 				}
 				tmp = null;
-			} else if (position.getX()+1<p.getWidth()) {
-				if (position.getY()+2 < p.getHeight()) {
-					test = new Coordonees((byte)(position.getX()+1),(byte)(position.getY()+2));
-					tmp = p.getPieceFromCoord(test);
-					if (tmp == null || tmp.estNoir() != isBlack) {
-						mouvementsPossibles.add(new Mouvement(new Coordonees(this.position), new Coordonees(test)));
-					}					
-					tmp = null;
-				}
-				if (position.getY()-2>=0) {
-					test = new Coordonees((byte)(position.getX()+1),(byte)(position.getY()-2));
-					tmp = p.getPieceFromCoord(test);
-					if (tmp == null || tmp.estNoir() != isBlack) {
-						mouvementsPossibles.add(new Mouvement(new Coordonees(this.position), new Coordonees(test)));
-					}					
-					tmp = null;
-				}
-			}			
+			} 
+		} else if (position.getX()+1<p.getWidth()) {
+			if (position.getY()+2 < p.getHeight()) {
+				test = new Coordonees((byte)(position.getX()+1),(byte)(position.getY()+2));
+				tmp = p.getPieceFromCoord(test);
+				if (tmp == null || tmp.estNoir() != isBlack) {
+					mouvementsPossibles.add(new Mouvement(new Coordonees(this.position), new Coordonees(test)));
+				}					
+				tmp = null;
+			}
+			if (position.getY()-2>=0) {
+				test = new Coordonees((byte)(position.getX()+1),(byte)(position.getY()-2));
+				tmp = p.getPieceFromCoord(test);
+				if (tmp == null || tmp.estNoir() != isBlack) {
+					mouvementsPossibles.add(new Mouvement(new Coordonees(this.position), new Coordonees(test)));
+				}					
+				tmp = null;
+			}		
 		}
 		/*Plateau tmpPlateau = null;
 		Piece tmpRoi = null;
