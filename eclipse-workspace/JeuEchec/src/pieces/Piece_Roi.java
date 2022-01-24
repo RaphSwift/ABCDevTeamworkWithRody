@@ -7,11 +7,11 @@ import utils.Mouvement;
 import utils.Plateau;
 
 public class Piece_Roi extends Piece{
-	private boolean aBouge;
+	private boolean haveMoved;
 	
 	public Piece_Roi(Piece from) {
 		super(from);
-		aBouge = false;
+		haveMoved = false;
 	}
 	
 	@Override
@@ -19,6 +19,9 @@ public class Piece_Roi extends Piece{
 		return "[Roi" + position+"]";
 	}
 	
+	public boolean aBouge() {
+		return haveMoved;
+	}
 	
 	@Override
 	public boolean deplacerPiece(Coordonees coord, Plateau plateau) {
@@ -26,13 +29,13 @@ public class Piece_Roi extends Piece{
 		int i = 0;
 		boolean finded = false;
 		while (!finded && i < mvt.size()) {
-			if (coord.equals(mvt.get(i).getTo())) {				
+			if (coord.equals(mvt.get(i).getTo())) {
 				finded = true;
 			}
 			i++;
 		}
 		if (finded) {
-			aBouge=true;
+			haveMoved=true;
 		}
 		return finded;
 	}
@@ -42,18 +45,18 @@ public class Piece_Roi extends Piece{
 		return new Piece_Roi(this);
 	}
 	
-	public Piece_Roi(Coordonees position, boolean _isBlack, boolean _isDead, boolean _aBouge) {
+	public Piece_Roi(Coordonees position, boolean _isBlack, boolean _isDead, boolean _haveMoved) {
 		super(position,_isBlack,_isDead);
-		aBouge = _aBouge;
+		haveMoved = _haveMoved;
 	}
 	
 	public Piece_Roi(Coordonees position, boolean _isBlack, boolean _isDead) {
 		super(position,_isBlack,_isDead);
-		aBouge = false;
+		haveMoved = false;
 	}
 
 	public Piece_Roi(Piece_Roi from) {
-		this(from.position,from.isBlack,from.isDead,from.aBouge);
+		this(from.position,from.isBlack,from.isDead,from.haveMoved);
 	}
 	
 	public Piece_Roi(Coordonees _position, boolean _isBlack) {
@@ -153,7 +156,41 @@ public class Piece_Roi extends Piece{
 				mouvementsPossibles.remove(i);
 			}
 		}
-
+		/* POUR LE ROQUE*/
+		if (!haveMoved) {
+			if (isBlack) {
+				simulation = p.simulerRoque(isBlack, new Coordonees((byte)0,(byte)0));
+				if (simulation != null) {
+					if(simulation.getRoi(isBlack).estEnEchec(simulation).size()==0) {
+						mouvementsPossibles.add(new Mouvement(new Coordonees(this.position),
+								new Coordonees((byte)0,(byte)0),"roque"));
+					}
+				}
+				simulation = p.simulerRoque(isBlack, new Coordonees((byte)7,(byte)0));
+				if (simulation != null) {
+					if(simulation.getRoi(isBlack).estEnEchec(simulation).size()==0) {
+						mouvementsPossibles.add(new Mouvement(new Coordonees(this.position),
+								new Coordonees((byte)7,(byte)0),"roque"));
+					}
+				}
+			} else {
+				simulation = p.simulerRoque(isBlack, new Coordonees((byte)0,(byte)7));
+				if (simulation != null) {
+					if(simulation.getRoi(isBlack).estEnEchec(simulation).size()==0) {
+						mouvementsPossibles.add(new Mouvement(new Coordonees(this.position),
+								new Coordonees((byte)0,(byte)7),"roque"));
+					}
+				}
+				simulation = p.simulerRoque(isBlack, new Coordonees((byte)7,(byte)7));
+				if (simulation != null) {
+					if(simulation.getRoi(isBlack).estEnEchec(simulation).size()==0) {
+						mouvementsPossibles.add(new Mouvement(new Coordonees(this.position),
+								new Coordonees((byte)7,(byte)7),"roque"));
+					}
+				}
+			}
+			
+		}
 		return mouvementsPossibles;
 	}
 	
@@ -168,8 +205,40 @@ public class Piece_Roi extends Piece{
 	}
 	
 	public boolean estEchecEtMat(Plateau p) {
-		return (getPossiblesMouvements(p).size() ==0);
 		
+		//return (getPossiblesMouvements(p).size() ==0);
+		if (getPossiblesMouvements(p).size()==0) {
+			Plateau pTmp;
+			if (isBlack) {
+				pTmp = p.simulerRoque(isBlack, new Coordonees((byte)0,(byte)0));
+				if (pTmp != null) {
+					if(pTmp.getRoi(isBlack).estEnEchec(pTmp).size()==0) {
+						return false;
+					}
+				}
+				pTmp = p.simulerRoque(isBlack, new Coordonees((byte)7,(byte)0));
+				if (pTmp != null) {
+					if(pTmp.getRoi(isBlack).estEnEchec(pTmp).size()==0) {
+						return false;
+					}
+				}
+			} else {
+				pTmp = p.simulerRoque(isBlack, new Coordonees((byte)0,(byte)7));
+				if (pTmp != null) {
+					if(pTmp.getRoi(isBlack).estEnEchec(pTmp).size()==0) {
+						return false;
+					}
+				}
+				pTmp = p.simulerRoque(isBlack, new Coordonees((byte)7,(byte)7));
+				if (pTmp != null) {
+					if(pTmp.getRoi(isBlack).estEnEchec(pTmp).size()==0) {
+						return false;
+					}
+				}
+			}
+			return true;
+		}
+		return false;
 		
 	}
 }

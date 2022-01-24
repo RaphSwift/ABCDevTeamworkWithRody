@@ -44,6 +44,7 @@ public class Jeu {
 			validate = false;
 			System.out.println(plateauActuel);
 			do {
+				sc.reset();
 				System.out.println("c'est à " + joueurActuel.getNom() + " de jouer");
 				split = sc.nextLine().toLowerCase().split(" ");
 				if (split[0].equals("move") && split.length == 3) {
@@ -91,9 +92,10 @@ public class Jeu {
 				}
 			} while (!validate);
 			if (plateauActuel.verifierPlateau() != GAMESTATUS.BLACK_CHECKMATE && 
-					plateauActuel.verifierPlateau() != GAMESTATUS.WHITE_CHECKMATE)
+					plateauActuel.verifierPlateau() != GAMESTATUS.WHITE_CHECKMATE) {
+				plateauActuel.promouvoir();
 				changerJoueur();
-			
+			}
 		}
 		if (plateauActuel.verifierPlateau() == GAMESTATUS.BLACK_CHECKMATE) {
 			if (!participants[0].estNoir()) {

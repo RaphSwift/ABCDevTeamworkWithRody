@@ -7,11 +7,15 @@ import utils.Mouvement;
 import utils.Plateau;
 
 public class Piece_Pion extends Piece{
-	private boolean aBouge;
+	private boolean haveMoved;
 	
 	public Piece_Pion(Piece from) {
 		super(from);
-		aBouge = false;
+		haveMoved = false;
+	}
+	
+	public boolean aBouge() {
+		return haveMoved;
 	}
 	
 	@Override
@@ -24,18 +28,18 @@ public class Piece_Pion extends Piece{
 		return "[Pion" + position+"]";
 	}
 	
-	public Piece_Pion(Coordonees position, boolean _isBlack, boolean _isDead, boolean _aBouge) {
+	public Piece_Pion(Coordonees position, boolean _isBlack, boolean _isDead, boolean _haveMoved) {
 		super(position,_isBlack,_isDead);
-		aBouge = _aBouge;
+		haveMoved = _haveMoved;
 	}
 	
 	public Piece_Pion(Coordonees position, boolean _isBlack, boolean _isDead) {
 		super(position,_isBlack,_isDead);
-		aBouge = false;
+		haveMoved = false;
 	}
 
 	public Piece_Pion(Piece_Pion from) {
-		this(from.position,from.isBlack,from.isDead,from.aBouge);
+		this(from.position,from.isBlack,from.isDead,from.haveMoved);
 	}
 	
 	public Piece_Pion(Coordonees _position, boolean _isBlack) {
@@ -60,7 +64,7 @@ public class Piece_Pion extends Piece{
 			i++;
 		}
 		if (finded) {
-			aBouge=true;
+			haveMoved=true;
 		}
 		return finded;
 	}
@@ -74,7 +78,7 @@ public class Piece_Pion extends Piece{
 		Piece tmp = null;
 		Piece tmp2 = null;
 		if (isBlack) {
-			if (!aBouge) {
+			if (!haveMoved) {
 				if (position.getY()+2 >= 0) {
 					test = new Coordonees((byte)(position.getX()),(byte)(position.getY()+1));
 					tmp = p.getPieceFromCoord(test);
@@ -104,7 +108,7 @@ public class Piece_Pion extends Piece{
 			}
 		} else {
 			//Y +2
-			if (!aBouge) {
+			if (!haveMoved) {
 				if (position.getY()-2 < p.getHeight()) {
 					test = new Coordonees((byte)(position.getX()),(byte)(position.getY()-1));
 					tmp = p.getPieceFromCoord(test);

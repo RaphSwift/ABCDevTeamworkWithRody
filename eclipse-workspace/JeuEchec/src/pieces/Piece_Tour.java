@@ -7,11 +7,15 @@ import utils.Mouvement;
 import utils.Plateau;
 
 public class Piece_Tour extends Piece {
-	private boolean aBouge;
+	private boolean haveMoved;
 	
 	public Piece_Tour(Piece from) {
 		super(from);
-		aBouge = false;
+		haveMoved = false;
+	}
+	
+	public boolean aBouge() {
+		return haveMoved;
 	}
 	
 	@Override
@@ -31,7 +35,7 @@ public class Piece_Tour extends Piece {
 			i++;
 		}
 		if (finded) {
-			aBouge=true;
+			haveMoved=true;
 		}
 		return finded;
 	}
@@ -41,18 +45,18 @@ public class Piece_Tour extends Piece {
 		return new Piece_Tour(this);
 	}
 	
-	public Piece_Tour(Coordonees position, boolean _isBlack, boolean _isDead, boolean _aBouge) {
+	public Piece_Tour(Coordonees position, boolean _isBlack, boolean _isDead, boolean _haveMoved) {
 		super(position,_isBlack,_isDead);
-		aBouge = _aBouge;
+		haveMoved = _haveMoved;
 	}
 	
 	public Piece_Tour(Coordonees position, boolean _isBlack, boolean _isDead) {
 		super(position,_isBlack,_isDead);
-		aBouge = false;
+		haveMoved = false;
 	}
 
 	public Piece_Tour(Piece_Tour from) {
-		this(from.position,from.isBlack,from.isDead,from.aBouge);
+		this(from.position,from.isBlack,from.isDead,from.haveMoved);
 	}
 	
 	public Piece_Tour(Coordonees _position, boolean _isBlack) {

@@ -28,13 +28,17 @@ public class Coordonees {
 	public Coordonees getDirection() {
 		byte x=0;
 		byte y=0;
-		if (xPos > 0) {
+		if (xPos != 0) {
 			x = (byte)(xPos/Math.abs(xPos));
 		}
-		if (yPos > 0) {
+		if (yPos != 0) {
 			y = (byte)(yPos/Math.abs(yPos));
 		}
 		return new Coordonees(x,y);
+	}
+	
+	public Coordonees getDstFrom(Coordonees c) {
+		return new Coordonees((byte)(c.getX()-xPos),(byte)(c.getY()-yPos));
 	}
 	@Override
 	public String toString() {

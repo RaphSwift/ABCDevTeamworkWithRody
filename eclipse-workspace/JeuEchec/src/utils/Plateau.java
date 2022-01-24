@@ -1,5 +1,6 @@
 package utils;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import pieces.*;
 
@@ -19,7 +20,7 @@ public class Plateau {
 		height = _height;
 		mouvements = new ArrayList<Mouvement>();
 		pieces = new ArrayList<Piece>();
-		reset();
+		reset_alternatif();
 	}
 	
 	public final byte getWidth() {
@@ -30,6 +31,47 @@ public class Plateau {
 		return height;
 	}
 	
+	public void promouvoir() {
+		int i=0;
+		Piece pieceTmp = null;
+		while (pieceTmp == null && i<pieces.size()) {
+			if (pieces.get(i) instanceof Piece_Pion) {
+				if (pieces.get(i).estNoir() && pieces.get(i).getPosition().getY() == 7) {
+					pieceTmp = pieces.get(i);
+				} else if (!pieces.get(i).estNoir() && pieces.get(i).getPosition().getY()==0) {
+					pieceTmp = pieces.get(i);
+				}
+			}
+			i++;
+		}
+		if (pieceTmp != null) {
+			Scanner sc = new Scanner(System.in);
+			String saisie;
+			Coordonees coordTmp = new Coordonees(pieceTmp.getPosition());
+			boolean couleurTmp = pieceTmp.estNoir();
+			do {
+				System.out.println("En quoi voulez vous promouvoir " + pieceTmp + "?");
+				saisie = sc.next().toLowerCase();
+			} while (!saisie.equals("cavalier") &&
+					!saisie.equals("fou") &&
+					!saisie.equals("reine") &&
+					!saisie.equals("tour"));
+			if (saisie.equals("reine")) {
+				removeFromCoord(coordTmp);
+				pieces.add(new Piece_Reine(coordTmp, couleurTmp));
+			} else if (saisie.equals("cavalier")) {
+				removeFromCoord(coordTmp);
+				pieces.add(new Piece_Cavalier(coordTmp, couleurTmp));
+			} else if (saisie.equals("tour")) {
+				removeFromCoord(coordTmp);
+				pieces.add(new Piece_Tour(coordTmp, couleurTmp,false,true));
+			} else if (saisie.equals("fou")) {
+				removeFromCoord(coordTmp);
+				pieces.add(new Piece_Fou(coordTmp, couleurTmp));
+			}
+			//sc.close();
+		}
+	}
 	
 	
 	@Override
@@ -75,6 +117,11 @@ public class Plateau {
 	}
 	
 	public boolean deplacerPiece(Mouvement mouvement, boolean couleurJoueurNoir) {
+		/*if (mouvement.getType().equals("move")) {
+			return deplacerPiece(mouvement.getFrom(), mouvement.getTo(), couleurJoueurNoir);
+		} else if (mouvement.getType().equals("roque")) {
+			return roquerPiece(couleurJoueurNoir, mouvement.getTo());
+		}*/
 		return deplacerPiece(mouvement.getFrom(), mouvement.getTo(), couleurJoueurNoir);
 	}
 	
@@ -156,13 +203,16 @@ public class Plateau {
 		if (pieces.size() > 0) {
 			pieces.clear();
 		}
-		pieces.add(new Piece_Roi(new Coordonees((byte)1,(byte)0), false));
-		pieces.add(new Piece_Tour(new Coordonees((byte)3,(byte)7), false));
-		pieces.add(new Piece_Tour(new Coordonees((byte)3,(byte)8), false));
-		pieces.add(new Piece_Roi(new Coordonees((byte)1,(byte)8), true));
+		pieces.add(new Piece_Roi(new Coordonees((byte)1,(byte)0), true));
+		/*pieces.add(new Piece_Tour(new Coordonees((byte)3,(byte)7), false));
+		pieces.add(new Piece_Tour(new Coordonees((byte)3,(byte)8), false));*/
+		pieces.add(new Piece_Roi(new Coordonees((byte)4,(byte)7), false));
+		pieces.add(new Piece_Tour(new Coordonees((byte)6,(byte)6), true));
+		pieces.add(new Piece_Tour(new Coordonees((byte)6,(byte)7), true));
+		pieces.add(new Piece_Tour(new Coordonees((byte)0,(byte)7), false,false,false));
 		//pieces.add(new Piece_Fou(new Coordonees((byte)4,(byte)5),false));
 		
-		pieces.add(new Piece_Tour(new Coordonees((byte)4,(byte)8), true));
+		pieces.add(new Piece_Pion(new Coordonees((byte)4,(byte)1), false, false, true));
 		/*pieces.add(new Piece_Cavalier(new Coordonees((byte)2,(byte)2), true));
 		pieces.add(new Piece_Pion(new Coordonees((byte)0,(byte)1), true));
 		pieces.add(new Piece_Pion(new Coordonees((byte)2,(byte)2), true));*/
@@ -261,6 +311,115 @@ public class Plateau {
 		return finded;
 	}
 	
+	public Plateau simulerRoque(boolean estNoir, Coordonees tour) {
+		Coordonees tmp;
+		
+		Piece_Roi roi;
+		Piece tourRoque;
+		
+		if (estNoir) {
+			roi = (Piece_Roi) getRoi(estNoir);
+			if (roi == null || roi.aBouge()) {
+				return null;
+			}
+			if (roi.getPosition().getX() != 4 || roi.getPosition().getY() != 0) {
+				return null;
+			}
+			if (tour.getY() == 0 && (tour.getX() ==7 || tour.getX()==0)) {
+				tourRoque = getPieceFromCoord(tour);
+				if (tourRoque != null) {
+					if (tourRoque instanceof Piece_Tour) {
+						if (!((Piece_Tour)tourRoque).aBouge()) {
+							Coordonees coordTestes;
+							Piece pieceTmp = null;
+							boolean findedPiece =false;
+							tmp = roi.getPosition().getDstFrom(tour).getDirection();
+							coordTestes=new Coordonees((byte)(roi.getPosition().getX()+tmp.getX()),
+									(byte)(roi.getPosition().getY()+tmp.getY()));
+							do {
+								if(getPieceFromCoord(coordTestes)!=null) {
+									findedPiece = true;
+								}
+								coordTestes = new Coordonees((byte)(coordTestes.getX()+tmp.getX()),
+										(byte)(coordTestes.getY()-tmp.getY()));
+								
+							} while (!coordTestes.equals(tour) && !findedPiece);
+							// SI C'EST A GAUCHE
+							if (findedPiece) {
+								return null;
+							}
+							if (tour.getX()==0) {
+								// GRAND ROQUE
+								Plateau rt = new Plateau(this);
+								roi.setCoord(new Coordonees((byte)(roi.getPosition().getX()-2), roi.getPosition().getY()),rt);
+								tourRoque.setCoord(new Coordonees((byte)(roi.getPosition().getX()+3), roi.getPosition().getY()),rt);
+								return rt;
+							} else {
+								// PETIT ROQUE
+								Plateau rt = new Plateau(this);
+								roi.setCoord(new Coordonees((byte)(roi.getPosition().getX()+2), roi.getPosition().getY()),rt);
+								tourRoque.setCoord(new Coordonees((byte)(roi.getPosition().getX()-2), roi.getPosition().getY()),rt);
+								return rt;
+							}
+						}
+					}
+				}
+			
+			}		
+		} else {
+			roi = (Piece_Roi) getRoi(estNoir);
+			if (roi == null || roi.aBouge()) {
+				return null;
+			}
+			if (roi.getPosition().getX() != 4 || roi.getPosition().getY() != 7) {
+				return null;
+			}
+			if (tour.getY() == 7 && (tour.getX() ==7 || tour.getX()==0)) {
+				tourRoque = getPieceFromCoord(tour);
+				if (tourRoque != null) {
+					if (tourRoque instanceof Piece_Tour) {
+						if (!((Piece_Tour)tourRoque).aBouge()) {
+							Coordonees coordTestes;
+							Piece pieceTmp = null;
+							boolean findedPiece =false;
+							tmp = roi.getPosition().getDstFrom(tour).getDirection();
+							coordTestes=new Coordonees((byte)(roi.getPosition().getX()+tmp.getX()),
+									(byte)(roi.getPosition().getY()+tmp.getY()));
+							do {
+								if(getPieceFromCoord(coordTestes)!=null) {
+									findedPiece = true;
+								}
+								coordTestes = new Coordonees((byte)(coordTestes.getX()+tmp.getX()),
+										(byte)(coordTestes.getY()-tmp.getY()));
+								
+							} while (!coordTestes.equals(tour) && !findedPiece);
+							// SI C'EST A GAUCHE
+							if (findedPiece) {
+								return null;
+							}
+							if (tour.getX()==0) {
+								// GRAND ROQUE
+								Plateau rt = new Plateau(this);
+								rt.getRoi(estNoir).setCoord(new Coordonees((byte)(roi.getPosition().getX()-2), roi.getPosition().getY()),rt);
+								rt.getPieceFromCoord(tour).setCoord(new Coordonees((byte)(tour.getX()+3), tour.getY()),rt);
+								return rt;
+							} else {
+								// PETIT ROQUE
+								Plateau rt = new Plateau(this);
+								roi.setCoord(new Coordonees((byte)(roi.getPosition().getX()+2), roi.getPosition().getY()),rt);
+								tourRoque.setCoord(new Coordonees((byte)(tour.getX()-2), tour.getY()),rt);
+								return rt;
+							}
+						}
+					}
+				}
+			
+			}			
+		}
+		return null;
+	}
+	
+	
 	public Plateau simulerMouvement(Mouvement m) {
 		Plateau rt = new Plateau(this);
 		Piece rts[] = new Piece[2];
@@ -279,8 +438,8 @@ public class Plateau {
 				}
 			}
 			rt.getPieceFromCoord(m.getFrom()).setCoord(m.getTo(), rt);
-		}
-		
+		}		
 		return rt;
+
 	}
 }
