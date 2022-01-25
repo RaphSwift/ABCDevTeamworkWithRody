@@ -20,7 +20,7 @@ public class Plateau {
 		height = _height;
 		mouvements = new ArrayList<Mouvement>();
 		pieces = new ArrayList<Piece>();
-		reset_alternatif();
+		reset();
 	}
 	
 	public final byte getWidth() {
@@ -117,12 +117,43 @@ public class Plateau {
 	}
 	
 	public boolean deplacerPiece(Mouvement mouvement, boolean couleurJoueurNoir) {
-		/*if (mouvement.getType().equals("move")) {
+		if (mouvement.getType().equals("move")) {
 			return deplacerPiece(mouvement.getFrom(), mouvement.getTo(), couleurJoueurNoir);
 		} else if (mouvement.getType().equals("roque")) {
 			return roquerPiece(couleurJoueurNoir, mouvement.getTo());
-		}*/
-		return deplacerPiece(mouvement.getFrom(), mouvement.getTo(), couleurJoueurNoir);
+		}
+		return false;
+	}
+	
+	public boolean roquerPiece(boolean estNoir, Coordonees to ) {
+		Plateau p = simulerRoque(estNoir,to);
+		if (p!= null) {
+			if (p.getRoi(estNoir).estEnEchec(p).size() >0) {
+				return false;
+			}
+			if (to.getX()==0) {
+				// GRAND ROQUE
+				Plateau rt = new Plateau(this);
+				Piece roi = rt.getRoi(estNoir);
+				if (roi == null) {
+					return false;
+				}
+				getRoi(estNoir).setCoord(new Coordonees((byte)(roi.getPosition().getX()-2), roi.getPosition().getY()),rt);
+				getPieceFromCoord(to).setCoord(new Coordonees((byte)(to.getX()+3), to.getY()),rt);
+				return true;
+			} else {
+				// PETIT ROQUE
+				Plateau rt = new Plateau(this);
+				Piece roi = rt.getRoi(estNoir);
+				if (roi == null) {
+					return false;
+				}
+				getRoi(estNoir).setCoord(new Coordonees((byte)(roi.getPosition().getX()+2), roi.getPosition().getY()),rt);
+				getPieceFromCoord(to).setCoord(new Coordonees((byte)(to.getX()-2), to.getY()),rt);
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	public boolean deplacerPiece(Coordonees from, Coordonees to, boolean couleurJoueurNoir) {
@@ -199,24 +230,6 @@ public class Plateau {
 		pieces.add(new Piece_Tour(new Coordonees((byte)7,(byte)7), false));
 	}
 	
-	public void reset_alternatif() {
-		if (pieces.size() > 0) {
-			pieces.clear();
-		}
-		pieces.add(new Piece_Roi(new Coordonees((byte)1,(byte)0), true));
-		/*pieces.add(new Piece_Tour(new Coordonees((byte)3,(byte)7), false));
-		pieces.add(new Piece_Tour(new Coordonees((byte)3,(byte)8), false));*/
-		pieces.add(new Piece_Roi(new Coordonees((byte)4,(byte)7), false));
-		pieces.add(new Piece_Tour(new Coordonees((byte)6,(byte)6), true));
-		pieces.add(new Piece_Tour(new Coordonees((byte)6,(byte)7), true));
-		pieces.add(new Piece_Tour(new Coordonees((byte)0,(byte)7), false,false,false));
-		//pieces.add(new Piece_Fou(new Coordonees((byte)4,(byte)5),false));
-		
-		pieces.add(new Piece_Pion(new Coordonees((byte)4,(byte)1), false, false, true));
-		/*pieces.add(new Piece_Cavalier(new Coordonees((byte)2,(byte)2), true));
-		pieces.add(new Piece_Pion(new Coordonees((byte)0,(byte)1), true));
-		pieces.add(new Piece_Pion(new Coordonees((byte)2,(byte)2), true));*/
-	}
 	
 	public GAMESTATUS verifierPlateau() {
 		Piece_Roi roi_blanc = (Piece_Roi)getRoi(false);
@@ -351,14 +364,14 @@ public class Plateau {
 							if (tour.getX()==0) {
 								// GRAND ROQUE
 								Plateau rt = new Plateau(this);
-								roi.setCoord(new Coordonees((byte)(roi.getPosition().getX()-2), roi.getPosition().getY()),rt);
-								tourRoque.setCoord(new Coordonees((byte)(roi.getPosition().getX()+3), roi.getPosition().getY()),rt);
+								rt.getRoi(estNoir).setCoord(new Coordonees((byte)(roi.getPosition().getX()-2), roi.getPosition().getY()),rt);
+								rt.getPieceFromCoord(tour).setCoord(new Coordonees((byte)(tourRoque.getPosition().getX()+3), tourRoque.getPosition().getY()),rt);
 								return rt;
 							} else {
 								// PETIT ROQUE
 								Plateau rt = new Plateau(this);
-								roi.setCoord(new Coordonees((byte)(roi.getPosition().getX()+2), roi.getPosition().getY()),rt);
-								tourRoque.setCoord(new Coordonees((byte)(roi.getPosition().getX()-2), roi.getPosition().getY()),rt);
+								rt.getRoi(estNoir).setCoord(new Coordonees((byte)(roi.getPosition().getX()+2), roi.getPosition().getY()),rt);
+								rt.getPieceFromCoord(tour).setCoord(new Coordonees((byte)(tourRoque.getPosition().getX()-2), tourRoque.getPosition().getY()),rt);
 								return rt;
 							}
 						}
@@ -401,13 +414,13 @@ public class Plateau {
 								// GRAND ROQUE
 								Plateau rt = new Plateau(this);
 								rt.getRoi(estNoir).setCoord(new Coordonees((byte)(roi.getPosition().getX()-2), roi.getPosition().getY()),rt);
-								rt.getPieceFromCoord(tour).setCoord(new Coordonees((byte)(tour.getX()+3), tour.getY()),rt);
+								rt.getPieceFromCoord(tour).setCoord(new Coordonees((byte)(tourRoque.getPosition().getX()+3), tourRoque.getPosition().getY()),rt);
 								return rt;
 							} else {
 								// PETIT ROQUE
 								Plateau rt = new Plateau(this);
-								roi.setCoord(new Coordonees((byte)(roi.getPosition().getX()+2), roi.getPosition().getY()),rt);
-								tourRoque.setCoord(new Coordonees((byte)(tour.getX()-2), tour.getY()),rt);
+								rt.getRoi(estNoir).setCoord(new Coordonees((byte)(roi.getPosition().getX()+2), roi.getPosition().getY()),rt);
+								rt.getPieceFromCoord(tour).setCoord(new Coordonees((byte)(tourRoque.getPosition().getX()-2), tourRoque.getPosition().getY()),rt);
 								return rt;
 							}
 						}

@@ -24,6 +24,16 @@ public class Piece_Roi extends Piece{
 	}
 	
 	@Override
+	public boolean setCoord(Coordonees c, Plateau p){
+		if (c.getX() >= 0 && c.getX() < p.getWidth() && c.getY() >= 0 && c.getY() < p.getHeight()) {
+			position = c;
+			haveMoved = true;
+			return true;
+		}
+		return false;
+	}
+	
+	@Override
 	public boolean deplacerPiece(Coordonees coord, Plateau plateau) {
 		ArrayList<Mouvement> mvt = calculerMouvement(plateau);
 		int i = 0;
@@ -132,21 +142,7 @@ public class Piece_Roi extends Piece{
 				}
 			}
 		}
-		/*Plateau tmpPlateau = null;
-		Piece tmpRoi = null;
-		Coordonees from, to;
-		for (int i = 0; i < mouvementsPossibles.size(); i++) {
-			tmpPlateau = new Plateau(p);
-			//tmpPlateau.deplacerPiece(this.position,mouvementsPossibles.get(i).getTo(),isBlack);
-			if(tmpPlateau.getRoi(this.isBlack).setCoord(mouvementsPossibles.get(i).getTo(), tmpPlateau)){
-			//tmpPlateau.deplacerPiece(this.position,mouvementsPossibles.get(i).getTo() , this.isBlack);
-			//tmpPlateau.deplacerPiece(new Mouvement(this.position, coords.get(i)),isBlack);
-				if (tmpPlateau.getPieceFromCoord(mouvementsPossibles.get(i).getTo()).estEnEchec(tmpPlateau).size() >0) {
-					mouvementsPossibles.remove(i);
-				}
-			}
-			
-		}*/
+
 		Plateau simulation;
 		Piece tmpRoi;
 		for (int i = mouvementsPossibles.size() -1 ; i >= 0; i--) {

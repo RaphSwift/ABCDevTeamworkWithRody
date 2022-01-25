@@ -45,6 +45,17 @@ public class Piece_Tour extends Piece {
 		return new Piece_Tour(this);
 	}
 	
+	@Override
+	public boolean setCoord(Coordonees c, Plateau p){
+		if (c.getX() >= 0 && c.getX() < p.getWidth() && c.getY() >= 0 && c.getY() < p.getHeight()) {
+			position = c;
+			haveMoved = true;
+			return true;
+		}
+		return false;
+	}
+	
+	
 	public Piece_Tour(Coordonees position, boolean _isBlack, boolean _isDead, boolean _haveMoved) {
 		super(position,_isBlack,_isDead);
 		haveMoved = _haveMoved;

@@ -44,7 +44,6 @@ public class Jeu {
 			validate = false;
 			System.out.println(plateauActuel);
 			do {
-				sc.reset();
 				System.out.println("c'est à " + joueurActuel.getNom() + " de jouer");
 				split = sc.nextLine().toLowerCase().split(" ");
 				if (split[0].equals("move") && split.length == 3) {
@@ -58,8 +57,20 @@ public class Jeu {
 						System.out.println(tmpMove + " impossible");
 					}
 					
-				}
-				else if (split[0].equals("list")) {
+				} else if (split[0].equals("roque") && split.length == 2) {
+					split2 = split[1].split("-");
+					tmp = plateauActuel.getRoi(joueurActuel.estNoir());
+					if (tmp != null) {
+						tmpMove = new Mouvement(new Coordonees(tmp.getPosition()),new Coordonees((byte)Integer.parseInt(split2[0]),(byte)Integer.parseInt(split2[1])),
+								"roque");
+					
+						if (plateauActuel.deplacerPiece(tmpMove, joueurActuel.estNoir())) {
+							validate = true;
+						} else {
+							System.out.println(tmpMove + " impossible");
+						}
+					}
+				}	else if (split[0].equals("list")) {
 					if (split.length == 1) {
 						tmp = plateauActuel.getRoi(joueurActuel.estNoir());
 						if (tmp != null) {

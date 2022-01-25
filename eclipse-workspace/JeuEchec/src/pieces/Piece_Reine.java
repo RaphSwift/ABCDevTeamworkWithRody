@@ -52,6 +52,7 @@ public class Piece_Reine extends Piece{
 		return mouvementsPossibles;
 	}
 	
+
 	private ArrayList<Mouvement> calculerDiagonales(Plateau p){
 		ArrayList<Mouvement> mouvementsPossibles = new ArrayList<Mouvement>();
 		Piece tmp=null;

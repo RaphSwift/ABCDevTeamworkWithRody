@@ -24,6 +24,16 @@ public class Piece_Pion extends Piece{
 	}
 	
 	@Override
+	public boolean setCoord(Coordonees c, Plateau p){
+		if (c.getX() >= 0 && c.getX() < p.getWidth() && c.getY() >= 0 && c.getY() < p.getHeight()) {
+			position = c;
+			haveMoved = true;
+			return true;
+		}
+		return false;
+	}
+	
+	@Override
 	public String toString() {
 		return "[Pion" + position+"]";
 	}
