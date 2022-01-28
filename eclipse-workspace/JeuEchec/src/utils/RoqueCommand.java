@@ -16,4 +16,8 @@ public class RoqueCommand implements Command, java.io.Serializable{
 		return plateau.roquerPiece(mouvement, estNoir);
 	}
 	
+	@Override
+	public String toString() {
+		return  "[estNoir: " + estNoir + " mouvement: " + mouvement + "]";
+	}
 }

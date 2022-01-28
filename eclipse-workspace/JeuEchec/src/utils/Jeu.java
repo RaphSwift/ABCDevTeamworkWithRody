@@ -138,7 +138,7 @@ public class Jeu implements java.io.Serializable{
 					validate = true;
 					veutQuitter = true;
 				} else if (split[0].equals("movelist") && split.length == 1) {
-					//System.out.println("Liste des coups:\n"+plateauActuel.moveToString());
+					System.out.println("Liste des coups:\n"+commands);
 				}
 			} while (!validate);
 			if (plateauActuel.verifierPlateau() != GAMESTATUS.BLACK_CHECKMATE && 

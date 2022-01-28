@@ -12,4 +12,15 @@ public class CommandManager implements java.io.Serializable{
 		}
 		return false;
 	}
+	
+	@Override
+	public final String toString() {
+		String str="";
+		for (int i = 0; i < commands.size();i++) {
+			str += commands.get(i);
+			if (i+1 < commands.size())
+				str+="\n";
+		}
+		return str;
+	}
 }
