@@ -14,6 +14,7 @@ public class Piece_Pion extends Piece{
 		haveMoved = false;
 	}
 	
+	
 	public boolean aBouge() {
 		return haveMoved;
 	}
