@@ -14,6 +14,16 @@ public class Piece_Tour extends Piece {
 		haveMoved = false;
 	}
 	
+	public Piece_Tour(Coordonees position, boolean _isBlack) {
+		super(position,_isBlack);
+		haveMoved = false;
+	}
+
+	public Piece_Tour(Piece_Tour from) {
+		this(from.position,from.isBlack,from.haveMoved);
+	}
+	
+	
 	public boolean aBouge() {
 		return haveMoved;
 	}
@@ -56,24 +66,12 @@ public class Piece_Tour extends Piece {
 	}
 	
 	
-	public Piece_Tour(Coordonees position, boolean _isBlack, boolean _isDead, boolean _haveMoved) {
-		super(position,_isBlack,_isDead);
+	public Piece_Tour(Coordonees position, boolean _isBlack, boolean _haveMoved) {
+		super(position,_isBlack);
 		haveMoved = _haveMoved;
 	}
 	
-	public Piece_Tour(Coordonees position, boolean _isBlack, boolean _isDead) {
-		super(position,_isBlack,_isDead);
-		haveMoved = false;
-	}
 
-	public Piece_Tour(Piece_Tour from) {
-		this(from.position,from.isBlack,from.isDead,from.haveMoved);
-	}
-	
-	public Piece_Tour(Coordonees _position, boolean _isBlack) {
-		this(_position,_isBlack,false,false);
-	}
-	
 	@Override
 	public ArrayList<Mouvement> calculerMouvement(Plateau p){
 		ArrayList<Mouvement> mouvementsPossibles = new ArrayList<Mouvement>();

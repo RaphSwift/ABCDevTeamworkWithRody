@@ -22,17 +22,14 @@ public class Piece_Reine extends Piece{
 		return new Piece_Reine(this);
 	}
 	
-	public Piece_Reine(Coordonees position, boolean _isBlack, boolean _isDead) {
-		super(position,_isBlack,_isDead);
+	public Piece_Reine(Coordonees position, boolean _isBlack) {
+		super(position,_isBlack);
 	}
 
 	public Piece_Reine(Piece_Reine from) {
-		this(from.position,from.isBlack,from.isDead);
+		this(from.position,from.isBlack);
 	}
 	
-	public Piece_Reine(Coordonees _position, boolean _isBlack) {
-		this(_position,_isBlack,false);
-	}
 	
 	@Override
 	public ArrayList<Mouvement> calculerMouvement(Plateau p){

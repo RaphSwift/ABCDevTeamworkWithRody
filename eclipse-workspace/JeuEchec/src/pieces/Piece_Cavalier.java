@@ -21,16 +21,13 @@ public class Piece_Cavalier extends Piece {
 		return new Piece_Cavalier(this);
 	}
 	
-	public Piece_Cavalier(Coordonees position, boolean _isBlack, boolean _isDead) {
-		super(position,_isBlack,_isDead);
-	}
 
 	public Piece_Cavalier(Piece_Cavalier from) {
-		this(from.position,from.isBlack,from.isDead);
+		this(from.position,from.isBlack);
 	}
 	
 	public Piece_Cavalier(Coordonees _position, boolean _isBlack) {
-		this(_position,_isBlack,false);
+		super(_position,_isBlack);
 	}
 	
 
@@ -164,24 +161,7 @@ public class Piece_Cavalier extends Piece {
 				tmp = null;
 			}		
 		}
-		/*Plateau tmpPlateau = null;
-		Piece tmpRoi = null;
-		Coordonees from, to;
-		for (int i = 0; i < mouvementsPossibles.size(); i++) {
-			tmpPlateau = new Plateau(p);
-			from = new Coordonees(mouvementsPossibles.get(i).getFrom());
-			to = new Coordonees(mouvementsPossibles.get(i).getTo());
-			//tmpPlateau.deplacerPiece(this.position,mouvementsPossibles.get(i).getTo(),isBlack);
-			tmpPlateau.getPieceFromCoord(this.position).setCoord(to,tmpPlateau);
-			//tmpPlateau.deplacerPiece(this.position,mouvementsPossibles.get(i).getTo() , this.isBlack);
-			//tmpPlateau.deplacerPiece(new Mouvement(this.position, mouvementsPossibles.get(i)),isBlack);
-			tmpRoi = (Piece_Roi)tmpPlateau.getRoi(isBlack);
-			if (tmpRoi.estEnEchec(tmpPlateau).size() >0) {
-				mouvementsPossibles.remove(i);
-			}
-			
-			
-		}*/
+
 		Plateau simulation;
 		Piece tmpRoi;
 		for (int i = mouvementsPossibles.size() -1 ; i >= 0; i--) {

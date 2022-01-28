@@ -11,6 +11,14 @@ public class Piece_Fou extends Piece {
 		super(from);
 	}
 	
+	public Piece_Fou(Coordonees position, boolean _isBlack) {
+		super(position,_isBlack);
+	}
+
+	public Piece_Fou(Piece_Fou from) {
+		this(from.position,from.isBlack);
+	}
+	
 	@Override
 	public Object clone() throws CloneNotSupportedException{
 		return new Piece_Fou(this);
@@ -21,17 +29,8 @@ public class Piece_Fou extends Piece {
 		return "[Fou" + position+"]";
 	}
 	
-	public Piece_Fou(Coordonees position, boolean _isBlack, boolean _isDead) {
-		super(position,_isBlack,_isDead);
-	}
 
-	public Piece_Fou(Piece_Fou from) {
-		this(from.position,from.isBlack,from.isDead);
-	}
-	
-	public Piece_Fou(Coordonees _position, boolean _isBlack) {
-		this(_position,_isBlack,false);
-	}
+
 	
 	@Override
 	public ArrayList<Mouvement> calculerMouvement(Plateau p) {

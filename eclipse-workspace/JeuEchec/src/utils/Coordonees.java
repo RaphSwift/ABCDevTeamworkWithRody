@@ -1,6 +1,6 @@
 package utils;
 
-public class Coordonees {
+public class Coordonees implements java.io.Serializable{
 	private byte xPos;
 	private byte yPos;
 	
@@ -37,9 +37,6 @@ public class Coordonees {
 		return new Coordonees(x,y);
 	}
 	
-	public Coordonees getDstFrom(Coordonees c) {
-		return new Coordonees((byte)(c.getX()-xPos),(byte)(c.getY()-yPos));
-	}
 	@Override
 	public String toString() {
 		return "[x:" + xPos + ";y:"+yPos+"]";

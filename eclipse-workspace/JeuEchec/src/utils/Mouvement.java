@@ -1,6 +1,6 @@
 package utils;
 
-public class Mouvement {
+public class Mouvement implements java.io.Serializable{
 	private Coordonees[] coords;
 	private String moveType;
 	

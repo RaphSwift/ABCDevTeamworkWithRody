@@ -6,35 +6,27 @@ import utils.Coordonees;
 import utils.Mouvement;
 import utils.Plateau;
 
-public abstract class Piece{
+public abstract class Piece implements java.io.Serializable{
 	protected boolean isBlack;
 	protected Coordonees position;
-	protected boolean isDead;
 	
 	public Piece(Piece from) {
-		this(from.position, from.isBlack, from.isDead);
+		this(from.position, from.isBlack);
 	}
 	
 	
 	public abstract Object clone() throws CloneNotSupportedException;
 	
-	public Piece(Coordonees _position, boolean _isBlack, boolean _isDead) {
+	public Piece(Coordonees _position, boolean _isBlack) {
 		position = _position;
 		isBlack = _isBlack;
-		isDead = _isDead;
 	}
-	
-	public Piece (Coordonees _position, boolean _isBlack) {
-		this(_position,_isBlack,false);
-	}
+
 	
 	public boolean estNoir(){
 		return isBlack;
 	}
 	
-	public boolean estMorte() {
-		return isDead;
-	}
 	
 	public Coordonees getPosition() {
 		return position;
@@ -131,7 +123,7 @@ public abstract class Piece{
 		return misEnEchec;
 	}
 	
-	protected ArrayList<Mouvement> testLines(Plateau p){
+	private ArrayList<Mouvement> testLines(Plateau p){
 		ArrayList<Mouvement> rt = new ArrayList<Mouvement>();
 
 		Piece pieceTmp= null;
@@ -197,7 +189,7 @@ public abstract class Piece{
 		return rt;
 	}
 	
-	protected ArrayList<Mouvement> testDiagonales(Plateau p){
+	private ArrayList<Mouvement> testDiagonales(Plateau p){
 		ArrayList<Mouvement> rt = new ArrayList<Mouvement>();
 		
 		Coordonees coordTest;
@@ -264,7 +256,7 @@ public abstract class Piece{
 		return rt;
 	}
 	
-	protected ArrayList<Mouvement> testLLines(Plateau p){
+	private ArrayList<Mouvement> testLLines(Plateau p){
 		ArrayList<Coordonees> coordATester = new ArrayList<Coordonees>();
 		ArrayList<Mouvement> rt = new ArrayList<Mouvement>();
 		if (position.getX()-2 >= 0) {
@@ -321,7 +313,7 @@ public abstract class Piece{
 		return rt;
 	}
 	
-	protected ArrayList<Mouvement> testerRoi(Plateau p){
+	private ArrayList<Mouvement> testerRoi(Plateau p){
 		ArrayList<Mouvement> rt = new ArrayList<Mouvement>();
 		Piece tmp = p.getRoi(!isBlack);
 		if (tmp != null) {

@@ -1,6 +1,6 @@
 package utils;
 
-public class Joueur {
+public class Joueur implements java.io.Serializable {
 	private String nom;
 	private boolean isBlack;
 	

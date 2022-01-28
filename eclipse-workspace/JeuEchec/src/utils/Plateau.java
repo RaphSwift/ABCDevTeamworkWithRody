@@ -4,24 +4,47 @@ import java.util.Scanner;
 
 import pieces.*;
 
-public class Plateau {
+public class Plateau implements java.io.Serializable{
 	private final byte width;
 	private final byte height;
 	private ArrayList<Piece> pieces;
-	private ArrayList<Mouvement> mouvements;
-	private short nbCoups;
 	
 	public Plateau(Plateau from) {
-		this(from.width, from.height, from.pieces, from.mouvements, from.nbCoups);
+		this(from.width, from.height, from.pieces);
 	}
 	
 	public Plateau(byte _width, byte _height) {
 		width = _width;
 		height = _height;
-		mouvements = new ArrayList<Mouvement>();
+
 		pieces = new ArrayList<Piece>();
 		reset();
 	}
+	
+	
+	
+	public Plateau(byte _width, byte _height, ArrayList<Piece> _pieces) {
+		width = _width;
+		height = _height;
+		pieces = new ArrayList<Piece>();
+		for (int i = 0; i < _pieces.size(); i++) {
+			if (_pieces.get(i) instanceof Piece_Pion) {
+				pieces.add(new Piece_Pion((Piece_Pion)_pieces.get(i)));
+			} else if (_pieces.get(i) instanceof Piece_Tour) {
+				pieces.add(new Piece_Tour((Piece_Tour)_pieces.get(i)));
+			} else if (_pieces.get(i) instanceof Piece_Cavalier) {
+				pieces.add(new Piece_Cavalier((Piece_Cavalier)_pieces.get(i)));
+			} else if (_pieces.get(i) instanceof Piece_Roi) {
+				pieces.add(new Piece_Roi((Piece_Roi)_pieces.get(i)));
+			} else if (_pieces.get(i) instanceof Piece_Reine) {
+				pieces.add(new Piece_Reine((Piece_Reine)_pieces.get(i)));
+			} else {
+				// FOU
+				pieces.add(new Piece_Fou((Piece_Fou)_pieces.get(i)));
+			}
+		}
+	}
+	
 	
 	public final byte getWidth() {
 		return width;
@@ -64,7 +87,7 @@ public class Plateau {
 				pieces.add(new Piece_Cavalier(coordTmp, couleurTmp));
 			} else if (saisie.equals("tour")) {
 				removeFromCoord(coordTmp);
-				pieces.add(new Piece_Tour(coordTmp, couleurTmp,false,true));
+				pieces.add(new Piece_Tour(coordTmp, couleurTmp,true));
 			} else if (saisie.equals("fou")) {
 				removeFromCoord(coordTmp);
 				pieces.add(new Piece_Fou(coordTmp, couleurTmp));
@@ -116,22 +139,23 @@ public class Plateau {
 		return str;
 	}
 	
-	public boolean deplacerPiece(Mouvement mouvement, boolean couleurJoueurNoir) {
+	/*public boolean deplacerPiece(Mouvement mouvement, boolean estNoir) {
 		if (mouvement.getType().equals("move")) {
-			return deplacerPiece(mouvement.getFrom(), mouvement.getTo(), couleurJoueurNoir);
+			return deplacerPiece(mouvement.getFrom(), mouvement.getTo(), estNoir);
 		} else if (mouvement.getType().equals("roque")) {
-			return roquerPiece(couleurJoueurNoir, mouvement.getTo());
+			return roquerPiece(estNoir, mouvement.getTo());
 		}
 		return false;
-	}
+	}*/
 	
-	public boolean roquerPiece(boolean estNoir, Coordonees to ) {
-		Plateau p = simulerRoque(estNoir,to);
+	public boolean roquerPiece(Mouvement mouvement, boolean estNoir ) {
+		
+		Plateau p = simulerRoque(estNoir,mouvement.getTo());
 		if (p!= null) {
 			if (p.getRoi(estNoir).estEnEchec(p).size() >0) {
 				return false;
 			}
-			if (to.getX()==0) {
+			if (mouvement.getTo().getX()==0) {
 				// GRAND ROQUE
 				Plateau rt = new Plateau(this);
 				Piece roi = rt.getRoi(estNoir);
@@ -139,7 +163,8 @@ public class Plateau {
 					return false;
 				}
 				getRoi(estNoir).setCoord(new Coordonees((byte)(roi.getPosition().getX()-2), roi.getPosition().getY()),rt);
-				getPieceFromCoord(to).setCoord(new Coordonees((byte)(to.getX()+3), to.getY()),rt);
+				getPieceFromCoord(mouvement.getTo()).setCoord(new Coordonees((byte)(mouvement.getTo().getX()+3), mouvement.getTo().getY()),rt);
+				
 				return true;
 			} else {
 				// PETIT ROQUE
@@ -149,42 +174,43 @@ public class Plateau {
 					return false;
 				}
 				getRoi(estNoir).setCoord(new Coordonees((byte)(roi.getPosition().getX()+2), roi.getPosition().getY()),rt);
-				getPieceFromCoord(to).setCoord(new Coordonees((byte)(to.getX()-2), to.getY()),rt);
+				getPieceFromCoord(mouvement.getTo()).setCoord(new Coordonees((byte)(mouvement.getTo().getX()-2), mouvement.getTo().getY()),rt);
+				
 				return true;
 			}
 		}
 		return false;
 	}
 	
-	public boolean deplacerPiece(Coordonees from, Coordonees to, boolean couleurJoueurNoir) {
-		Piece tmp = getPieceFromCoord(from);
+	public boolean deplacerPiece(Mouvement mouvement, boolean estNoir) {
+		Piece tmp = getPieceFromCoord(mouvement.getFrom());
 		Plateau copie = new Plateau(this);
-		Piece tmp2 = copie.getPieceFromCoord(from);
-		if (tmp2 == null || tmp.estNoir() != couleurJoueurNoir) {
+		Piece tmp2 = copie.getPieceFromCoord(mouvement.getFrom());
+		if (tmp2 == null || tmp.estNoir() != estNoir) {
 			return false;
 		} else {
-			if (!tmp2.deplacerPiece(to, copie)) {
+			if (!tmp2.deplacerPiece(mouvement.getTo(), copie)) {
 				return false;
 			} else {
-				copie.removeFromCoord(to);
-				tmp2.setCoord(to, copie);
+				copie.removeFromCoord(mouvement.getTo());
+				tmp2.setCoord(mouvement.getTo(), copie);
 				if (tmp2 instanceof Piece_Roi) {
 					if (tmp2.estEnEchec(copie).size() > 0){
 						return false;
 					}
 				} else {
-					Piece roi = copie.getRoi(couleurJoueurNoir);
+					Piece roi = copie.getRoi(estNoir);
 					if (roi.estEnEchec(copie).size() > 0){
 						return false;
 					}
 				}
 			}
 		}
-		if (tmp != null && tmp.estNoir() == couleurJoueurNoir) {
-			tmp2 = getPieceFromCoord(to);
-			if(tmp.deplacerPiece(to, this)) {
-				removeFromCoord(to);
-				tmp.setCoord(to, this);
+		if (tmp != null && tmp.estNoir() == estNoir) {
+			tmp2 = getPieceFromCoord(mouvement.getTo());
+			if(tmp.deplacerPiece(mouvement.getTo(), this)) {
+				removeFromCoord(mouvement.getTo());
+				tmp.setCoord(mouvement.getTo(), this);
 				return true;
 			}
 		}
@@ -246,33 +272,7 @@ public class Plateau {
 		}
 		return GAMESTATUS.NOTHING;
 	}
-	
-	public Plateau(byte _width, byte _height, ArrayList<Piece> _pieces, ArrayList<Mouvement> _mouvements, short _nbCoups) {
-		width = _width;
-		height = _height;
-		mouvements = new ArrayList<Mouvement>();
-		for (int i = 0; i < _mouvements.size(); i++) {
-			mouvements.add(new Mouvement(_mouvements.get(i)));
-		}
-		pieces = new ArrayList<Piece>();
-		for (int i = 0; i < _pieces.size(); i++) {
-			if (_pieces.get(i) instanceof Piece_Pion) {
-				pieces.add(new Piece_Pion((Piece_Pion)_pieces.get(i)));
-			} else if (_pieces.get(i) instanceof Piece_Tour) {
-				pieces.add(new Piece_Tour((Piece_Tour)_pieces.get(i)));
-			} else if (_pieces.get(i) instanceof Piece_Cavalier) {
-				pieces.add(new Piece_Cavalier((Piece_Cavalier)_pieces.get(i)));
-			} else if (_pieces.get(i) instanceof Piece_Roi) {
-				pieces.add(new Piece_Roi((Piece_Roi)_pieces.get(i)));
-			} else if (_pieces.get(i) instanceof Piece_Reine) {
-				pieces.add(new Piece_Reine((Piece_Reine)_pieces.get(i)));
-			} else {
-				// FOU
-				pieces.add(new Piece_Fou((Piece_Fou)_pieces.get(i)));
-			}
-		}
-	}
-	
+
 	public ArrayList<Piece> getPieces(){
 		return pieces;
 	}
@@ -346,7 +346,7 @@ public class Plateau {
 							Coordonees coordTestes;
 							Piece pieceTmp = null;
 							boolean findedPiece =false;
-							tmp = roi.getPosition().getDstFrom(tour).getDirection();
+							tmp = roi.getPosition().getDistanceFrom(tour).getDirection();
 							coordTestes=new Coordonees((byte)(roi.getPosition().getX()+tmp.getX()),
 									(byte)(roi.getPosition().getY()+tmp.getY()));
 							do {
@@ -395,7 +395,7 @@ public class Plateau {
 							Coordonees coordTestes;
 							Piece pieceTmp = null;
 							boolean findedPiece =false;
-							tmp = roi.getPosition().getDstFrom(tour).getDirection();
+							tmp = roi.getPosition().getDistanceFrom(tour).getDirection();
 							coordTestes=new Coordonees((byte)(roi.getPosition().getX()+tmp.getX()),
 									(byte)(roi.getPosition().getY()+tmp.getY()));
 							do {

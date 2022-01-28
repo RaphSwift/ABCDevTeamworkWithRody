@@ -55,22 +55,18 @@ public class Piece_Roi extends Piece{
 		return new Piece_Roi(this);
 	}
 	
-	public Piece_Roi(Coordonees position, boolean _isBlack, boolean _isDead, boolean _haveMoved) {
-		super(position,_isBlack,_isDead);
+	public Piece_Roi(Coordonees position, boolean _isBlack, boolean _haveMoved) {
+		super(position,_isBlack);
 		haveMoved = _haveMoved;
 	}
 	
-	public Piece_Roi(Coordonees position, boolean _isBlack, boolean _isDead) {
-		super(position,_isBlack,_isDead);
-		haveMoved = false;
-	}
 
 	public Piece_Roi(Piece_Roi from) {
-		this(from.position,from.isBlack,from.isDead,from.haveMoved);
+		this(from.position,from.isBlack,from.haveMoved);
 	}
 	
 	public Piece_Roi(Coordonees _position, boolean _isBlack) {
-		this(_position,_isBlack,false,false);
+		this(_position,_isBlack,false);
 	}
 	
 	@Override

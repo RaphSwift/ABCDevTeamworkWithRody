@@ -38,22 +38,18 @@ public class Piece_Pion extends Piece{
 		return "[Pion" + position+"]";
 	}
 	
-	public Piece_Pion(Coordonees position, boolean _isBlack, boolean _isDead, boolean _haveMoved) {
-		super(position,_isBlack,_isDead);
+	public Piece_Pion(Coordonees position, boolean _isBlack, boolean _haveMoved) {
+		super(position,_isBlack);
 		haveMoved = _haveMoved;
 	}
 	
-	public Piece_Pion(Coordonees position, boolean _isBlack, boolean _isDead) {
-		super(position,_isBlack,_isDead);
-		haveMoved = false;
-	}
 
 	public Piece_Pion(Piece_Pion from) {
-		this(from.position,from.isBlack,from.isDead,from.haveMoved);
+		this(from.position,from.isBlack,from.haveMoved);
 	}
 	
 	public Piece_Pion(Coordonees _position, boolean _isBlack) {
-		this(_position,_isBlack,false,false);
+		this(_position,_isBlack,false);
 	}
 	
 	@Override
@@ -214,24 +210,7 @@ public class Piece_Pion extends Piece{
 				}
 			}
 		}
-		/*Plateau tmpPlateau = null;
-		Piece tmpRoi = null;
-		Coordonees from, to;*/
-		/*for (int i = 0; i < mouvementsPossibles.size(); i++) {
-			tmpPlateau = new Plateau(p);
-			from = new Coordonees(mouvementsPossibles.get(i).getFrom());
-			to = new Coordonees(mouvementsPossibles.get(i).getTo());
-			//tmpPlateau.deplacerPiece(this.position,mouvementsPossibles.get(i).getTo(),isBlack);
-			tmpPlateau.getPieceFromCoord(this.position).setCoord(to,tmpPlateau);
-			//tmpPlateau.deplacerPiece(this.position,mouvementsPossibles.get(i).getTo() , this.isBlack);
-			//tmpPlateau.deplacerPiece(new Mouvement(this.position, coords.get(i)),isBlack);
-			tmpRoi = (Piece_Roi)tmpPlateau.getRoi(isBlack);
-			if (tmpRoi.estEnEchec(tmpPlateau).size() >0) {
-				mouvementsPossibles.remove(i);
-			}
-			
-			
-		}*/
+
 		Plateau plateauSimule = null;
 		Piece roi = null;
 		for (int i = mouvementsPossibles.size()-1; i >= 0;i--) {
