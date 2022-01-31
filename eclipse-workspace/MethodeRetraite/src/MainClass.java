@@ -10,13 +10,13 @@ public class MainClass {
 		
 			
 		 if (age > 60) {
-			 int ecartAge = Math.abs(60- age);
+			 int ecartAge = age-60;
 			if (ecartAge > 1)
 				return "Vous êtes à la retraite depuis " + ecartAge + " ans";
 			else
 				return "Vous êtes à la retraite depuis " + ecartAge + " an";
 		} else if (age < 60) {
-			int ecartAge = Math.abs(60- age);
+			int ecartAge = 60-age;
 			if (ecartAge > 1)
 				return "Il vous reste " + ecartAge + " ans avant la retraite";
 			else
