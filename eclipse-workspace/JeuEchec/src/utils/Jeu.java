@@ -13,7 +13,6 @@ public class Jeu implements java.io.Serializable{
 	private Joueur participants[];
 	private Joueur joueurActuel;
 	private CommandManager commands;
-	
 	public boolean serialize() {
 		boolean rt = true;
 		
@@ -76,25 +75,41 @@ public class Jeu implements java.io.Serializable{
 				if (split[0].equals("move") && split.length == 3) {
 					split2 = split[1].split("-");
 					split3 = split[2].split("-");
-					tmpMove = new Mouvement(new Coordonees((byte)Integer.parseInt(split2[0]),(byte)Integer.parseInt(split2[1])),
-							new Coordonees((byte)Integer.parseInt(split3[0]),(byte)Integer.parseInt(split3[1])));
-					if (commands.executeCommand(new MoveCommand(plateauActuel, tmpMove, joueurActuel.estNoir()))){
-						validate = true;
+					if (split2.length == 2 && split3.length == 2) {
+						try {
+							tmpMove = new Mouvement(new Coordonees((byte)Integer.parseInt(split2[0]),(byte)Integer.parseInt(split2[1])),
+								new Coordonees((byte)Integer.parseInt(split3[0]),(byte)Integer.parseInt(split3[1])));
+							if (commands.executeCommand(new MoveCommand(plateauActuel, tmpMove, joueurActuel.estNoir()))){
+								validate = true;
+							} else {
+								System.out.println(tmpMove + " impossible");
+							}
+						} catch (Exception e) {
+							System.out.println("Invalid command");
+						}
+						
 					} else {
-						System.out.println(tmpMove + " impossible");
+						System.out.println("Invalid command");
 					}
-					
 				} else if (split[0].equals("roque") && split.length == 2) {
 					split2 = split[1].split("-");
 					tmp = plateauActuel.getRoi(joueurActuel.estNoir());
 					if (tmp != null) {
-						tmpMove = new Mouvement(new Coordonees(tmp.getPosition()),new Coordonees((byte)Integer.parseInt(split2[0]),(byte)Integer.parseInt(split2[1])),
-								"roque");
-					
-						if (commands.executeCommand(new RoqueCommand(plateauActuel, tmpMove, joueurActuel.estNoir()))){
-							validate = true;
+						if (split2.length == 2) {
+							try {
+								tmpMove = new Mouvement(new Coordonees(tmp.getPosition()),new Coordonees((byte)Integer.parseInt(split2[0]),(byte)Integer.parseInt(split2[1])),
+										"roque");
+							
+								if (commands.executeCommand(new RoqueCommand(plateauActuel, tmpMove, joueurActuel.estNoir()))){
+									validate = true;
+								} else {
+									System.out.println(tmpMove + " impossible");
+								}
+							} catch (Exception e) {
+								System.out.println("Invalid command");
+							}
 						} else {
-							System.out.println(tmpMove + " impossible");
+							System.out.println("Invalid command");
 						}
 					}
 				}	else if (split[0].equals("list")) {
@@ -112,20 +127,29 @@ public class Jeu implements java.io.Serializable{
 						tmp = null;
 					} else if (split.length == 2) {
 						split2 = split[1].split("-");
-						tmp = plateauActuel.getPieceFromCoord(new Coordonees((byte)Integer.parseInt(split2[0]),(byte)Integer.parseInt(split2[1]))); 
-						if (tmp != null) {
-							System.out.println(tmp + " peut jouer les coups suivants:");
-							mvt = tmp.calculerMouvement(plateauActuel);
-							if (tmp instanceof Piece_Pion) {
-								mvt.addAll(((Piece_Pion)tmp).calculerMouvementManger(plateauActuel));
-							
+						if (split2.length == 2) {
+							try {
+								tmp = plateauActuel.getPieceFromCoord(new Coordonees((byte)Integer.parseInt(split2[0]),(byte)Integer.parseInt(split2[1]))); 
+								
+								if (tmp != null) {
+									System.out.println(tmp + " peut jouer les coups suivants:");
+									mvt = tmp.calculerMouvement(plateauActuel);
+									if (tmp instanceof Piece_Pion) {
+										mvt.addAll(((Piece_Pion)tmp).calculerMouvementManger(plateauActuel));
+									
+									}
+									for (int i = 0; i < mvt.size(); i++) {
+										System.out.println(mvt.get(i));
+									}
+								}
+								mvt.clear();
+								tmp = null;
+							} catch (Exception e) {
+								System.out.println("Invalid command");
 							}
-							for (int i = 0; i < mvt.size(); i++) {
-								System.out.println(mvt.get(i));
-							}
+						} else {
+							System.out.println("Invalid command");
 						}
-						mvt.clear();
-						tmp = null;
 					}
 				} else if (split[0].equals("save") && split.length == 1) {
 					if (serialize()) {

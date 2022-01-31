@@ -6,7 +6,7 @@ import utils.Coordonees;
 import utils.Mouvement;
 import utils.Plateau;
 
-public abstract class Piece implements java.io.Serializable{
+public abstract class Piece implements java.io.Serializable, Cloneable{
 	protected boolean isBlack;
 	protected Coordonees position;
 	

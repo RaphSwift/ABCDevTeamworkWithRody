@@ -47,9 +47,9 @@ public class MainClass {
 		if (!load) {
 
 			System.out.println("Entrez le nom du j1:");
-			j1 = sc.next();
+			j1 = sc.nextLine();
 			System.out.println("Entrez le nombre du j2");
-			j2 =sc.next();
+			j2 =sc.nextLine();
 			monJeu = new Jeu(j1,j2);
 
 		}

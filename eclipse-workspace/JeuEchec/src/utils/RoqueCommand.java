@@ -5,6 +5,10 @@ public class RoqueCommand implements Command, java.io.Serializable{
 	Mouvement mouvement;
 	boolean estNoir;
 	
+	public RoqueCommand(RoqueCommand c) {
+		this(c.plateau, c.mouvement, c.estNoir);
+	}
+	
 	public RoqueCommand(Plateau _plateau, Mouvement _mouvement, boolean _estNoir) {
 		plateau = _plateau;
 		mouvement = _mouvement;
@@ -20,4 +24,5 @@ public class RoqueCommand implements Command, java.io.Serializable{
 	public String toString() {
 		return  "[estNoir: " + estNoir + " mouvement: " + mouvement + "]";
 	}
+	
 }

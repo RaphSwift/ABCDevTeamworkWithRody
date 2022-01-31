@@ -28,6 +28,7 @@ public class NombrePremier {
 	public static boolean estPremier(int dividende) {
 		int diviseur;
 		int maxBoucle;
+		boolean diviseurFinded = false;
 		if (dividende > 1) {
 			maxBoucle = (int)Math.sqrt(dividende);
 			diviseur = 3;
@@ -37,16 +38,16 @@ public class NombrePremier {
 					return true;
 				return false;
 			}
-			while (diviseur<maxBoucle) {
+			while (diviseur<maxBoucle && !diviseurFinded) {
 				
 				if (dividende%diviseur == 0) {
-					return false;
+					diviseurFinded = true;
 		
 				}
 				diviseur+=2;
 				
 			}
-			return true;
+			return !diviseurFinded;
 		} else {
 			return false;
 		}

@@ -13,6 +13,8 @@ public class CommandManager implements java.io.Serializable{
 		return false;
 	}
 	
+	
+	
 	@Override
 	public final String toString() {
 		String str="";
@@ -22,5 +24,11 @@ public class CommandManager implements java.io.Serializable{
 				str+="\n";
 		}
 		return str;
+	}
+	
+	
+	
+	public void reset() {
+		commands.clear();
 	}
 }
