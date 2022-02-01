@@ -114,7 +114,7 @@ public class Joueur_Ordi extends Joueur{
 			}
 		} 
 		// ON CHOISI UNE COLONNE AU HASARD PARMIS LES DISPOS
-		finded = random((byte)0,(byte)(idOk.size()-1));
+		finded = random((byte)0,(byte)(idOk.size()));
 		byte val = idOk.get(finded).byteValue();
 		plateaux.clear();
 		plateaux_adversaire.clear();

@@ -1,11 +1,17 @@
 package especes;
 import utils.Aquarium;
 
-public abstract class EtreVivant {
+public abstract class EtreVivant implements Cloneable{
 	short pv;
 	short age;
+	
 	public EtreVivant() {
 		pv = 10;
+		age = 0;
+	}
+	
+	public EtreVivant(short _pv) {
+		pv = _pv;
 		age = 0;
 	}
 	
@@ -18,9 +24,12 @@ public abstract class EtreVivant {
 		return pv;
 	}
 	
-	
+	@Override
+	public abstract String toString();
 	public abstract void onTurn(Aquarium aquarium);
 	
 	public abstract void onEat(Poisson p);
+	
+	public abstract Object clone() throws CloneNotSupportedException;
 	
 }

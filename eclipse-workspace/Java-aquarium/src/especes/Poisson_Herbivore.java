@@ -3,6 +3,9 @@ package especes;
 import java.util.ArrayList;
 
 import utils.Aquarium;
+import utils.Command_EatAlgue;
+import utils.Command_EatPoisson;
+import utils.Command_ReproduirePoisson;
 import utils.Utils;
 
 public class Poisson_Herbivore extends Poisson{
@@ -18,6 +21,12 @@ public class Poisson_Herbivore extends Poisson{
 		super();
 		espece = _espece;
 		typeReproduction = espece;
+		int sexeTmp = Utils.random(0,2);
+		if (sexeTmp == 1) {
+			isMale = false;
+		} else {
+			isMale = true;
+		}
 	}
 	
 	public Poisson_Herbivore(short _pv,short _age, byte _espece, byte _typeReproduction,boolean _isMale) {
@@ -54,21 +63,21 @@ public class Poisson_Herbivore extends Poisson{
 					}
 				}
 				if (algues.size() > 0) {
-					eat(algues.get(Utils.random(0,algues.size()-1)));
+					
+					Algue tmp = algues.get(Utils.random(0,algues.size()-1));
+					aquarium.addCommand(new Command_EatAlgue(this,tmp));
 					pv+=2;
 				}
 				algues.clear();
 			} else {
 				ArrayList<Poisson> poissons = aquarium.getPoissons();
 				for (int i = poissons.size()-1; i >= 0; i--) {
-					if (poissons.get(i).getPV() <= 0) {
+					if (poissons.get(i).getPV() <= 0 || poissons.get(i).hashCode() ==this.hashCode()) {
 						poissons.remove(i);
 					}
 				}
 				Poisson tmp = poissons.get(Utils.random(0, poissons.size()-1));
-				if (seReproduire(tmp)) {
-					
-				}
+				aquarium.addCommand(new Command_ReproduirePoisson(this,tmp,aquarium));
 				poissons.clear();
 			}
 		}
@@ -87,16 +96,36 @@ public class Poisson_Herbivore extends Poisson{
 		return true;
 	}
 	
-	public boolean seReproduire(Poisson p) {
+	@Override
+	public boolean preparerSeReproduire(Poisson p) {
 		if (typeReproduction == 0 || typeReproduction == 1) {
-			return (p instanceof Poisson_Carnivore)&&(p.getEspece() == espece)&&(p.estUnMale() != isMale);
+			return (p instanceof Poisson_Herbivore)&&(p.getEspece() == espece)&&(p.estUnMale() != isMale);
 		} else{
-			if ((p instanceof Poisson_Carnivore)&&(p.getEspece() == espece)) {
+			if ((p instanceof Poisson_Herbivore)&&(p.getEspece() == espece)) {
 				isMale = !p.estUnMale();
 				return true;
 			}
 			return false;
 		}
 		
+	}
+	
+	
+	
+	@Override
+	public String toString() {
+		return "Poisson_Herbivore [espece=" + espece + ", typeReproduction=" + typeReproduction + ", isMale=" + isMale
+				+ ", pv=" + pv + ", age=" + age + "]";
+	}
+
+
+
+	@Override
+	public boolean seReproduire(Poisson p, Aquarium aquarium) {
+		if (preparerSeReproduire(p)) {
+			aquarium.ajouterEtreVivant(new Poisson_Carnivore(espece));
+			return true;
+		}
+		return false;
 	}
 }

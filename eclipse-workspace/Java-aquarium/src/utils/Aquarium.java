@@ -8,14 +8,36 @@ import especes.Poisson;
 import especes.Poisson_Carnivore;
 import especes.Poisson_Herbivore;
 
-public class Aquarium {
-	private ArrayList <EtreVivant> etresVivants = new ArrayList<EtreVivant>();
-	
+public class Aquarium{
+	private ArrayList <EtreVivant> etresVivants;
+	private CommandManager commandList;
+	private short nbTours; 
 	
 	public Aquarium() {
+		etresVivants = new ArrayList<EtreVivant>();
+		commandList = new CommandManager();
+		nbTours = 0;
+		generateRandomAquarium(30);
+	}
+	
+	public Aquarium(ArrayList<EtreVivant> _evs, CommandManager _command, short _nbTours) {
+		etresVivants = new ArrayList<EtreVivant>();
+		for (int i = 0; i < _evs.size(); i++) {
+			try {
+				etresVivants.add((EtreVivant)_evs.get(i).clone());
+			} catch (CloneNotSupportedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		commandList = new CommandManager(_command);
+		nbTours= _nbTours;
+	}
+	
+	public void generateRandomAquarium(int n) {
 		short rnd;
 		byte espece;
-		for (int i = 0; i < 50; i++) {
+		for (int i = 0; i < n; i++) {
 			rnd = Utils.random(0,3);
 			if (rnd == 0) {
 				etresVivants.add(new Algue());
@@ -30,18 +52,32 @@ public class Aquarium {
 		}
 	}
 	
+	public void generateAquariumTest(int n) {
+		for (int i = 0; i < n; i++) {
+			etresVivants.add(new Poisson_Carnivore((byte)0));
+		}
+	}
+	
 	public void jouer(int nTour) {
+		nbTours++;
 		for (int i=0; i < nTour;i++) {
 			effectuerTour();
 		}
 		removeDead();
+		System.out.println("---Resultat du tour " + nbTours + "-----\n" + commandList);
 	}
 	
-	public void ajouterPoisson(Poisson p) {
-		if (p instanceof Poisson_Herbivore)
-			etresVivants.add(new Poisson_Herbivore((Poisson_Herbivore)p));
-		else if (p instanceof Poisson_Carnivore)
-			etresVivants.add(new Poisson_Carnivore((Poisson_Carnivore)p));
+	public boolean addCommand(Command c) {
+		return commandList.execute(c);
+	}
+	
+	public void ajouterEtreVivant(EtreVivant ev) {
+		if (ev instanceof Poisson_Herbivore)
+			etresVivants.add(new Poisson_Herbivore((Poisson_Herbivore)ev));
+		else if (ev instanceof Poisson_Carnivore)
+			etresVivants.add(new Poisson_Carnivore((Poisson_Carnivore)ev));
+		else if (ev instanceof Algue)
+			etresVivants.add(new Algue((Algue)ev));
 	}
 	
 	public void effectuerTour() {
