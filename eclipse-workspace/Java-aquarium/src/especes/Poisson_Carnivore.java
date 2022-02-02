@@ -26,9 +26,22 @@ public class Poisson_Carnivore extends Poisson{
 		}
 	}
 	
+	public Poisson_Carnivore(String _nom, byte _espece) {
+		super();
+		espece = _espece;
+		typeReproduction = espece;
+		nom = _nom;
+		int sexeTmp = Utils.random(0,2);
+		if (sexeTmp == 1) {
+			isMale = false;
+		} else {
+			isMale = true;
+		}
+	}
 	
-	public Poisson_Carnivore(short _pv, short _age,  byte _espece, byte _typeReproduction, boolean _isMale) {
-		super(_pv,_age, _espece,_typeReproduction,_isMale);
+	
+	public Poisson_Carnivore(short _pv, short _age,  String _nom, byte _espece, byte _typeReproduction, boolean _isMale) {
+		super(_pv,_age,_nom,_espece,_typeReproduction,_isMale);
 	}
 	
 	public void onTurn(Aquarium aquarium) {
@@ -65,7 +78,7 @@ public class Poisson_Carnivore extends Poisson{
 	}
 	
 	public Poisson_Carnivore(Poisson_Carnivore from) {
-		this(from.pv,from.age,from.espece,from.typeReproduction,from.isMale);
+		this(from.pv,from.age,from.nom,from.espece,from.typeReproduction,from.isMale);
 	}
 	
 	
@@ -87,8 +100,7 @@ public class Poisson_Carnivore extends Poisson{
 	
 	@Override
 	public String toString() {
-		return "Poisson_Carnivore [espece=" + espece + ", typeReproduction=" + typeReproduction + ", isMale=" + isMale
-				+ ", pv=" + pv + ", age=" + age + "]";
+		return nom + ", " + especesPossibles[espece] + ", "+ age + " an"+ (age>1 ? "s":"");
 	}
 
 	public boolean eat(Poisson p) {
@@ -119,7 +131,7 @@ public class Poisson_Carnivore extends Poisson{
 	@Override
 	public boolean seReproduire(Poisson p, Aquarium aquarium) {
 		if (preparerSeReproduire(p)) {
-			aquarium.ajouterEtreVivant(new Poisson_Carnivore(espece));
+			aquarium.ajouterEtreVivant(new Poisson_Carnivore(Utils.generateName((byte)3),espece),true);
 			return true;
 		}
 		return false;

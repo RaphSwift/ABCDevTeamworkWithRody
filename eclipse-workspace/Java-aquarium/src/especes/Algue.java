@@ -41,24 +41,21 @@ public class Algue extends EtreVivant {
 	public void onEat(Poisson p) {
 		pv-=2;
 	}
-	
-	
-	
-	
+
 
 	@Override
 	public String toString() {
-		return "Algue [pv=" + pv + ", age=" + age + "]";
+		return "algue " + age + " an"+(age>1? "s":"");
 	}
 
 	public boolean seDiviser(Aquarium aquarium) {
 		if (pv >= 10) {
 			if (pv%2 == 0) {
 				pv /= 2;
-				aquarium.ajouterEtreVivant(new Algue(pv));
+				aquarium.ajouterEtreVivant(new Algue(pv),true);
 			} else {
 				pv /= 2;
-				aquarium.ajouterEtreVivant(new Algue((short)(pv+1)));
+				aquarium.ajouterEtreVivant(new Algue((short)(pv+1)),true);
 			}
 			return true;
 		} 

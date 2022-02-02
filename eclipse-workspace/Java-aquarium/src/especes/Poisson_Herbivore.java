@@ -29,12 +29,25 @@ public class Poisson_Herbivore extends Poisson{
 		}
 	}
 	
-	public Poisson_Herbivore(short _pv,short _age, byte _espece, byte _typeReproduction,boolean _isMale) {
-		super(_pv,_age, _espece,_typeReproduction,_isMale);
+	public Poisson_Herbivore(String _nom, byte _espece) {
+		super();
+		espece = _espece;
+		typeReproduction = espece;
+		int sexeTmp = Utils.random(0,2);
+		if (sexeTmp == 1) {
+			isMale = false;
+		} else {
+			isMale = true;
+		}
+		nom = _nom;
+	}
+	
+	public Poisson_Herbivore(short _pv,short _age, String _nom, byte _espece, byte _typeReproduction,boolean _isMale) {
+		super(_pv,_age, _nom, _espece,_typeReproduction,_isMale);
 	}
 	
 	public Poisson_Herbivore(Poisson_Herbivore from) {
-		this(from.pv,from.age,from.espece,from.typeReproduction,from.isMale);
+		this(from.pv,from.age,from.nom,from.espece,from.typeReproduction,from.isMale);
 	}
 	
 	
@@ -71,13 +84,16 @@ public class Poisson_Herbivore extends Poisson{
 				algues.clear();
 			} else {
 				ArrayList<Poisson> poissons = aquarium.getPoissons();
+				
 				for (int i = poissons.size()-1; i >= 0; i--) {
 					if (poissons.get(i).getPV() <= 0 || poissons.get(i).hashCode() ==this.hashCode()) {
 						poissons.remove(i);
 					}
 				}
-				Poisson tmp = poissons.get(Utils.random(0, poissons.size()-1));
-				aquarium.addCommand(new Command_ReproduirePoisson(this,tmp,aquarium));
+				if (poissons.size() > 0) {
+					Poisson tmp = poissons.get(Utils.random(0, poissons.size()-1));
+					aquarium.addCommand(new Command_ReproduirePoisson(this,tmp,aquarium));
+				}
 				poissons.clear();
 			}
 		}
@@ -114,8 +130,7 @@ public class Poisson_Herbivore extends Poisson{
 	
 	@Override
 	public String toString() {
-		return "Poisson_Herbivore [espece=" + espece + ", typeReproduction=" + typeReproduction + ", isMale=" + isMale
-				+ ", pv=" + pv + ", age=" + age + "]";
+		return nom + ", " + especesPossibles[espece] + ", "+ age + " an"+ (age>1 ? "s":"");
 	}
 
 
@@ -123,7 +138,7 @@ public class Poisson_Herbivore extends Poisson{
 	@Override
 	public boolean seReproduire(Poisson p, Aquarium aquarium) {
 		if (preparerSeReproduire(p)) {
-			aquarium.ajouterEtreVivant(new Poisson_Carnivore(espece));
+			aquarium.ajouterEtreVivant(new Poisson_Herbivore(Utils.generateName((byte)4),espece),true);
 			return true;
 		}
 		return false;

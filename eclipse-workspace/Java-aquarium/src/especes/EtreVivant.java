@@ -1,7 +1,7 @@
 package especes;
 import utils.Aquarium;
 
-public abstract class EtreVivant implements Cloneable{
+public abstract class EtreVivant implements java.io.Serializable, Cloneable {
 	short pv;
 	short age;
 	
@@ -22,6 +22,10 @@ public abstract class EtreVivant implements Cloneable{
 	
 	public short getPV() {
 		return pv;
+	}
+	
+	public short getAge() {
+		return age;
 	}
 	
 	@Override

@@ -5,23 +5,29 @@ public abstract class Poisson extends EtreVivant{
 	byte espece;
 	byte typeReproduction; // 0 mono sexué 1 hermaphrodite avec age 2 hermaphrodite opportuniste
 	boolean isMale;
+	String nom;
 	
 	public Poisson() {
 		super();
 	}
 	
 	public Poisson(Poisson from) {
-		this(from.pv,from.age,from.espece,from.typeReproduction,from.isMale);
+		this(from.pv,from.age,from.nom,from.espece,from.typeReproduction,from.isMale);
 	}
 	
 	
 	
 
-	public Poisson(short _pv, short _age,byte _espece,byte _typeReproduction,boolean _isMale) {
+	public Poisson(short _pv, short _age, String _nom, byte _espece,byte _typeReproduction,boolean _isMale) {
 		super(_pv,_age);
+		nom = _nom;
 		espece = _espece;
 		typeReproduction = _typeReproduction;
 		isMale = _isMale;
+	}
+	
+	public String getNom() {
+		return nom;
 	}
 	
 	public boolean estUnMale() {

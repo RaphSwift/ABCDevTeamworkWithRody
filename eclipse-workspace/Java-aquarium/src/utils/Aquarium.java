@@ -1,6 +1,10 @@
 package utils;
+import java.io.DataOutputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Scanner;
 
 import especes.Algue;
 import especes.EtreVivant;
@@ -8,7 +12,7 @@ import especes.Poisson;
 import especes.Poisson_Carnivore;
 import especes.Poisson_Herbivore;
 
-public class Aquarium{
+public class Aquarium implements java.io.Serializable{
 	private ArrayList <EtreVivant> etresVivants;
 	private CommandManager commandList;
 	private short nbTours; 
@@ -17,7 +21,6 @@ public class Aquarium{
 		etresVivants = new ArrayList<EtreVivant>();
 		commandList = new CommandManager();
 		nbTours = 0;
-		generateRandomAquarium(30);
 	}
 	
 	public Aquarium(ArrayList<EtreVivant> _evs, CommandManager _command, short _nbTours) {
@@ -71,17 +74,35 @@ public class Aquarium{
 		return commandList.execute(c);
 	}
 	
-	public void ajouterEtreVivant(EtreVivant ev) {
-		if (ev instanceof Poisson_Herbivore)
-			etresVivants.add(new Poisson_Herbivore((Poisson_Herbivore)ev));
-		else if (ev instanceof Poisson_Carnivore)
-			etresVivants.add(new Poisson_Carnivore((Poisson_Carnivore)ev));
-		else if (ev instanceof Algue)
-			etresVivants.add(new Algue((Algue)ev));
+	public boolean ajouterEtreVivant(EtreVivant ev, boolean parReproduction) {
+		boolean rt = false;
+		if (ev instanceof Poisson) {
+			rt = commandList.execute(new Command_IntroduirePoisson(this,(Poisson)ev, parReproduction));
+		} else if (ev instanceof Algue){
+			rt =commandList.execute(new Command_IntroduireAlgue(this,(Algue)ev, parReproduction));
+		}
+		return rt;
+	}
+	
+	public boolean insererEtreVivant(EtreVivant ev) {
+		boolean rt = false;
+		
+		if (ev instanceof Poisson_Herbivore) {
+			rt=etresVivants.add(new Poisson_Herbivore((Poisson_Herbivore)ev));
+		}
+		else if (ev instanceof Poisson_Carnivore) {	
+			rt=etresVivants.add(new Poisson_Carnivore((Poisson_Carnivore)ev));
+		}
+		else if (ev instanceof Algue) {
+			rt=etresVivants.add(new Algue((Algue)ev));
+		}
+		return rt;	
 	}
 	
 	public void effectuerTour() {
-		for (int i = 0; i < etresVivants.size();i++) {
+		int currentNbCommand = commandList.getSize();
+
+		for (int i = etresVivants.size()-1; i >=0;i--) {
 			if (etresVivants.get(i).getPV() > 0) {
 				etresVivants.get(i).onTurn(this);
 			} else {
@@ -89,7 +110,27 @@ public class Aquarium{
 			}
 		}
 		removeDead();
+		nbTours++;
+		CommandManager tmpManager = commandList.getBetween(currentNbCommand, commandList.getSize());
+		System.out.println("===== tour " + nbTours +" ====\n"+ tmpManager);
+		enregistrerHistorique("\n===== tour " + nbTours +" ====\n"+tmpManager.toString());
+
+	}
+	
+	public boolean enregistrerHistorique(String str) {
+		boolean rt = true;
 		
+		try {
+			FileOutputStream fileOut = new FileOutputStream("save.txt",true);
+			DataOutputStream out = new DataOutputStream(fileOut);
+			out.writeBytes(str);
+			out.close();
+			fileOut.close();
+		} catch (Exception e) {
+			//e.printStackTrace();
+			rt= false;
+		}
+		return rt;
 	}
 	
 	public void removeDead() {
@@ -101,7 +142,7 @@ public class Aquarium{
 	}
 
 	
-	public void AfficherContenu() {
+	public void afficherContenu() {
 		int especes[] = new int[3];
 		for (int i = 0; i < etresVivants.size(); i++) {
 			if (etresVivants.get(i) instanceof Algue) {
@@ -115,6 +156,10 @@ public class Aquarium{
 		}
 		System.out.println("Il y'a " + especes[0] + " algues, " + especes[1] + " poissons carnivores et " +  especes[2] + " poissons herbivores.");
 		
+	}
+	
+	public void afficherCommands() {
+		System.out.println(commandList);
 	}
 	
 	public ArrayList<Poisson> getPoissons() {
