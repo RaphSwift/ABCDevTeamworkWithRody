@@ -123,7 +123,7 @@ public class Aquarium implements java.io.Serializable{
 		removeDead();
 		
 		tmpManager = commandList.getBetween(currentNbCommand, commandList.getSize());
-		System.out.print((tmpManager.getSize() > 0? "\n":"")+tmpManager+"\n");
+		System.out.print((tmpManager.getSize() > 0? "\n":"")+tmpManager);
 		enregistrerHistorique((tmpManager.getSize() > 0? "\n":"")+tmpManager.toString());
 		lastConsigne = Math.max(0,commandList.getSize());
 	}

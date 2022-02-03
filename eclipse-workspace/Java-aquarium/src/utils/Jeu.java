@@ -56,6 +56,7 @@ public class Jeu implements java.io.Serializable{
 		while (!veutQuitter) {
 			saisieCorrecte = false;
 			aquarium.afficherContenu();
+			nbrTmp = 0;
 			do {
 				System.out.println("Que voulez vous faire?");
 				str = sc.nextLine().toLowerCase();
@@ -63,8 +64,22 @@ public class Jeu implements java.io.Serializable{
 				if (split[0].equals("quit") && split.length == 1) {
 					saisieCorrecte = true;
 					veutQuitter = true;
-				} else if (split[0].equals("turn") && split.length == 1) {
+				} else if (split[0].equals("turn") && split.length <= 2) {
 					saisieCorrecte = true;
+					if (split.length == 2) {
+						try {
+							nbrTmp = Integer.parseInt(split[1]);
+							if (nbrTmp <= 0) {
+								System.out.println("Erreur le nombre de tour doit etre minimum à 1");
+								saisieCorrecte = false;
+							}
+						} catch (Exception e) {
+							saisieCorrecte = false;
+							System.out.println("Erreur saisie");
+						}
+					} else {
+						nbrTmp = 1;
+					}
 				} else if (split[0].equals("list") && split.length == 1) {
 					aquarium.afficherCommands();
 					aquarium.afficherContenu();
@@ -76,15 +91,19 @@ public class Jeu implements java.io.Serializable{
 							nbrTmp = Integer.parseInt(split[1]);
 							nbrTmp2 = Integer.parseInt(split[3]);
 							currentInserted = 0;
-							for (i = 0; i < nbrTmp; i++) {
-								if (aquarium.ajouterEtreVivant(new Algue(((byte)(10+nbrTmp2)),(byte)nbrTmp2),false)) {
-									currentInserted++;
+							if (nbrTmp > 0 && nbrTmp2 >= 0) {
+								for (i = 0; i < nbrTmp; i++) {
+									if (aquarium.ajouterEtreVivant(new Algue(((byte)(10+nbrTmp2)),(byte)nbrTmp2),false)) {
+										currentInserted++;
+									}
 								}
+								if (currentInserted == nbrTmp2) {
+									System.out.println("Ajout des algues avec succès");
+								}
+								i=0;
+							} else {
+								System.out.println("Erreur sur l'un des parametres nombre ou age");
 							}
-							if (currentInserted == nbrTmp2) {
-								System.out.println("Ajout des algues avec succès");
-							}
-							i=0;
 						} catch (Exception e) {
 							System.out.println("Saisie invalide");
 						}
@@ -116,15 +135,23 @@ public class Jeu implements java.io.Serializable{
 								}
 								else {
 									// POISSON HERBIVORE
-									if (aquarium.ajouterEtreVivant(new Poisson_Herbivore(poissonNom.replace(",",""),(byte)nbrTmp2,(byte)nbrTmp),false)) {
-										System.out.println("Ajout du poisson effectué");
+									if (nbrTmp >= 0) {
+										if (aquarium.ajouterEtreVivant(new Poisson_Herbivore(poissonNom.replace(",",""),(byte)nbrTmp2,(byte)nbrTmp),false)) {
+											System.out.println("Ajout du poisson effectué");
+										}
+									} else {
+										System.out.println("Age incorrect");
 									}
 										
 								}
 							} else {
 								// POISSON CARNIVORE
-								if (aquarium.ajouterEtreVivant(new Poisson_Carnivore(poissonNom.replace(",",""),(byte)nbrTmp2,(byte)nbrTmp),false)){
-									System.out.println("Ajout du poisson effectué");
+								if (nbrTmp >= 0) {
+									if (aquarium.ajouterEtreVivant(new Poisson_Carnivore(poissonNom.replace(",",""),(byte)nbrTmp2,(byte)nbrTmp),false)){
+										System.out.println("Ajout du poisson effectué");
+									}
+								} else {
+									System.out.println("Age incorrect");
 								}
 							}
 						} catch (Exception e){
@@ -136,7 +163,9 @@ public class Jeu implements java.io.Serializable{
 			} while (!saisieCorrecte);
 			if (!veutQuitter) {
 				// -- ON SAUVEGARDE
-				aquarium.effectuerTour();
+				for (i = 0; i < nbrTmp; i++) {
+					aquarium.effectuerTour();
+				}
 				if(serialize()) {
 					System.out.println("Sauvegarde réussie");
 				} else {
