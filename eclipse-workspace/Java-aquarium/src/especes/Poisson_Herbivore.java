@@ -42,6 +42,20 @@ public class Poisson_Herbivore extends Poisson{
 		nom = _nom;
 	}
 	
+	public Poisson_Herbivore(String _nom, byte _espece, byte _age) {
+		super();
+		espece = _espece;
+		age = _age;
+		typeReproduction = espece;
+		int sexeTmp = Utils.random(0,2);
+		if (sexeTmp == 1) {
+			isMale = false;
+		} else {
+			isMale = true;
+		}
+		nom = _nom;
+	}
+	
 	public Poisson_Herbivore(short _pv,short _age, String _nom, byte _espece, byte _typeReproduction,boolean _isMale) {
 		super(_pv,_age, _nom, _espece,_typeReproduction,_isMale);
 	}

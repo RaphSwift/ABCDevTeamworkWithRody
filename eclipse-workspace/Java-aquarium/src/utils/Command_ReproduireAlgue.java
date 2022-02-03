@@ -31,7 +31,6 @@ public class Command_ReproduireAlgue implements Command{
 	@Override
 	public boolean exec() {
 		rt = from.seDiviser(in);
-		from = new Algue(from);
 		return rt;
 	}
 	

@@ -39,6 +39,20 @@ public class Poisson_Carnivore extends Poisson{
 		}
 	}
 	
+	public Poisson_Carnivore(String _nom, byte _espece, byte _age) {
+		super();
+		espece = _espece;
+		typeReproduction = espece;
+		nom = _nom;
+		int sexeTmp = Utils.random(0,2);
+		if (sexeTmp == 1) {
+			isMale = false;
+		} else {
+			isMale = true;
+		}
+		age = _age;
+	}
+	
 	
 	public Poisson_Carnivore(short _pv, short _age,  String _nom, byte _espece, byte _typeReproduction, boolean _isMale) {
 		super(_pv,_age,_nom,_espece,_typeReproduction,_isMale);
@@ -51,27 +65,24 @@ public class Poisson_Carnivore extends Poisson{
 		}
 		pv--;
 		if (pv > 0) {
-			
-			if (pv <= 5) {
-				ArrayList<Poisson> poissons = aquarium.getPoissons();
-				for (int i = poissons.size()-1; i >= 0; i--) {
-					if (poissons.get(i).getPV() <= 0  || poissons.get(i).hashCode() ==this.hashCode()) {
-						poissons.remove(i);
-					}
+			ArrayList<Poisson> poissons = aquarium.getPoissons();
+			for (int i = poissons.size()-1; i >= 0; i--) {
+				if (poissons.get(i).getPV() <= 0  || poissons.get(i).hashCode() ==this.hashCode()) {
+					poissons.remove(i);
 				}
+			}
+			if (pv <= 5) {
+				
 				if (poissons.size() > 0) {
 					Poisson tmp = poissons.get(Utils.random(0,poissons.size()-1));
 					aquarium.addCommand(new Command_EatPoisson(this,tmp));
 				}
+				poissons.clear();
 			} else {
-				ArrayList<Poisson> poissons = aquarium.getPoissons();
-				for (int i = poissons.size()-1; i >= 0; i--) {
-					if (poissons.get(i).getPV() <= 0 || poissons.get(i).hashCode() ==this.hashCode()) {
-						poissons.remove(i);
-					}
+				if (poissons.size() > 0) {
+					Poisson tmp = poissons.get(Utils.random(0, poissons.size()-1));
+					aquarium.addCommand(new Command_ReproduirePoisson(this,tmp,aquarium));
 				}
-				Poisson tmp = poissons.get(Utils.random(0, poissons.size()-1));
-				aquarium.addCommand(new Command_ReproduirePoisson(this,tmp,aquarium));
 				poissons.clear();
 			}
 		}

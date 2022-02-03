@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.Scanner;
 
-import utils.Aquarium;
 import utils.Jeu;
 // JAVAQUARIUM
 public class MainClass {
@@ -41,8 +40,14 @@ public class MainClass {
 					// IGNORE
 				}
 			}
+			if (!load) {
+				try {
+					f1.delete();
+				} catch (Exception e) {}
+			}
 		}
 		if (!load) {
+		
 			monJeu = new Jeu();
 		}
 		monJeu.gererJeu();

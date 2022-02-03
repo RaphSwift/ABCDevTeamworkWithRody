@@ -39,12 +39,6 @@ public class Command_ReproduirePoisson implements Command {
 	@Override
 	public boolean exec() {
 		rt = from.seReproduire(with, in);
-		try {
-			from = (Poisson)from.clone();
-			with = (Poisson)with.clone();
-		} catch (Exception e) {
-			
-		}
 		return rt;
 	}
 	

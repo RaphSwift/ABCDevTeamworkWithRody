@@ -15,7 +15,8 @@ import especes.Poisson_Herbivore;
 public class Aquarium implements java.io.Serializable{
 	private ArrayList <EtreVivant> etresVivants;
 	private CommandManager commandList;
-	private short nbTours; 
+	private short nbTours;
+	private int lastConsigne;
 	
 	public Aquarium() {
 		etresVivants = new ArrayList<EtreVivant>();
@@ -36,6 +37,7 @@ public class Aquarium implements java.io.Serializable{
 		commandList = new CommandManager(_command);
 		nbTours= _nbTours;
 	}
+	
 	
 	public void generateRandomAquarium(int n) {
 		short rnd;
@@ -101,7 +103,14 @@ public class Aquarium implements java.io.Serializable{
 	
 	public void effectuerTour() {
 		int currentNbCommand = commandList.getSize();
-
+		CommandManager tmpManager = null;
+		nbTours++;
+		if (currentNbCommand > lastConsigne) {
+			tmpManager  = commandList.getBetween(lastConsigne, currentNbCommand);
+			System.out.print((nbTours>1 ?  "\n":"")+ "======PREPA TOUR " + nbTours + " =======\n" + tmpManager);
+			enregistrerHistorique((nbTours>1 ? "\n":"")+ "======PREPA TOUR " + nbTours + " =======\n"+tmpManager.toString());
+		}
+		
 		for (int i = etresVivants.size()-1; i >=0;i--) {
 			if (etresVivants.get(i).getPV() > 0) {
 				etresVivants.get(i).onTurn(this);
@@ -109,12 +118,14 @@ public class Aquarium implements java.io.Serializable{
 				etresVivants.remove(i);
 			}
 		}
+		System.out.print("\n===== tour " + nbTours + "====");
+		enregistrerHistorique("\n===== tour " + nbTours +" ====");
 		removeDead();
-		nbTours++;
-		CommandManager tmpManager = commandList.getBetween(currentNbCommand, commandList.getSize());
-		System.out.println("===== tour " + nbTours +" ====\n"+ tmpManager);
-		enregistrerHistorique("\n===== tour " + nbTours +" ====\n"+tmpManager.toString());
-
+		
+		tmpManager = commandList.getBetween(currentNbCommand, commandList.getSize());
+		System.out.print((tmpManager.getSize() > 0? "\n":"")+tmpManager+"\n");
+		enregistrerHistorique((tmpManager.getSize() > 0? "\n":"")+tmpManager.toString());
+		lastConsigne = Math.max(0,commandList.getSize());
 	}
 	
 	public boolean enregistrerHistorique(String str) {
@@ -136,6 +147,12 @@ public class Aquarium implements java.io.Serializable{
 	public void removeDead() {
 		for (int i = etresVivants.size()-1; i >=0;i--) {
 			if (etresVivants.get(i).getPV() <= 0) {
+				if (etresVivants.get(i) instanceof Poisson) {
+					if (((Poisson)(etresVivants.get(i))).getNom().toLowerCase().equals("némo")) {
+						enregistrerHistorique("\nNémo est mort, il était trop gentil dans ce monde de brute et dans son dernier souffle il à laché des paillettes");
+						System.out.println("Némo est mort, il était trop gentil dans ce monde de brute et dans son dernier souffle il à laché des paillettes");
+					}
+				}
 				etresVivants.remove(i);
 			}
 		}

@@ -7,6 +7,7 @@ public class Command_IntroduirePoisson implements Command {
 	private Poisson from;
 	private boolean rt;
 	private boolean parReproduction;
+	
 	public Command_IntroduirePoisson(Aquarium _in,
 			Poisson _from,
 			boolean _parReproduction) {
@@ -15,8 +16,19 @@ public class Command_IntroduirePoisson implements Command {
 		parReproduction = _parReproduction;
 	}
 	
+	
+	public Command_IntroduirePoisson(Aquarium _in,
+			Poisson _from,
+			boolean _parReproduction,
+			boolean _rt) {
+		in =_in;
+		from = _from;
+		parReproduction = _parReproduction;
+		rt = _rt;
+	}
+	
 	public Command_IntroduirePoisson(Command_IntroduirePoisson _from) {
-		this(_from.in,_from.from,_from.parReproduction);
+		this(_from.in,_from.from,_from.parReproduction,_from.rt);
 	}
 	
 	@Override
@@ -25,12 +37,6 @@ public class Command_IntroduirePoisson implements Command {
 	}
 	public boolean exec() {
 		rt = in.insererEtreVivant(from);
-		try {
-			from = (Poisson) from.clone();
-		} catch (CloneNotSupportedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		return rt;
 	}
 	

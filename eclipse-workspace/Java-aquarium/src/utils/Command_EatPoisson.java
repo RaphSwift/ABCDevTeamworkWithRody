@@ -35,12 +35,6 @@ public class Command_EatPoisson implements Command {
 	@Override
 	public boolean exec() {
 		rt = from.eat(to);
-		try {
-			from = (Poisson_Carnivore)from.clone();
-			to = (Poisson)to.clone();
-		} catch (Exception e) {
-			
-		}
 		return rt;
 	}
 	

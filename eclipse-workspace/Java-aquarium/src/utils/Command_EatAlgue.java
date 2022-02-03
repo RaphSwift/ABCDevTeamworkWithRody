@@ -35,12 +35,6 @@ public class Command_EatAlgue implements Command{
 	@Override()
 	public boolean exec() {
 		rt = from.eat(to);
-		try {
-			from = (Poisson_Herbivore)from.clone();
-			to = (Algue)to.clone();
-		} catch (Exception e) {
-			
-		}
 		return rt;
 	}
 	

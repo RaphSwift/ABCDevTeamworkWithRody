@@ -49,16 +49,16 @@ public class Algue extends EtreVivant {
 	}
 
 	public boolean seDiviser(Aquarium aquarium) {
+		boolean rt = false;
 		if (pv >= 10) {
 			if (pv%2 == 0) {
 				pv /= 2;
-				aquarium.ajouterEtreVivant(new Algue(pv),true);
+				rt = aquarium.ajouterEtreVivant(new Algue(pv),true);
 			} else {
 				pv /= 2;
-				aquarium.ajouterEtreVivant(new Algue((short)(pv+1)),true);
+				rt = aquarium.ajouterEtreVivant(new Algue((short)(pv+1)),true);
 			}
-			return true;
 		} 
-		return false;
+		return rt;
 	}
 }
