@@ -17,7 +17,7 @@ public class MainClass {
 			// UN FICHIER EXISTE
 			do {
 				System.out.println("Reprendre la partie?");
-				saisieTmp = sc.next().toUpperCase();
+				saisieTmp = sc.nextLine().toUpperCase();
 				if (!saisieTmp.equals("OUI") && !saisieTmp.equals("NON"))
 					System.out.println("Veuillez rentrer oui ou non");
 			} while (!saisieTmp.equals("OUI") && !saisieTmp.equals("NON"));

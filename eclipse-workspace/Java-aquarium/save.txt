@@ -1,0 +1,17 @@
+======PREPA TOUR 1 =======
+algue 0 an a été introduit dans l'aquarium par l'utilisateur
+algue 0 an a été introduit dans l'aquarium par l'utilisateur
+algue 0 an a été introduit dans l'aquarium par l'utilisateur
+algue 0 an a été introduit dans l'aquarium par l'utilisateur
+algue 0 an a été introduit dans l'aquarium par l'utilisateur
+===== tour 1 ====
+algue 1 an s'est divisé
+algue 0 an a été introduit dans l'aquarium par division
+algue 1 an s'est divisé
+algue 0 an a été introduit dans l'aquarium par division
+algue 1 an s'est divisé
+algue 0 an a été introduit dans l'aquarium par division
+algue 1 an s'est divisé
+algue 0 an a été introduit dans l'aquarium par division
+algue 1 an s'est divisé
+algue 0 an a été introduit dans l'aquarium par division

@@ -159,6 +159,8 @@ public class Jeu implements java.io.Serializable{
 						}
 					}
 					
+				} else {
+					System.out.println("Saisie incorrecte!");
 				}
 			} while (!saisieCorrecte);
 			if (!veutQuitter) {
@@ -167,9 +169,9 @@ public class Jeu implements java.io.Serializable{
 					aquarium.effectuerTour();
 				}
 				if(serialize()) {
-					System.out.println("Sauvegarde réussie");
+					System.out.println("\nSauvegarde réussie");
 				} else {
-					System.out.println("Echec de la sauvagarde");
+					System.out.println("\nEchec de la sauvagarde");
 				}
 			}
 		}		
