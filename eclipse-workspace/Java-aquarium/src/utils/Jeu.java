@@ -46,7 +46,6 @@ public class Jeu implements java.io.Serializable{
 		Scanner sc = new Scanner(System.in);
 		boolean veutQuitter = false;
 		boolean saisieCorrecte;
-		int debut;
 		String str = "";
 		String[] split;
 		int nbrTmp, nbrTmp2; // INSERTION
