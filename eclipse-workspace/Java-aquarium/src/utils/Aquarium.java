@@ -41,18 +41,21 @@ public class Aquarium implements java.io.Serializable{
 	
 	public void generateRandomAquarium(int n) {
 		short rnd;
+		byte age;
 		byte espece;
 		for (int i = 0; i < n; i++) {
 			rnd = Utils.random(0,3);
+			age = (byte)Utils.random(0, 19);
 			if (rnd == 0) {
-				etresVivants.add(new Algue());
+				ajouterEtreVivant(new Algue((byte)(10+age),age),false);
 			} else if (rnd == 1) {
 				espece = (byte)Utils.random(0,Poisson_Carnivore.getEspecesPossibles().length-1);
-				etresVivants.add(new Poisson_Carnivore(espece));
+				
+				ajouterEtreVivant(new Poisson_Carnivore(Utils.generateName((byte)3),espece,age),false);
 				
 			} else if (rnd == 2) {
 				espece = (byte)Utils.random(0,Poisson_Herbivore.getEspecesPossibles().length-1);
-				etresVivants.add(new Poisson_Herbivore(espece));
+				ajouterEtreVivant(new Poisson_Herbivore(Utils.generateName((byte)4),espece,age),false);
 			}
 		}
 	}

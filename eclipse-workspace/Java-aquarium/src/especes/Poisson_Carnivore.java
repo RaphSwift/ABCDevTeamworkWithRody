@@ -65,7 +65,7 @@ public class Poisson_Carnivore extends Poisson{
 		}
 		if (age == 10 && typeReproduction == 1) {
 			isMale = !isMale;
-		}
+		}	
 		pv--;
 		if (pv > 0) {
 			ArrayList<Poisson> poissons = aquarium.getPoissons();
