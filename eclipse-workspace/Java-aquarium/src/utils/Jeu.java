@@ -191,7 +191,11 @@ public class Jeu implements java.io.Serializable{
 				} else if (split[0].equals("generate") && split.length == 2){
 					try {
 						nbrTmp = Integer.parseInt(split[1]);
-						aquarium.generateRandomAquarium(nbrTmp);
+						if (nbrTmp > 0) {
+							aquarium.generateRandomAquarium(nbrTmp);
+						} else {
+							System.out.println("Parametre " + nbrTmp + " doit etre plus grand que 0");
+						}
 					} catch (Exception e) {
 						System.out.println("Erreur de conversion du param " + split[1]);
 					}
