@@ -18,12 +18,7 @@ public class Poisson_Carnivore extends Poisson{
 		super();
 		espece = _espece;
 		typeReproduction = espece;
-		int sexeTmp = Utils.random(0,2);
-		if (sexeTmp == 1) {
-			isMale = false;
-		} else {
-			isMale = true;
-		}
+		isMale = Utils.random(0,2) != 1;
 	}
 	
 	public Poisson_Carnivore(String _nom, byte _espece) {
@@ -31,12 +26,7 @@ public class Poisson_Carnivore extends Poisson{
 		espece = _espece;
 		typeReproduction = espece;
 		nom = _nom;
-		int sexeTmp = Utils.random(0,2);
-		if (sexeTmp == 1) {
-			isMale = false;
-		} else {
-			isMale = true;
-		}
+		isMale = Utils.random(0,2) != 1;
 	}
 	
 	public Poisson_Carnivore(String _nom, byte _espece, byte _age) {
@@ -44,12 +34,7 @@ public class Poisson_Carnivore extends Poisson{
 		espece = _espece;
 		typeReproduction = espece;
 		nom = _nom;
-		int sexeTmp = Utils.random(0,2);
-		if (sexeTmp == 1) {
-			isMale = false;
-		} else {
-			isMale = true;
-		}
+		isMale = Utils.random(0,2) != 1;
 		age = _age;
 	}
 	

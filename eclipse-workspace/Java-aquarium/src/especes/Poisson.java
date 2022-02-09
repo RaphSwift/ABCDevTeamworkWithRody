@@ -2,10 +2,10 @@ package especes;
 import utils.Aquarium;
 
 public abstract class Poisson extends EtreVivant{
-	byte espece;
-	byte typeReproduction; // 0 mono sexué 1 hermaphrodite avec age 2 hermaphrodite opportuniste
-	boolean isMale;
-	String nom;
+	protected byte espece;
+	protected byte typeReproduction; // 0 mono sexué 1 hermaphrodite avec age 2 hermaphrodite opportuniste
+	protected boolean isMale;
+	protected String nom;
 	
 	public Poisson() {
 		super();
