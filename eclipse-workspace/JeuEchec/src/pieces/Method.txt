@@ -1,0 +1,89 @@
+	private ArrayList<Piece> loadEnnemyPiecesFromDiagonales(Plateau p){
+		ArrayList<Piece> piecesATester = p.getPieceFromColor(!isBlack);
+		Coordonees directionTeste = new Coordonees((byte)1,(byte)1);
+		for (int i = piecesATester.size()-1 ; i >= 0; i--){
+			if (!(piecesATester.get(i) instanceof Piece_Reine ||
+					piecesATester.get(i) instanceof Piece_Fou)){
+				piecesATester.remove(i);
+			} else {
+				if (!piecesATester.get(i).getPosition().getDistanceFrom(position).getDirection().toAbsolute()
+						.equals(directionTeste)){
+					piecesATester.remove(i);
+				}
+			}
+		}
+		return piecesATester;
+	}
+
+	private ArrayList<Piece> loadEnnemyPiecesFromLines(Plateau p){
+		ArrayList<Piece> piecesATester = p.getPieceFromColor(!isBlack);
+		Coordonees directionTeste = new Coordonees((byte)1,(byte)1);
+		for (int i = piecesATester.size()-1 ; i >= 0; i--){
+			if (!(piecesATester.get(i) instanceof Piece_Tour ||
+					piecesATester.get(i) instanceof Piece_Reine)){
+				piecesATester.remove(i);
+			} else {
+				if (!piecesATester.get(i).getPosition().getDistanceFrom(position).getDirection().toAbsolute()
+						.equals(directionTeste)){
+					piecesATester.remove(i);
+				}
+			}
+		}
+		return piecesATester;
+	}
+
+	
+	private boolean haveSameDirectionInArray(Coordonees direction,ArrayList<Piece> pieces){
+		boolean rt = false;
+		int i=0;
+		while (!rt && i < pieces.size()){
+			if (pieces.get(i).getPosition().getDistanceFrom(position).getDirection().equals(direction)){
+				rt = true;
+			}
+		}
+		return rt;
+	}
+
+	private ArrayList<Mouvement> testDirectionDiagonales(Coordonees dir,Plateau p){
+		ArrayList<Mouvement> rt = new ArrayList<Mouvement>();
+		int i=1;
+		Coordonees coordTest;
+		coordTest = new Coordonees((byte) (position.getX() + dir.getX() * i),
+				(byte) (position.getY() + dir.getY() * i));
+		Piece tmp = null;
+		while (coordTest.getX() >= 0 && coordTest.getY() < p.getHeight() &&
+				coordTest.getY() >= 0 && coordTest.getX() < p.getWidth() &&
+				tmp == null) {
+			tmp = p.getPieceFromCoord(coordTest);
+			if (tmp != null && tmp.estNoir() != isBlack) {
+				if (tmp instanceof Piece_Reine || tmp instanceof Piece_Fou) {
+					rt.add(new Mouvement(new Coordonees(coordTest), new Coordonees(position)));
+				}
+			}
+			i++;
+			coordTest = new Coordonees((byte) (position.getX() + dir.getX() * i), (byte) (position.getY() + dir.getY() * i));
+		}
+		return rt;
+	}
+
+	private ArrayList<Mouvement> testDirectionLines(Coordonees dir,Plateau p){
+		ArrayList<Mouvement> rt = new ArrayList<Mouvement>();
+		int i=1;
+		Coordonees coordTest;
+		coordTest = new Coordonees((byte) (position.getX() + dir.getX() * i),
+				(byte) (position.getY() + dir.getY() * i));
+		Piece tmp = null;
+		while (coordTest.getX() >= 0 && coordTest.getY() < p.getHeight() &&
+				coordTest.getY() >= 0 && coordTest.getX() < p.getWidth() &&
+				tmp == null) {
+			tmp = p.getPieceFromCoord(coordTest);
+			if (tmp != null && tmp.estNoir() != isBlack) {
+				if (tmp instanceof Piece_Reine || tmp instanceof Piece_Tour) {
+					rt.add(new Mouvement(new Coordonees(coordTest), new Coordonees(position)));
+				}
+			}
+			i++;
+			coordTest = new Coordonees((byte) (position.getX() + dir.getX() * i), (byte) (position.getY() + dir.getY() * i));
+		}
+		return rt;
+	}
