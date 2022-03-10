@@ -2,8 +2,8 @@ package especes;
 import utils.Aquarium;
 
 public abstract class EtreVivant implements java.io.Serializable, Cloneable {
-	short pv;
-	short age;
+	protected short pv;
+	protected short age;
 	
 	public EtreVivant() {
 		pv = 10;
