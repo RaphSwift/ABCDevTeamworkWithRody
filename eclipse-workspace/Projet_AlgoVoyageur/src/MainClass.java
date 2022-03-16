@@ -16,6 +16,7 @@ public class MainClass {
 			villesArray[i] = villes.get(i);
 		}
 		System.out.println(Utils.toHeuristique(villesArray));
+		//int[][] tab = Utils.getSwapFromId(3);
 	}
 	
 }
