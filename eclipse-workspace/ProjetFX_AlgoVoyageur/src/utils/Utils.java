@@ -1,20 +1,10 @@
+package utils;
 import java.util.ArrayList;
 
-public class MainClass {
-	public static void main(String[] args) {
-		ArrayList<Ville> villes= new ArrayList<Ville>();
-		villes.add(new Ville("Paris", new Coordonees(0,0)));
-		villes.add(new Ville("Nantes", new Coordonees(-500,-400)));
-		villes.add(new Ville("Metz",new Coordonees(500,50)));
-		villes.add(new Ville("Millau",new Coordonees(50, -1200)));
-		villes.add(new Ville("Niort",new Coordonees(-450,-600)));
-		ArrayList<Parcours> parcours = new ArrayList<Parcours>();
-		for (int i = 0; i < villes.size(); i++) {
-			getParcours(villes, new Parcours(), parcours,i);
-		}
-		haveMin(parcours);
-		
-	}
+import javafx.collections.ObservableList;
+
+public class Utils {
+	
 	
 	public static void getParcours(ArrayList<Ville> _villes,Parcours parcour,
 			ArrayList<Parcours> parcoursList, int indDep){
@@ -51,6 +41,17 @@ public class MainClass {
 			}
 		}
 	}
+	
+    
+    public static ArrayList<Ville> getElements(){
+    	ArrayList<Ville> villes= new ArrayList<Ville>();
+		villes.add(new Ville("Paris", new Coordonees(0,0)));
+		villes.add(new Ville("Nantes", new Coordonees(-500,-400)));
+		villes.add(new Ville("Metz",new Coordonees(500,50)));
+		villes.add(new Ville("Millau",new Coordonees(50, -1200)));
+		villes.add(new Ville("Niort",new Coordonees(-450,-600)));
+		return villes;
+    }
 	
 	
 }
