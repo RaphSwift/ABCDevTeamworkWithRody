@@ -11,8 +11,14 @@ public class Parcours {
 	public boolean add(Ville v) {
 		return villes.add(v);
 	}
+
 	
-	
+	public Parcours(Ville[] _villes) {
+		villes = new ArrayList<Ville>();
+		for (Ville v : _villes) {
+			villes.add(v);
+		}
+	}
 	
 	public Parcours(Parcours p) {
 		villes = new ArrayList<Ville>();

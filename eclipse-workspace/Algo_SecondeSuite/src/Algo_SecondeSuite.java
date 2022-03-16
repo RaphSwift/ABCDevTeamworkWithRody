@@ -25,4 +25,5 @@ public class Algo_SecondeSuite {
 		}
 		return str;
 	}
+
 }

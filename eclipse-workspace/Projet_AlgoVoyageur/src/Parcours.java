@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 
+
 public class Parcours {
 	private ArrayList<Ville> villes;
 	
@@ -12,6 +13,12 @@ public class Parcours {
 	}
 	
 	
+	public Parcours(Ville[] _villes) {
+		villes = new ArrayList<Ville>();
+		for (Ville v : _villes) {
+			villes.add(v);
+		}
+	}
 	
 	public Parcours(Parcours p) {
 		villes = new ArrayList<Ville>();
@@ -49,4 +56,5 @@ public class Parcours {
 	public int length() {
 		return villes.size();
 	}
+
 }
