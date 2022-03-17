@@ -56,5 +56,22 @@ public class Parcours {
 	public int length() {
 		return villes.size();
 	}
+	
+	public final Ville getVille(int id) {
+		if (id < villes.size()) {
+			return villes.get(id);
+		}
+		return null;
+	}
+	
+	public boolean swap(int a, int b) {
+		if (a < villes.size() && b < villes.size()) {
+			Ville tmp = villes.get(a);
+			villes.set(a, villes.get(b));
+			villes.set(b, tmp);
+			return true;
+		}
+		return false;
+	}
 
 }

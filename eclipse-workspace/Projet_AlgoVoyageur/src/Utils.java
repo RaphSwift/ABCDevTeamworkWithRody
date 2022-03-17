@@ -113,6 +113,26 @@ public class Utils {
 		return best;
 	}
 	
+	public static Parcours twoOpt(Parcours p) {
+		Parcours rt = new Parcours(p);
+		boolean amelioration = true;
+		int j;
+		while (amelioration) {
+			for (int i = 0; i < rt.length(); i++) {
+				amelioration = false;
+				j = 0;
+				int i_min = Math.min((i+rt.length()+1)%rt.length(),(i+1)%rt.length());
+				int i_max = Math.max((i+rt.length()+1)%rt.length(),(i+1)%rt.length());
+				while (j < rt.length()) {
+					if ((j < i_min) && (j > i_max)) {
+						//double dstCompare = (rt.getVille(i).getDstFrom(rt.getVille(i+1%rt.length()))
+					}
+				}
+			}
+		}
+		return rt;
+	}
+	
 	/*public static Parcours toHeuristiqueBis(Ville[] villes) {
 		int totalBc= 0;
 		int nbEssais = 1;
