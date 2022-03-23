@@ -116,19 +116,36 @@ public class Utils {
 	public static Parcours twoOpt(Parcours p) {
 		Parcours rt = new Parcours(p);
 		boolean amelioration = true;
-		int j;
-		while (amelioration) {
-			for (int i = 0; i < rt.length(); i++) {
-				amelioration = false;
+		int j, i;
+		int nbEssais = 0;
+		final int MAX_ESSAIS = 10;
+		while (nbEssais < MAX_ESSAIS) {
+			i=0;
+			while (i < rt.length() && nbEssais < MAX_ESSAIS) {
 				j = 0;
-				int i_min = Math.min((i+rt.length()+1)%rt.length(),(i+1)%rt.length());
-				int i_max = Math.max((i+rt.length()+1)%rt.length(),(i+1)%rt.length());
-				while (j < rt.length()) {
-					if ((j < i_min) && (j > i_max)) {
-						//double dstCompare = (rt.getVille(i).getDstFrom(rt.getVille(i+1%rt.length()))
+				int im1 = (i+rt.length()-1)%rt.length();
+				int ip1 = (i+1)%rt.length();
+				while (j < rt.length() && nbEssais < MAX_ESSAIS) {
+					int jm1 = (j+rt.length()-1)%rt.length();
+					int jp1 = (j+1)%rt.length();
+					if (j != im1 && j != i && j != ip1) {
+						double dst1 = (rt.getVille(i).getDstFrom(rt.getVille(ip1)));
+						double dst2 = (rt.getVille(j).getDstFrom(rt.getVille(jp1)));
+						double dst3 = (rt.getVille(i).getDstFrom(rt.getVille(j)));
+						double dst4 = (rt.getVille(ip1).getDstFrom(rt.getVille(jp1)));
+						if (dst1 + dst2 > dst3 + dst4){
+							nbEssais=0;
+							Ville b = new Ville(rt.getVille(ip1));
+							rt.swap(ip1,j);
+						} else {
+							nbEssais++;
+						}						
 					}
+					j++;
 				}
+				i++;
 			}
+			
 		}
 		return rt;
 	}

@@ -15,7 +15,10 @@ public class MainClass {
 		for (int i = 0; i < villes.size(); i++) {
 			villesArray[i] = villes.get(i);
 		}
-		System.out.println(Utils.toHeuristique(villesArray));
+		Parcours p = new Parcours(villesArray);
+		p = Utils.twoOpt(p);
+		Parcours p2 = Utils.toHeuristique(villesArray);
+		System.out.println(p);
 		//int[][] tab = Utils.getSwapFromId(3);
 	}
 	
