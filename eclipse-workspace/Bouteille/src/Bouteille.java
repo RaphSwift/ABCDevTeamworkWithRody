@@ -36,7 +36,7 @@ public class Bouteille {
 	}
 	
 	public boolean remplir() {
-		if (isFilled != Bouteille.FILLED) {
+		if (isFilled != Bouteille.FILLED && openState == Bouteille.OPENED) {
 			isFilled = Bouteille.FILLED;
 			return true;
 		}
@@ -45,10 +45,18 @@ public class Bouteille {
 	
 	
 	public boolean vider() {
-		if (isFilled != Bouteille.EMPTY) {
-			isFilled = Bouteille.FILLED;
+		if (isFilled != Bouteille.EMPTY && openState == Bouteille.OPENED) {
+			isFilled = Bouteille.EMPTY;
 			return true;
 		}
 		return false;
+	}
+	
+	public boolean getOpenState() {
+		return openState;
+	}
+	
+	public boolean getFilled() {
+		return isFilled;
 	}
 }

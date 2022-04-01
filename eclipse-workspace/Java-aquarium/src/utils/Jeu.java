@@ -93,7 +93,7 @@ public class Jeu implements java.io.Serializable{
 				especeInt = verifierEspeceHerbivore(espece);
 				if (especeInt < 0) {
 					especeInt = verifierEspeceCarnivore(espece);
-					if (especeInt > 0) {
+					if (especeInt >= 0) {
 						return aquarium.ajouterEtreVivant(new Poisson_Carnivore(nomPoisson.replace(",",""),(byte)especeInt,(byte)nb2),false);
 					} else {
 						throw new IncorrectNameException("Erreur du parametre 2: " + espece + " cette race n'est pas connue");
@@ -123,7 +123,7 @@ public class Jeu implements java.io.Serializable{
 		int rt = -1;
 		while(i < Poisson_Herbivore.getEspecesPossibles().length && rt == -1) {
 
-			if (Poisson_Herbivore.getEspecesPossibles()[i].equals(str)){
+			if (Poisson_Herbivore.getEspecesPossibles()[i].toLowerCase().equals(str)){
 				rt = i;
 			}
 			i++;
@@ -134,9 +134,10 @@ public class Jeu implements java.io.Serializable{
 	private int verifierEspeceCarnivore(String str) {
 		int i=0;
 		int rt = -1;
-		while(i < Poisson_Carnivore.getEspecesPossibles().length && rt == -1) {
+		String tab[] = Poisson_Carnivore.getEspecesPossibles();
+		while(i < tab.length && rt == -1) {
 
-			if (Poisson_Carnivore.getEspecesPossibles()[i].equals(str)){
+			if (tab[i].toLowerCase().equals(str)){
 				rt = i;
 			}
 			i++;
